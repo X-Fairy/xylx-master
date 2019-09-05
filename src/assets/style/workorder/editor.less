@@ -1,0 +1,151 @@
+.editorPage{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    .editor_header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding:20px 25px;
+        border-bottom: 1px solid #dddddd;
+        box-sizing: border-box;
+        margin-bottom:30px;
+        height: 80px;
+        background: #e7e9ed;
+        .form_left{
+            width: 70%;
+            display: flex;
+            justify-content: space-around;
+            .record{
+                position: absolute;
+                background: #fff;
+                padding: 0 15px;
+                z-index: 1000000000;
+                top: 74px;
+                width: 180px;
+                height: 142px;
+                overflow: auto;
+                li{
+                    cursor: pointer;
+                    &:hover{
+                        color:#2d8cf0;
+                    }
+                }
+            }
+        }
+        .ivu-form-item{
+            margin-bottom: 0;
+        }
+        .go_back{
+            background: @bgColor;
+            color:#fff;
+            &:hover{
+                color:@bgColor;
+                background: #fff;
+                border:1px solid @bgColor;
+            }
+        }
+    }
+    .quill-editor{
+        position: absolute;
+        top: 115px;
+        bottom: 360px;
+        left: 20px;
+        right: 20px;
+        .ql-blank{
+            img{
+                width: 220px;
+                height: 220px;
+            }
+        }
+    }
+    .saveHtml{
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        background: @bgColor;
+        color:#fff;
+        padding: 10px 15px;
+        border: 0;
+        cursor: pointer;
+    }
+    /*富文本图片样式 */
+    .richTextStyle img {
+        max-width: 720px;
+        margin:10px;
+    }
+    /*富文本文字溢出不换行样式 */
+    .richTextStyle p, .richTextStyle sup, .richTextStyle strong,
+    .richTextStyle em, .richTextStyle u,
+    .richTextStyle s, .richTextStyle blockquote, 
+    .richTextStyle h1, .richTextStyle h2, .richTextStyle h3,
+    .richTextStyle h4, .richTextStyle h5, .richTextStyle h6, 
+    .richTextStyle li, .richTextStyle sub, .richTextStyle a {
+        word-break: break-all;
+    }
+    // 自定义文件上传的图标样式
+    .ql-snow.ql-toolbar .ql-upload{
+        background: url("~@/assets/images/icon-upload.svg");
+        background-size: 16px 16px;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    // 文件上传都要隐藏
+    .uploadFile{
+        width: 0;
+        height: 0;
+        display: none;
+    }
+    .ivu-upload {
+        display: none;
+    }
+    .uploadImage,.uploadFile{
+        width: 0;
+        height: 0;
+        display: none;
+    }
+    .ql-snow .ql-editor img {
+        max-width: 100%;
+        width: 300px;
+        height: 300px;
+    }
+    .ql-editor p {
+        a[target=_blank] {
+            display: none;
+        }
+    }
+    // 文件显示列表
+    .fileList{
+        max-height: 300px;
+        overflow: auto;
+        border: 1px solid #1596ad;
+        position: absolute;
+        bottom: 216px;
+        padding: 10px 0;
+        z-index: 5;
+        background: #fff;
+        left: 20px;
+        li{
+            width: 250px;
+            padding: 5px 10px;
+            border-bottom: 1px solid #ddd;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            &:hover{
+                box-shadow: none;
+            }
+        }
+        a{
+            color:#000;
+            font-size: 14px;
+        }
+        .ivu-btn{
+            background:@bgColor;
+            color:#fff;
+            padding: 3px 8px;
+        }
+    }
+}

@@ -1,0 +1,83 @@
+.analysis{
+    box-sizing: border-box;
+    background: #e7e9eb;
+    height: 100%;
+    position: relative;
+    .header_left{
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 50px 0;
+        box-sizing: border-box;
+        .left{
+            width:822px;
+            .item{
+                color: @bgColor;
+            }
+        }
+        .back{
+            color:@bgColor;
+            background: #fff;
+            border:1px solid @bgColor;
+            &:hover{
+                background: @bgColor;
+                border-color:@bgColor;
+                color:#fff;
+            }
+        }
+    }
+    .contanier{
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        top:70px;
+        background: #fff;
+        box-sizing: border-box;
+        overflow: auto;
+        border-top: 1px solid #ddd;
+        .contanier_top{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            margin-bottom: 60px;
+            border-bottom: 1px solid #ccc;
+            padding: 20px 20px 0;
+            .item_name{
+                font-size: 18px;
+                background: #fff;
+                border-top: 1px solid #1d8c9f;
+                text-align: center;
+                border: 1px solid #ccc;
+                border-bottom:0;
+                border-top: 2px solid #3da8b9;
+                border-top-left-radius: 2px;
+                border-top-right-radius: 2px;
+                background: #f4f4f4;
+                padding: 5px 11px;
+                color:#000;
+                span{
+                    color: @bgColor;
+                    font-size: 16px;
+                }
+            }
+        }
+        .echarts {
+            width: 85%; 
+            height: 80%; 
+            margin: 0 auto;
+        }
+        canvas{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 1257px;
+            height: 600px;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            padding: 0px;
+            margin: 0px;
+            border-width: 0px;
+        }
+    }
+    
+}

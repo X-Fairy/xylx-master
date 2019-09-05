@@ -1,0 +1,62 @@
+.operation{
+    background: #fff;
+    height: 100%;
+    .top{
+        height: 60px;
+        padding: 0 50px;
+        align-items: flex-end;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        background: #e7e9eb;
+        border-bottom: 1px solid #ddd;
+        p{
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-top: 2px solid @bgColor;
+            background: #f8f8f9;
+            border-bottom: 0;
+            font-size: 14px;
+            color:@bgColor;
+        }
+        .go_back{
+            background: @bgColor;
+            color:#fff;
+            &:hover{
+                background-color: #fff;
+                color:@bgColor;
+                border: 1px solid @bgColor;
+            }
+        }
+    }
+    .table{
+        position: absolute;
+        top: 70px;
+        right: 10px;
+        left: 10px;
+        padding: 10px;
+        bottom: 70px;
+        th,td{
+            text-align: center;
+        }
+    }
+    .footer{
+        position: absolute;
+        bottom: 0;
+        height: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 40px;
+        border-top: 1px solid #ddd;
+        box-sizing: border-box;
+        .ivu-page-item:hover {
+            border-color: @bgColor;
+        }
+        .ivu-page-item-active {
+            background-color: @bgColor;
+            border-color: @bgColor;
+        }
+    }
+}

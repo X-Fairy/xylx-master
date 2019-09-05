@@ -1,0 +1,258 @@
+.work{
+    box-sizing: border-box;
+    height: 100%;
+    position: relative;
+    // 头部
+    .header{
+        height: 80px;
+        background: #e2e2e2;;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 50px 0 5px;
+        border-bottom: 1px solid #dddddd;
+        box-sizing: border-box;
+        .form_left{
+            width: 70%;
+            display: flex;
+            justify-content: space-around;
+            .record{
+                position: absolute;
+                background: #fff;
+                padding: 0 15px;
+                z-index: 1000000000;
+                top: 74px;
+                width: 180px;
+                height: 142px;
+                overflow: auto;
+                // border: 1px solid #eee;
+                li{
+                    cursor: pointer;
+                    &:hover{
+                        color:#2d8cf0;
+                    }
+                }
+            }
+        }
+        .ivu-form-item{
+            margin-bottom: 0;
+        }
+        .go_back{
+            background: @bgColor;
+            color:#fff;
+            &:hover{
+                color:@bgColor;
+                background: #fff;
+                border:1px solid @bgColor;
+            }
+        }
+        
+    }
+    // 内容区
+    .content{
+        position: absolute;
+        top:100px;
+        right: 20px;
+        left: 20px;
+        bottom: 0;
+        background: #ffffff;
+        border:1px solid #dddddd;
+        .title{
+            .ivu-input{
+                height: 60px;
+                border:0;
+                border-bottom: 1px solid #dddddd;
+                font-size: 18px;
+                padding-left: 20px;
+                &:focus{
+                    box-shadow: none;
+                    outline: none !important;
+                }
+            }
+        }
+        .content_middle{
+            height: 50px;
+            width: 100%;
+            background: #e9eaec;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 52px 0 20px;
+            align-items: center;
+            box-sizing: border-box;
+            .left{
+                display: flex;
+                .ivu-upload{
+                    .ivu-upload-list{
+                        display: none;
+                    }
+                    .ivu-btn{
+                        border:1px solid @bgColor;
+                        border-radius: 0;
+                        padding: 5px 10px;
+                        margin-right: 5px;
+                        &:hover{
+                            background: @bgColor;
+                            color: #ffffff;
+                        }
+                    }
+                }
+                .look_image{
+                    margin: 0 10px;
+                    margin-right: 50px;
+                    background: @bgColor;
+                    color: #fff;
+                }
+                .look_file{
+                    margin-left: 10px;
+                    margin-right: 50px;
+                    background: @bgColor;
+                    color:#fff;
+                }
+            }
+            .public{
+                border-color:none;
+                background:#1596ad;
+                color: #ffffff;
+                cursor: pointer;
+                &:hover{
+                   background:#fff;
+                   color:@bgColor;
+                   border: 1px solid @bgColor;
+               }
+           }
+        }
+        .area{
+            position: absolute;
+            top:110px;
+            bottom: 0;
+            overflow: auto;
+            z-index: 100;
+            right:30px;
+            left: 0;
+            right: 0;
+            font-size: 14px;
+            color:#000;
+            line-height: 22px;
+            .ivu-input{
+                height: 600px;
+                resize: none;
+                border:white;
+                font-size: 16px;
+                line-height: 30px;
+                padding: 4px 19px;
+            }
+            .ivu-input-wrapper, .ivu-input{
+                height: 100%;
+            }
+        }
+    }
+    // 查看图片区
+    .carouselcontent{
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1000;
+        position: absolute;
+        background: rgba(0,0,0,.3);
+        .close_icon{
+            font-size: 39px;
+            position: absolute;
+            z-index: 999;
+            cursor: pointer;
+            top: 50px;
+            color: #000;
+            left: 50%;
+            margin-left: 350px;
+            &:hover{
+                color:#A4D3EE;
+            }
+        }
+        .ivu-carousel{
+            width: 800px;
+            background: #fff;
+            z-index: 100;
+            border-radius: 6px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);            
+            .demo-carousel{
+                width: 760px;
+                height: 623px;
+                background: #fff;
+                margin: 0 auto;
+                margin-top: 59px;
+                overflow: hidden;
+                img{
+                    width: 760px;
+                    height: 623px;
+                }
+            }
+            .bottom{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 20px;
+                padding: 50px 20px;
+                p{
+                    text-align: center;
+                    font-size: 14px;
+                    color:#000;
+                    span{
+                        color:@bgColor;
+                        margin-left: 5px;
+                    }
+                }
+                button{
+                    background: @bgColor;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    // 删除提示框
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width:100%;
+        height:100%;
+        left: 45%;
+        top: 40%;        
+        padding-top:10px;
+        z-index: 10000;
+        .delete{
+            z-index: 1100;
+            position: fixed;
+            background:#1596ad;
+            border:3px solid #1596ad;
+            color:white;
+            padding:10px;
+            width: 200px;
+            height:100px;
+            // border-radius: 4px;
+            
+            font: 16px 宋体;
+            p{
+                text-align: center;
+            }
+            .build{
+                background: #ffffff;
+                padding:8px;
+                margin-top:20px;
+                display: flex;
+                justify-content: space-between;
+                cursor: pointer;
+                button{
+                    padding: 5px;
+                    font-size:12px;
+                    background: white;
+                    border:1px solid #ddd;
+                }
+                button:hover{
+                    border-color: @bgColor;
+                }
+            }
+        }
+    }
+   
+}

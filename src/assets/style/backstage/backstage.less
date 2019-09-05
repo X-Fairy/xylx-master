@@ -1,0 +1,410 @@
+.backstagePage{
+    height: 100%;
+    box-sizing: border-box;
+    color:#000;
+    position: relative;
+    
+        .contanier{
+            .footer{
+                position: absolute;
+                background: #fff;
+                height: 50px;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                display: flex;
+                justify-content: flex-end;
+                padding: 0 40px;
+                align-items: center;
+                z-index: 1000;
+                border-top: 1px solid #ddd;
+                .ivu-page-item-active {
+                    background-color: @bgColor;
+                    border-color: @bgColor;
+                }
+                .ivu-page-item:hover{
+                    border-color: @bgColor;
+                }
+            }
+            .search{
+                width:100%;
+                background: #fff;
+                height:60px;
+                padding-left:30px;
+                line-height: 50px;
+                border-bottom:1px solid #dddee1;
+                display: inline-block;
+                .ivu-input,input{
+                    box-shadow: none !important;
+                    border: 1px solid #ddd !important;
+                }
+                .ivu-input-wrapper {
+                    width:240px;
+                }
+                .ivu-btn{
+                    background:@bgColor;
+                    color: #fff;
+                    border-radius: 0;
+                }
+            }
+            height: 100%;
+            border:1px solid #dfdfdf;
+            border-left: 0;
+            border-bottom: 0;
+            background: #f5f7f9;
+            .left{
+                display: flex;
+                .ivu-select-single .ivu-select-selection {
+                    height: 30px;
+                }
+            }
+                
+            .staff{
+                width: 100%;
+                display: flex;
+                position: absolute;
+                top: 80px;
+                bottom: 40px;
+                padding: 20px;
+                box-sizing: border-box;
+                .getdetail{
+                    padding: 17px 10px 0 0px;
+                    width: 185px;
+                    position: absolute;
+                    left: 10px;
+                    top: 20px;
+                    bottom: 0;
+                    overflow-y: auto;
+                    box-sizing: border-box;
+                }
+                .ivu-table-border td, .ivu-table-border th{
+                    text-align: center;
+                }
+                .table{
+                    overflow: auto;
+                    position: absolute;
+                    left: 203px;
+                    right: 20px;
+                    top: 21px;
+                    bottom: 10px;
+                    .ivu-table-cell .ivu-btn{
+                        background:@bgColor;
+                    }
+                }
+            }
+        }
+
+    .growppop{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 100000;
+        right: 0;
+        top: 0;
+        .inner{
+            width:1000px;
+            min-height: 100%;
+            height: auto;
+            border-radius: 4px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            .inner_top{
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 68px;
+                display: flex;
+                -webkit-box-pack: justify;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                border-bottom: 1px solid #ddd;
+                padding: 20px 17px;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                .ivu-icon{
+                    font-size: 36px;
+                    cursor: pointer;
+                    &:hover{
+                        color:#B0E0E6;
+                    }
+                }
+            }
+            .left{
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+                font-weight: bold;
+                color: #000;
+                p{
+                    margin-right: 20px;
+                    span{
+                        color:@bgColor;
+                    }
+                }
+            }
+            h3{
+                span{
+                    color:@bgColor;
+                }
+            }
+        }
+        .grow-form{
+            padding: 5px 20px 0 20px;
+            position: absolute;
+            top: 75px;
+            bottom: 76px;
+            overflow: auto;
+            .check_button{
+                border-bottom: 1px solid #e9e9e9;
+                padding-bottom:6px;
+                margin-bottom:6px;
+            }
+            .ivu-form-item-label{
+                width: 100% !important;
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: 16px;
+                font-weight: bold;
+                color: #006400;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+            .ivu-form-item{
+                margin-bottom:8px;
+            }
+            .ivu-form-item-content{
+                margin-left: 0 !important;
+            }
+            .ivu-checkbox-wrapper{
+                font-size: 14px;
+                margin-right: 18px;
+            }
+        }
+        .sort {
+            position: fixed;
+            z-index: 30;
+            right: 0;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            width: 20px;
+            padding: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            background: rgba(0,0,0,.3);
+            font-family: Helvetica;
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    color: rgba(255,255,255,.6);
+                    li {
+                        list-style-type: none;
+                        padding: 3px;
+                        line-height: 1;
+                        font-size: 12px;
+                        &:hover{
+                            cursor: pointer;
+                            color:#ffcd32;
+                        }
+                    }
+                    .current {
+                        color: #ffcd32;
+                    }
+                }
+           }
+            
+           
+        .bottom{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: space-between;
+            padding-right: 20px;
+            position: absolute;
+            bottom: 0px;
+            border-top: 1px solid #ddd;
+            left: 0;
+            right: 0;
+            padding: 15px 64px;
+            box-sizing: border-box;
+            .cancel{
+                margin-right: 10px;
+            }
+        }
+    }
+    .pop{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        right: 0;
+        top: 0;
+        .ivu-select-selection{
+            &:hover,&:focus{
+                border: 1px solid #ddd;
+                outline: none !important;
+                box-shadow: none;
+            }
+        }
+        .ivu-input-wrapper{
+            &:hover,&:focus{
+               box-shadow: none;
+               outline: none !important;
+            }
+        }
+        .ivu-input:hover,.ivu-input:focus {
+            border:1px solid @bgColor;
+            box-shadow: none !important; 
+            outline: none !important;
+        }
+        .input:focus{
+            outline: none !important;
+        }
+        .ivu-select-visible .ivu-select-selection{
+            border-color: @bgColor;
+            &:hover,&:focus{
+                outline: none !important;
+            }
+        }
+        .ivu-select-selection .ivu-select-input{
+            &:hover, &:focus{
+                outline: none !important;
+            }
+        }
+        .manage_area, .manage_leader{
+            .ivu-select-input:focus{
+                outline: 1px solid #fff !important;
+            }
+        }
+        .manage_leader{
+            .ivu-select-input:focus{
+                border: 1px solid #2db7f5 !important;
+                outline: 1px solid #fff !important;
+            }
+        }
+        .inner{
+            width:600px;
+            padding-bottom: 10px;
+            border-radius: 4px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            h3{
+                height: 50px;
+                border-bottom: 1px solid #ccc;
+                line-height: 50px;
+                padding-left: 20px;
+                font-size: 16px;
+                color: #000;
+                margin-bottom: 22px;
+                span{
+                    color:@bgColor;/*修改*/
+                }
+            }
+            .staff-form{
+                padding: 5px 20px 0 0;
+            }
+            .bottom{
+                display: flex;
+                justify-content: flex-end;
+                padding-right: 20px;
+                .cancel{
+                    margin-right: 10px; 
+                }
+                .ivu-btn-error{
+                    background: @bgColor;
+                    border-color: @bgColor;
+                }
+                button:hover{/*修改*/
+                    background: #127b8d;
+                    border-color: #127b8d;
+                    color:#fff;
+                }
+            }
+        }
+    }
+    
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.3);
+        .delete{
+            z-index: 1003;
+            position: fixed;
+            background: #2db7f5;
+            color: #fff;
+            padding: 5px 10px;
+            width: 161px;
+            height: 73px;
+            border-radius: 4px;
+            left: 45%;
+            top: 40%;
+            font-size: 18px;
+            p{
+                text-align: center;
+            }
+            .build{
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+                cursor: pointer;
+            }
+        }
+    }
+    .renew{
+        padding: 4px 10px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .ivu-tree ul{
+        background: #ddd;
+    }
+    .ivu-tree{
+        margin-top: -20px;
+        ul{
+            background: snow;
+            font-size: 12px;
+            line-height: 24px;
+            color: #9FB6CD;
+        }
+    }
+    
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    .ivu-spin-fix {
+        position: absolute;
+        top: 80px;
+        left: 203px;
+        z-index: 8;
+        width: 88%;
+        height: 88%;
+        background-color: rgba(255,255,255,.9);
+        .ivu-spin-main {
+            position: absolute;
+            top: 35%;
+            left: 43%;
+            transform: translate(-50%,-50%);
+        }
+    }
+    .ivu-select-item{
+        color:#000;
+    }
+    .edit span:hover{
+        color:red;
+    }
+}

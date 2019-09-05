@@ -1,0 +1,196 @@
+@name:#5D478B;
+.come_visit{
+    height: 100%;
+    box-sizing: border-box;
+    color:#000;
+    position: relative;
+    .contanier{
+        width:100%;
+        height: 100%;
+        // 回访列表
+        .visit_content{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            bottom: 0;
+            overflow: auto;
+            box-sizing: border-box;
+            background: #fff;
+            .visit_top{
+                border-bottom: 1px solid #CCC;
+                color: #000;
+                font-size: 12px;
+                display: flex;
+                height: 68px;
+                align-items: flex-end;
+                padding-left: 40px;
+                justify-content: space-between;
+                background: #e7e9eb;
+                h3{
+                    padding: 0px 10px;
+                    border: 1px solid #ccc;
+                    border-top: 2px solid #1d8c9f;
+                    color: #000;
+                    border-bottom: 0;
+                    background: #fff;
+                }
+                span{
+                    color: @bgColor;
+                    margin-left: 5px;
+                }
+                .visit_go{
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-right: 80px;
+                    height: 60px;
+                    align-items: center;
+                    button{
+                        margin-left:20px;
+                        border-radius: 0;
+                        letter-spacing: 1px;
+                        border:1px solid @bgColor;
+                    }
+                    button.ivu-btn-info{
+                        background: @bgColor;
+                        span{
+                            color:#fff;
+                            font-size: 12px;
+                        }
+                    }
+                    button.ivu-btn-warning{
+                        background: white;
+                        // color: #555555;
+                    }
+                }
+            }
+           
+            h3{
+                display: block;
+                height:35px;
+                line-height:35px;            
+                text-align: center;
+                border: 1px solid #CCC;
+                border-top: 2px solid #3DA8B9;
+                border-bottom: 2px solid #f4f4f4;
+                border-top-left-radius: 2px;
+                border-top-right-radius: 2px;
+                background: #f4f4f4;
+                margin-right: 20px;
+                span{
+                    color:rgb(31, 106, 117);
+                    margin-left: 15px;
+                    margin-right: 20px;
+                }
+            }
+            .visit_list{
+                position: absolute;
+                left: 0px;
+                right: 0;
+                bottom: 0;
+                top: 67px;
+                overflow: auto;
+                padding:20px;
+                box-sizing: border-box;
+                background: white;/*修改*/
+                border-top: 1px solid #ddd;/*修改*/
+                .ivu-timeline-item-head-blue {/*修改*/
+                    border-color: #099fb8;
+                    color: #099fb8;
+                }
+                p{
+                    float: left;
+                    color: #1596ad;/*修改*/
+                }
+                ul{
+                    padding:20px 0 10px 28px;
+                }
+                li{
+                    .recode{
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 16px;
+                        line-height: 32px;
+                        margin-top: 24px;
+                        background: #F8F8F9;/*修改*/
+                        padding: 10px;/*修改*/
+                        h4{
+                            margin-top:-6px;
+                        }
+                    }
+                    .visit_detail{
+                        font-size: 10px;
+                        height: 34px;
+                        line-height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                    }
+                    
+                }
+                .point{
+                    font-size: 16px;
+                    line-height: 26px;
+                    color: #000;
+                    background: #fff;
+                    text-indent: 2rem;
+                }
+            }
+        }
+        .no-comment{
+            position: absolute;
+            top: 50%;
+            left: 44%;
+            transform: translate(-44%,-50%);
+            p{
+                text-align: center;
+                margin-top: 11px;
+                a{
+                    color:@bgColor;
+                }
+            }
+        } 
+    }
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.3);
+        .delete{
+            z-index: 1003;
+            position: fixed;
+            background: #2db7f5;
+            color: #fff;
+            padding: 5px 10px;
+            width: 161px;
+            height: 73px;
+            border-radius: 4px;
+            left: 45%;
+            top: 40%;
+            font-size: 18px;
+            p{
+                text-align: center;
+            }
+            .build{
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+                cursor: pointer;
+            }
+        }
+    }
+    .ivu-timeline {
+        list-style: none;
+        margin: 0;
+        padding: 20px 0 10px 28px;
+    }
+    .ivu-timeline-item {
+        margin: 0!important;
+        padding: 0 95px 12px 0;
+        list-style: none;
+        position: relative;
+    }
+}

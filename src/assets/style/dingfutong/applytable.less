@@ -1,0 +1,138 @@
+
+.applytable{
+    box-sizing: border-box;
+    background: #e7e9eb;
+    height: 100%;
+    position: relative;
+    .contanier{
+        bottom:0;
+        border-bottom: 1px solid #ccc;
+        height: 100%;
+        border:1px solid #dfdfdf;
+        border-left: 0;
+        border-bottom: 0;
+        background: #f5f7f9;
+        position: relative;
+        .top{
+            width: 100%;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            height: 70px;
+            line-height: 70px;
+            .ivu-input,input{
+                box-shadow: none !important;
+            }
+            .operation{
+                float: right;
+                margin-right: 50px;
+                button{
+                    margin-left: 20px;                   
+                    letter-spacing: 1px;
+                    &:hover{
+                        background: #1596ad;
+                        border-color: #1596ad;
+                        color: white;
+                    }
+                }
+                button.ivu-btn-info{
+                    background: @bgColor;
+                    border: @bgColor;
+                }
+                button.ivu-btn-error{
+                    background-color:white;
+                    border-color: #1d8c9f;
+                    color: #555555;
+                }
+            }
+            .search{/*修改*/
+                padding-left:30px;
+                .ivu-input-wrapper {
+                    width:240px;
+                }
+                .ivu-btn{
+                    background:@bgColor;
+                    color: white;
+                    border-radius: 0;
+                    margin-left: -5px;
+                }
+    
+            } 
+        } 
+        .middle{
+            width: 100%;
+            position: absolute;
+            top:80px;
+            bottom: 40px;
+            padding: 20px;
+            box-sizing: border-box;
+            .ivu-table-cell{
+                text-align: center;
+            }
+        }
+
+        .footer{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            padding: 5px 60px 0 0;
+            height: 40px;
+            box-sizing: border-box;
+            padding-right: 70px;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid #ddd;
+            .ivu-page-item-active {
+                background-color:@bgColor;
+                border-color: @bgColor;
+            }
+        }
+        
+    }
+    
+    .ivu-table-border th {
+        border-right: 1px solid #e9eaec;
+        text-align: center;
+    }
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width:100%;
+        height:100%;
+        left: 45%;
+        top: 40%;        
+        padding-top:10px;
+        .delete{
+            z-index: 1100;
+            position: fixed;
+            background:#1596ad;
+            border:3px solid #1596ad;
+            color:white;
+            padding:10px;
+            width: 200px;
+            height:100px;
+            font: 16px 宋体;
+            p{
+                text-align: center;
+            }
+            .build{
+                background: #ffffff;
+                padding:8px;
+                margin-top:20px;
+                display: flex;
+                justify-content: space-between;
+                cursor: pointer;
+                button{
+                    padding: 5px;
+                    font-size:12px;
+                    background: white;
+                    border:1px solid #ddd;
+                }
+                button:hover{
+                    border-color: @bgColor;
+                }
+            }
+        }
+    }
+}

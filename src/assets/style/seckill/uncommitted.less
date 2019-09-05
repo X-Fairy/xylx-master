@@ -1,0 +1,78 @@
+.uncommitted{
+    box-sizing: border-box;
+    background: #e7e9eb;
+    height: 100%;
+    position: relative;
+    .header{
+        height: 60px;
+        background: #e7e9eb;
+        width: 100%;
+        button.back{
+            height: 32px;
+            float: right;
+            margin-top: 10px;
+            padding:5px 10px;
+            border:1px solid #ddd;
+            background:@bgColor;
+            color: white;
+            cursor: pointer;
+            &:hover{
+                background:white;
+                color:#555;
+                border-color: @bgColor;
+                transition: all .3s linear;
+            }
+        }
+    }
+    .contanier{
+        border-top: 1px solid #ccc;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        top:60px;
+        background: #f8f8f9;
+        box-sizing: border-box;
+        overflow:auto;
+        .table{
+            position: absolute;
+            top:30px;
+            left: 20px;
+            right: 20px;
+            bottom: 60px;
+            overflow:auto;
+            th,td{
+                text-align: center;
+            }
+            .ivu-table-cell {
+                padding-top: 5px;
+                button{
+                    margin-right: 10px; cursor: pointer;background:white;border:0;color:#1596ad;
+                }
+            }
+        }
+        .footer{
+            position: absolute;
+            background: #fff;
+            height: 50px;
+            bottom: 0;
+            right: 0px;
+            left: 0px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            padding: 0 40px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid #ddd;
+            .ivu-page-item-active {
+                background-color:@bgColor;
+                border-color: @bgColor;
+            }
+        }
+    }
+}

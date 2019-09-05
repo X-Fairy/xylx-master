@@ -1,0 +1,213 @@
+.apply{
+    height: 100%;
+    .contanier{
+        background: #f5f7f9;
+        box-sizing: border-box;
+        position: relative;
+        height: 100%;
+        .ivu-form-item-label {
+            margin-top: 0px;
+            color: #1596ad !important;
+        }
+        .ivu-input:hover,.ivu-input:focus{
+            border: 1px solid @bgColor;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+        .ivu-form-item {
+            margin-bottom:20px;
+        }
+        .apply-form{
+            color:#000;
+        }
+        .ivu-form .ivu-form-item-label{
+            font-size: 15px;
+            line-height: 1;
+            padding:10px 11px 10px 0;
+        }
+        .contanier .ivu-input{
+            font-size: 14px;
+        }
+        .top{
+            height: 80px;
+            background: #fff;
+            border-bottom: 1px solid #dfdfdf;
+            display: flex;
+            justify-content: space-between;
+            padding:30px 60px 40px;
+            .user{
+                font-size: 15px;
+                color: #000;
+                height: 100%;
+                display: flex;
+                span{
+                    color:#2d8cf0;
+                }
+                img{
+                    display: inline-block;
+                    margin: -9px 15px 3px 25px;
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background: #000;
+                    border: 1px solid #ddd;
+                    padding: 1px;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                }
+            }
+        }
+        .middle{
+            position: absolute;
+            padding: 20px 50px;
+            width: 100%;
+            bottom: 0;
+            top: 0;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+    }
+
+    .open{
+        display: flex;
+        .ivu-select-selection {
+            height: 32px;
+            position: relative;
+            width: 117px;
+        }
+        .ivu-form-item-label{
+            margin-top:-3px;
+        }
+    }
+    .province{
+        margin-right: 160px;
+    }
+    .upload{
+        width: 150px;
+        height: 150px;
+        border: 1px solid #ccc;
+        line-height: 150px;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 20px;
+    
+        input[type=file] {
+            position:absolute;
+            width:100%;
+            height:100%;
+            opacity:0;
+            top: 0;
+            left: 0;
+            z-index: 9;
+            cursor: pointer;
+        }
+    }
+    .uploadImage{
+        display:flex;
+        margin-left: -40px;
+    }
+    .title{
+        margin-right: 12px;
+        font-size: 16px;
+        line-height: 168px;
+        width: 120px;
+        text-align: right;
+    }
+    .upload img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9;
+    }
+    .person{
+        display: flex;
+        .model{
+            margin-left: 109px
+        }
+    }
+    .positive{
+        margin-right: 40px;
+    }
+    .bankname{
+        color:#000;
+    }
+    .registration .ivu-form-item-label{
+        text-align: center;
+        padding:5px;
+    }
+    .go-gov{
+        display: inline-block;
+        padding: 5px 10px;
+        text-align: center;
+        border: 1px solid @bgColor;
+        line-height: 37px;
+        margin-top: 45px;
+        margin-left: 60px;
+        color:#000;
+        &:hover{
+            color:@bgColor;
+            transition: color 0.3s linear;
+        }
+    }
+    .model{
+        height: 50px;
+        height: 150px;
+        margin-left: 150px;
+        font-size: 15px;
+        display: flex;
+        p{
+            line-height: 150px;
+        }
+        img{
+            width: 150px;
+            height: 150px;
+            border:1px solid #eee;
+            display: inline-block;
+            margin-left: 15px;
+            z-index: 100;
+            &:hover{
+                transform:scale(3.5);
+                z-index: 101;
+            }
+        }
+        
+    }
+    .reverse .model{
+        margin-left: 152px;
+    }
+    .aboutImage{
+        width: 120px;
+        line-height: 20px;
+        text-align: center;
+        font-size: 14px;
+        display: inline-block
+    }
+    .lyh{
+        display: inline-block;
+        padding:5px 10px;
+        border: 1px solid @bgColor;
+        color: #000;
+        &:hover{
+            color:@bgColor;
+            transition: color 0.3s linear;
+        }
+    }
+    .apply_submit{
+        width:100px;
+        background: #1596ad;
+        border: none;
+        border-radius: 0;
+        margin-left:40%;
+        &:hover{
+            background: #fff;
+            color: @bgColor;
+            transition: background 0.3s linear;
+            border: 1px solid @bgColor;
+        }
+    }
+}
+
+

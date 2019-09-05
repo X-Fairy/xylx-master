@@ -1,0 +1,546 @@
+@name:#5D478B;
+.errorarea{
+    th,td{
+        text-align: center;
+    }
+}
+.customer{
+    height: 100%;
+    box-sizing: border-box;
+    color:#000;
+    position: relative;
+    .ivu-upload-list{
+        display: none;
+    }
+    // 客户导入信息后提示窗
+    .uploadModal{
+        .ivu-modal{
+            width: 700px;
+        }
+        
+    }
+    
+    .header-container[data-v-29e8c3c6] {
+        .left[data-v-657bab61]{
+            margin-top:-11px;
+        }
+    }
+    .contanier{
+        height: 100%;
+        background: #fff;
+        // 头部
+        .top{
+            height: 60px;
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            padding:0 90px 0 20px;
+            .top_left{
+                display: flex;
+                .add_customer{
+                    margin-right: 20px;
+                    color: #555555;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    background: #fff;
+                    border: 1px solid @bgColor;
+                    &:hover{
+                        background: #1d8c9f;
+                        color: #fff;
+                    }
+                }
+                .load_customer{
+                    background: #1d8c9f;
+                    color: #fff;
+                    &:hover{
+                        color: #555555;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        background: #fff;
+                        border: 1px solid @bgColor;
+                    }
+                }
+            }
+            
+            .uploadwj{
+                display: flex;
+                align-items: center;
+                .uploadmodel {
+                    border: 1px solid #ddd;
+                    padding:6px 11px;
+                    border-radius: 4px;
+                    margin-left: 10px;
+                    background: #1d8c9f;
+                    color: #fff;
+                    &:hover{
+                        background: #fff;
+                        border: 1px solid @bgColor;
+                        color:@bgColor;
+                    }
+                }
+                .ivu-upload{
+                    height: 30px;
+                    &:hover{
+                        border-color: @bgColor;
+                    }
+                }
+                .ghost{
+                    color:@bgColor;
+                    border: 1px solid @bgColor;
+                    &:hover{
+                        background: @bgColor;
+                        color:#fff;
+                    }
+                }
+            }
+        }
+        .main-content[data-v-957c9522] {
+            margin-left: 200px;
+            height: 100%;
+            border: 1px solid #dfdfdf;
+        }
+
+
+        .content{
+             // 多条件查询区域
+            .ivu-collapse{
+                z-index: 100;
+                position: absolute;
+                top:60px;
+                font-size: 16px;
+                background-color:#fff;
+                border-radius:0;
+                border: 0;
+           } 
+            // 多条件查询区域
+            .collapse_area{
+                background:#C4C4C4;
+                width:99%;
+                .ivu-collapse-header {
+                    height:30px;
+                    width:100px;
+                    background:#1d8c9f;
+                    line-height: 30px;
+                    text-align: center;
+                    text-shadow: 0 2px 2px rgba(0,0,0,0.22);
+                    letter-spacing: 2px;
+                    box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px;
+                    font-size: 12px;
+                    font-family: 微软雅黑;
+                    color: #fff;
+                    cursor: pointer;
+                    position: relative;
+                    padding:0;
+               }
+               .ivu-collapse-content {
+                    border-radius: 0 0 3px 3px;
+                    border: 1px solid #ccc;
+                    border-left: 0;
+                    background: #fff;
+                    color: #000;
+                    .ivu-collapse-content-box {
+                        padding: 0;
+                        .choose{
+                            padding-top: 10px;
+                            .search{
+                                display: flex;
+                                padding-top: 5px;
+                                .ivu-input,input{
+                                    box-shadow: none !important;
+                                }
+                                .record{
+                                    display: flex;
+                                    margin-right: 17px;
+                                    align-items: center;
+                                    width:205px;
+                                    p{
+                                        font-size: 12px;
+                                        width: 58px;
+                                        color:@name;
+                                        font-weight: bold;
+                                    }
+                                    .ivu-btn{
+                                        height: 29px;
+                                        border-radius: 0 4px 4px 0;
+                                    }
+                                    .ivu-input{
+                                        border: 1px solid #dddee1;
+                                        border-radius: 4px 0 4px 0;
+                                        border-right: 0;
+                                        height: 29px;
+                                    }
+                                }
+                            }
+                            h3{
+                                margin-right: 8px;
+                                margin-top: 6px;
+                                font-size: 15px;
+                            }
+                            .check_item{
+                                padding-top: 10px;
+                                display: flex;
+                                align-items: center;
+                                margin-right: 28px;
+                                .title{
+                                    color: rgb(93, 71, 139);
+                                    font-size: 12px;
+                                    font-weight: bold;
+                                    &.channel_width{
+                                        width: 38px;
+                                    }
+                                }
+                                .ivu-checkbox-group {
+                                    font-size: 14px;
+                                    padding-left: 10px;
+                                    .ivu-checkbox-checked .ivu-checkbox-inner {
+                                        border-color: #eee; 
+                                        background-color: #000;
+                                    }
+                                    .channel_run{
+                                        background:  @bgColor;
+                                        color:#fff;
+                                        padding: 2px 8px;
+                                        border: 0;
+                                    }
+                                }   
+                            }
+                        }
+                        .choosedate{
+                            &.part_one{
+                                padding-top: 5px;
+                            }
+                            display: flex;
+                            .dateRight{
+                                display: flex;
+                                width:100%;
+                                padding: 8px 0;
+                            }
+                            h3{
+                                margin-right: 8px;
+                                margin-top: 6px;
+                                font-size: 15px;
+                            }
+                            .item{
+                                margin-top:1px;
+                                display: flex;
+                                align-items: center;
+                                margin-right: 30px;
+                                .title{
+                                    color:@name;
+                                    font-size: 12px;
+                                    font-weight: bold;
+                                    margin-right: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            // 主内容区
+            .customer_list{
+                position: absolute;
+                top: 100px;
+                bottom: 0px;
+                left: 0;
+                right: 0;
+                padding: 5px 20px 20px 20px;
+                box-sizing: border-box;
+                overflow: hidden;
+                // 表格
+                .table{
+                    position: absolute;
+                    top: 48px;
+                    left: 20px;
+                    right: 20px;
+                    bottom: 50px;
+                    .checkMore{
+                        border: 0;
+                        background: #fff;
+                        padding: 5px 8px;
+                        margin-bottom: 12px;
+                        margin-top: 10px;
+                        cursor: pointer;
+                        border: 1px solid @bgColor;
+                        &:hover{
+                            color: #fff;
+                            border: 1px solid #1d8c9f;
+                            background: #1d8c9f;
+                        }
+                    }
+                    .searchD{
+                        color: #fff;
+                        background:@bgColor;
+                        &:hover{
+                            background: #1d8c9f;
+                        }
+                    }
+                    .demo-table-info-row td:nth-child(2){
+                        color: red;
+                        font-weight: 700;
+                    }
+                    th,td{
+                        text-align: center;
+                    }
+                    // 上下箭头
+                    .ivu-table-cell{
+                        position: relative;
+                        button{
+                            background:white;border:0;color:#1596ad;
+                            text-decoration: underline;
+                        }
+                        .ivu-icon-arrow-up-a{
+                            cursor: pointer;
+                            position: absolute;
+                            top:-2px;
+                            &:hover{
+                                color:@color
+                            }
+                        }
+                        .ivu-icon-arrow-down-a{
+                            left:5px;
+                            position: absolute;
+                            left: 66px;
+                            top:9px;
+                            cursor: pointer;
+                            &:hover{
+                                color:@color
+                            }
+                        }
+                        .ivu-checkbox-checked .ivu-checkbox-inner {
+                            border-color: #eee; 
+                            background-color: #000;
+                        }
+                        .handle{
+                            color: #000;
+                            border-bottom: 1px solid #555;
+                            &:hover{
+                                color:@bgColor;
+                            }
+                        }
+                    }
+                    
+                
+            }
+                // 分页
+                .footer{
+                    position: absolute;
+                    background: #fff;
+                    height: 50px;
+                    bottom: 0;
+                    right: 0px;
+                    left: 0px;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-pack: end;
+                    -ms-flex-pack: end;
+                    justify-content: flex-end;
+                    padding: 0 40px;
+                    -webkit-box-align: center;
+                    -ms-flex-align: center;
+                    align-items: center;
+                    z-index: 1000;
+                    border-top: 1px solid #ddd;
+                    .ivu-page-item-active {
+                        background-color:@bgColor;
+                        border-color: @bgColor;
+                    }
+                }
+            }
+            
+        }
+    }
+
+    // 上传客户信息后提示的弹窗
+    .modal{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.3);
+        z-index: 1000;
+        right: 0;
+        top: 0;
+        .inner{
+            width: 900px;
+            min-height: 100%;
+            height: auto;
+            border-radius: 4px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            .inner_top{
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 68px;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                border-bottom: 1px solid #ddd;
+                padding: 20px 17px;
+                -ms-flex-align: center;
+                align-items: center;
+                .left{
+                    display: flex;
+                    -ms-flex-align: center;
+                    align-items: center;
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #000;
+                    p{
+                        margin-right: 20px;
+                        span{
+                            color:#ed3f14;
+                        }
+                    }
+                }
+                
+            }
+        }
+        .customer_form{
+            position: absolute;
+            top: 68px;
+            right: 0px;
+            left: 0px;
+            bottom: 50px;
+            padding: 10px 25px 10px 10px;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+        .bottom{
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            bottom: 0;
+            border-top: 1px solid #ddd;
+            left: 0;
+            align-items: center;
+            right: 0;
+            padding: 20px 20px;
+            box-sizing: border-box;
+            border-top: 1px solid #ddd;
+            background: #fff;
+            .cancel{
+                margin-right: 10px;
+            }
+        }
+        .ivu-icon-ios-close{
+            font-size: 32px;
+            cursor: pointer;
+        }
+        .ivu-form-item-content{
+            display: flex;
+        }
+        .ivu-form-item-label{
+            width:120px;
+        }
+        
+    }
+
+    // 删除弹窗
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.3);
+        .delete{
+            z-index: 1003;
+            position: fixed;
+            background: #2db7f5;
+            color: #fff;
+            padding: 5px 10px;
+            width: 161px;
+            height: 73px;
+            border-radius: 4px;
+            left: 45%;
+            top: 40%;
+            font-size: 18px;
+            p{
+                text-align: center;
+            }
+            .build{
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+                cursor: pointer;
+            }
+        }
+    }
+    //  客户标记弹窗
+    .sign_modal{
+        position: fixed;
+        z-index: 1100;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.3);
+        .sign_content{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: #fff;
+            border-radius: 4px;
+            transform: translate(-50%, -50%);
+            width:600px;
+            h3{
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                padding: 14px 25px;
+                box-sizing: border-box;
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 16px;
+                .close_icon{
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+            }
+            .ivu-checkbox-group-item, .ivu-switch {
+                display: inline-block;
+                margin-right: 37px;
+                font-size: 20px;
+            }
+            .sign_bottom{
+                margin: 0 10px 10px;
+                display: flex;
+                justify-content: flex-end;
+                padding: 12px 10px;
+            }
+        }
+    }
+    
+}
+// 根据招商查看客户弹窗
+.userModal .ivu-modal-footer{
+    display: none !important;
+}
+.modal_footer{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 27px;
+    padding-right: 40px;
+    border-top: 1px solid #eee;
+    padding-top: 17px;
+    button{
+        background: @bgColor;
+        color: #fff;
+        &:hover{
+            color: @bgColor;
+            border: 1px solid @bgColor;
+            background: #FFF;
+        }
+    }
+}
+.userModal .ivu-modal-body .ivu-input-wrapper {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+}

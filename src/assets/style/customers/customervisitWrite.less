@@ -1,0 +1,103 @@
+
+.customervisitWrite{
+    height: 100%;
+    width: 100%;
+    padding:20px 40px 0 40px;
+    box-sizing: border-box;
+    color:#000;
+    background: #fff;
+    .write{
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        left: 40px;
+        bottom: 40px;
+        .title{
+            .ivu-input-large {
+                font-size: 20px;
+                padding: 6px 7px;
+                height: 55px;
+                border-radius: 0;
+                margin-bottom: 20px;
+                border-right: 0;
+                border-top: 0;
+            }
+        }
+        .submit{
+            width: 100%;
+            height: 55px;
+            padding: 0 40px 0 32px;
+            box-sizing: border-box;
+            display: flex;
+            background: #ddd;
+            justify-content: space-between;
+            align-items: center;
+            .left{
+                display: flex;
+                align-items: center;
+                .selectepart{
+                    font-size: 14px;
+                    color:#1d8c9f;
+                    font-family:微软雅黑;
+                    margin-right:10px;
+                }
+                .order{
+                    margin-left: 20px;
+                    background: 0;
+                }
+                .two{
+                    margin-left:50px;
+                }
+            }
+            .right {
+                button{
+                    margin-left: 10px;
+                    border-radius: 2px;
+                    color: #fff;
+                    letter-spacing: 0.5px;
+                }
+                .ivu-btn:hover{
+                    border: 1px solid @bgColor;
+                    background:@bgColor;
+                    transition: all 0.3s linear;
+                    color: white;
+
+                }
+                button:not(:last-child){                    
+                    border: 1px solid #ddd;
+                    background:white;
+                    color: #555555;
+                    
+                }
+                button:last-child{
+                    border: 1px solid #099fb8;
+                    background: #099fb8;
+                }
+            }
+            .back{
+                margin: 0 10px;
+            }
+        }
+        .area{
+            position: absolute;
+            top: 57px;
+            bottom: 0;
+            overflow: auto;
+            z-index: 100;
+            right: 42px;
+            left: 17px;
+            textarea.ivu-input{
+                height: 100%;
+                border:0;
+                resize: none;
+                padding: 15px;
+                font-size: 16px;
+                line-height: 34px;
+            }
+            .ivu-input-wrapper{
+                height: 100%;
+            }
+        }
+    }
+}

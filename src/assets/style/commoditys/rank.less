@@ -1,0 +1,57 @@
+.rank{
+    box-sizing: border-box;
+    background: #e7e9eb;
+    height: 100%;
+    position: relative;
+    .header_left{
+        display: flex;
+        justify-content: space-between;
+        padding-left: 30px;
+        padding-top: 20px;
+        .left{
+            width:822px;
+        }
+        .back{
+            margin-right: 20px;
+            color:#555;
+            background: #fff;
+            border:1px solid #ddd;
+            &:hover{
+                background: @bgColor;
+                border-color:@bgColor;
+                color:#fff;
+            }
+        }
+    }
+    .contanier{
+        position: absolute;
+        padding: 50px 20px 0 20px;
+        width: 100%;
+        bottom: 0;
+        top: 80px;
+        background: #f8f8f9;
+        box-sizing: border-box;
+        overflow: auto;
+        .contanier_top{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            padding-bottom: 83px;
+            padding-right: 84px;
+            .item_name{
+                font-size: 26px;
+                span{
+                    color: #00ab6d;
+                    font-size: 24px;
+                }
+            }
+        }
+        .echarts {
+            width:95%; 
+            height:95%; 
+            padding-left: 50px;
+        }
+    }
+    
+}

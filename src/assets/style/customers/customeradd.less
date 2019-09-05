@@ -1,0 +1,150 @@
+.customeradd{
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+    background: #fff;
+    .header{
+        width: 100%;
+        padding: 20px;
+        padding-left: 80px;
+        background: #e7e9eb;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        h3{
+            color: #333333;
+            font-size: 15px;
+            font-family: 微软雅黑;
+        }
+        button{
+            border-radius: 0;
+            border:1px solid @bgColor;
+            background: #fff;
+            color: #555555;
+            letter-spacing: 1px;
+            &:hover{
+                background: #3da8b9;
+                color: #fff;
+                transition: all 0.3s linear;
+            }
+        }
+    }
+    .aim{
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 70px;
+        height: 50px;
+        background: #fff;
+        padding-left: 80px;
+        box-sizing: border-box;
+        width: 100%;
+        line-height: 50px;
+        border-bottom: 1px solid @bgColor;
+        p{
+            font-family: Arial,helvetica,sans-serif;
+            font-size: 14px;
+            color:#3b87b1;
+            margin-right: 150px;
+            span{
+                margin-left: 5px;
+                color:#f16543;
+            }
+        }
+    }
+    .contanier{
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        top: 160px;
+        background: #fff;
+        box-sizing: border-box;
+        overflow: auto;
+        .customer_form{
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            .ivu-form-item{
+                width: 100%;
+            }
+        }
+        .ivu-input:hover,.ivu-input:focus{
+            border: 1px solid @bgColor;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        .ivu-form-item-label {
+            margin-top: 0;
+            color: #000 !important;
+        }
+        .left{
+            display: flex;
+            justify-content: space-between;
+        }
+        .ivu-form-item {
+            margin-bottom: 24px;
+            vertical-align: top;
+            zoom: 1;
+            width:40%;
+            float: left;
+            
+        }
+    }
+    .addnum{
+        li:nth-child(1) .error{
+            width: 25px;
+            height: 25px;
+            padding: 0px;
+            font-size: 16px;
+            border-radius: 50%;
+            position: absolute;
+            right: -5px;
+            top: 21px;
+        }
+    }
+    .ivu-form .ivu-form-item-label {
+        text-align: left;
+        vertical-align: middle;
+        float: left;
+        font-size: 12px;
+        color: #000;
+        line-height: 1;
+        box-sizing: border-box;
+        width: 150px;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .ivu-date-picker {
+        display: inline-block;
+        line-height: normal;
+        width: 100%;
+    }
+    .ivu-form-item-content {
+        position: relative;
+        line-height: 32px;
+        font-size: 12px;
+        display: flex;
+        button{
+            border-radius: 0;
+            background: @bgColor;
+            border:0;
+        }
+        button.ivu-btn-long{
+            width:70px;
+            position: absolute;
+            left: 50%;
+            margin-left:-130px;
+            top:40px;
+            letter-spacing: 1px;
+        }
+        ul{
+            width:100%;
+        }
+    }
+    .ivu-input[disabled], fieldset[disabled] .ivu-input {
+        background-color: #f3f3f3;
+        opacity: 1;
+        cursor: not-allowed;
+        color: #000;
+    }
+}

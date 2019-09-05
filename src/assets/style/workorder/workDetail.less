@@ -1,0 +1,388 @@
+.workDetail{
+    height: 100%;
+    background: #fff;
+    // 头部
+    .top{
+        display: flex;
+        height: 60px;
+        align-items: flex-end;
+        padding-left: 40px;
+        border-bottom: 1px solid #ccc;
+        justify-content: space-between;
+        p{
+            color: #000;
+            font-size: 16px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background: #e9eaec;
+            border-top: 2px solid @bgColor;
+            border-bottom: 0;
+            span{
+                color:@bgColor;
+            }
+        }
+        .go_back{
+            margin-right: 50px;
+            background: @bgColor;
+            color:#fff;
+            margin-bottom: 10px;
+            &:hover{
+                color:@bgColor;
+                background: #fff;
+                border:1px solid @bgColor;
+            }
+        }
+    }
+    .detail{
+        position: absolute;
+        top: 80px;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        box-shadow: 5px 5px 5px #ccc;
+        display: flex;
+        justify-content: space-around;
+        // 工单细节
+        .work_info{
+            width: 30%;
+            border: 1px solid #eee;
+            padding: 20px;
+            position: relative;
+            box-sizing: border-box;
+            padding-left: 20px;
+            padding-top: 38px;
+            height: 650px;
+            overflow-y: scroll;
+            &:hover{
+                box-shadow: 5px 5px 5px #ccc;
+            }
+            li{
+                line-height: 26px;
+                font-size: 14px;
+                display: flex;
+                color: #858e99;
+                span{
+                    margin-left: 5px;
+                    color:#333;
+                }
+                &.info_title{
+                    background: #fff;
+                    font-size: 16px;
+                    padding: 0 5px;
+                    color: @bgColor;
+                    box-shadow: 2px 2px 2px #ccc;
+                    position: fixed;
+                    left: 20%;
+                    margin-left: 50px;
+                    top: 150px;
+                }
+                &.public{
+                    margin-top: 10px;
+                }
+                .check{
+                    margin-top: 30px;
+                }
+                // 查看图片区
+                .carouselcontent{
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    z-index: 1000;
+                    position: fixed;
+                    background: rgba(0,0,0,.3);
+                    .close_icon{
+                        font-size: 39px;
+                        position: absolute;
+                        z-index: 999;
+                        cursor: pointer;
+                        top: 60px;
+                        color: #000;
+                        left: 50%;
+                        margin-left: 350px;
+                        &:hover{
+                            color:#A4D3EE;
+                        }
+                    }
+                    .ivu-carousel{
+                        width: 800px;
+                        background: #fff;
+                        z-index: 100;
+                        border-radius: 6px;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        .ivu-carousel-dots-inside{
+                            left: 50%;
+                            margin-left: -50px;
+                            li{
+                                float: left;
+                            }
+                        }
+                        .demo-carousel{
+                            width: 760px;
+                            height: 623px;
+                            background: #fff;
+                            margin: 0 auto;
+                            margin-top: 59px;
+                            overflow: hidden;
+                            img{
+                                width: 760px;
+                                height: 623px;
+                            }
+                        }
+                        
+                        .bottom{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            height: 20px;
+                            padding: 50px 20px;
+                            p{
+                                text-align: center;
+                                font-size: 14px;
+                                color:#000;
+                                span{
+                                    color:@bgColor;
+                                    margin-left: 5px;
+                                }
+                            }
+                            button{
+                                background: @bgColor;
+                                color: #fff;
+                                span{
+                                    color: #fff;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        
+        }
+        // 操作日志
+        .work_log{
+            width: 30%;
+            padding-left: 20px;
+            border: 1px solid #eee;
+            height: 650px;
+            
+            &:hover{
+                box-shadow: 5px 5px 5px #ccc;
+            }
+            .log_title{
+                background: #fff;
+                width: 80px;
+                box-shadow: 2px 2px 2px #ccc;
+                text-align: center;
+                color:@bgColor;
+                font-size: 16px;
+                position: fixed;
+                left: 50%;
+                margin-left: 50px;
+                top: 150px;
+            }
+            .ivu-timeline{
+                overflow-y: scroll;
+                height:580px;
+                .ivu-timeline-item{
+                    .start_apply{
+                        color:#333;
+                        font-size: 15px;
+                    }
+                     
+                  }
+            }
+            
+        }
+        // 工单评论
+        .commentInfo{
+            width: 30%;
+            height: 650px;
+            border: 1px solid #eee;
+            
+            &:hover{
+                box-shadow: 5px 5px 5px #ccc;
+            }
+            .workCom{
+                background: #1596ad;
+                border:none;cursor: pointer;
+                margin-right: 20px;
+                color: white;
+                padding: 3px 8px;
+                margin-top: 20px;
+                margin-left: 20px;
+                border: 1px solid @bgColor;
+                &:hover{
+                    background: white;
+                    color: #555555;
+                    
+                }
+            }
+            .comment_title{
+                position: fixed;
+                left: 80%;
+                margin-left: 50px;
+                top: 150px;
+                background: #fff;
+                width: 80px;
+                box-shadow: 2px 2px 2px #ccc;
+                text-align: center;
+                color:@bgColor;
+                font-size: 16px;
+            }
+            .work_comment{
+                overflow-y: scroll;
+                
+                height: 580px;
+                .file_download{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-right: 50px;
+                    margin-top: 10px;
+                }
+                .imgs{
+                    display: flex;
+                    justify-content: left;
+                    flex-wrap: wrap;
+                }
+            }
+        }
+        
+    }
+    /* 评论弹出框 */
+    .pop{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 100000;
+        right: 0;
+        top: 0;
+        .inner{
+            width:600px;
+            min-height: 600px;
+            height: auto;
+            border-radius: 4px;
+            background: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            .inner_top{
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 68px;
+                display: flex;
+                -webkit-box-pack: justify;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                border-bottom: 1px solid #ddd;
+                padding: 20px 17px;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                .ivu-icon{
+                    font-size: 36px;
+                    cursor: pointer;
+                    &:hover{
+                        color:#B0E0E6;
+                    }
+                }
+            }
+            .inner_info{
+                margin-top: 80px;
+                margin-left: 10px;
+            }
+            /* 上传图片 */
+            .demo-upload-list{
+                display: inline-block;
+                width: 60px;
+                height: 60px;
+                text-align: center;
+                line-height: 60px;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                overflow: hidden;
+                background: #fff;
+                position: relative;
+                box-shadow: 0 1px 1px rgba(0,0,0,.2);
+                margin-left: 10px;
+            }
+            .demo-upload-list img{
+                width: 100%;
+                height: 100%;
+            }
+            .demo-upload-list-cover{
+                display: none;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(0,0,0,.6);
+            }
+            .demo-upload-list:hover .demo-upload-list-cover{
+                display: block;
+            }
+            .demo-upload-list-cover i{
+                color: #fff;
+                font-size: 20px;
+                cursor: pointer;
+                margin: 0 2px;
+            }
+            .upload{
+                display: flex;
+                padding: 10px;
+                justify-content: space-between;
+            }
+            .left{
+                display: flex;
+                align-items: center;
+                font-size: 16px;
+                font-weight: bold;
+                color: #000;
+                p{
+                    margin-right: 20px;
+                    span{
+                        color:#1596ad;
+                    }
+                }
+            }
+            h3{
+                span{
+                    color:#1596ad;
+                }
+            }
+        }
+        .bottom{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            padding-right: 20px;
+            position: absolute;
+            bottom: 0px;
+            border-top: 1px solid #ddd;
+            left: 0;
+            right: 0;
+            padding: 15px 64px;
+            box-sizing: border-box;
+            .cancel{
+                margin-right: 10px;
+            }
+        }
+    }
+}
+.modal{
+    .ivu-modal-mask{
+        z-index: 100000;
+    }
+    .ivu-modal-wrap{
+        z-index: 100001;
+    }
+}

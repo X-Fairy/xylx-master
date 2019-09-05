@@ -1,0 +1,290 @@
+.audit{
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: relative;
+    // 头部
+    .top{
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 22px;
+        align-items: center;
+        background: #fff;
+        border-bottom: 1px solid #ddd;
+        .left{
+            .title{
+                font-size: 14px;
+                color: @bgColor;
+                margin-right: 10px;
+            }
+            .ivu-select-item{
+                display: flex;
+                align-items: center;
+            }
+            .item{
+                width: 180px;
+            }
+            .itemStyle{
+                color: @bgColor;
+                &.two{
+                    margin-left: 10px;
+                }
+
+            }
+            .ivu-select-item-selected, .ivu-select-item-selected:hover {
+                color: #000;
+                background: #ddd;
+            }
+        }
+        .right{
+            span.title{
+                font-size: 14px;
+                color: @bgColor;
+                margin-right: 10px;
+            }
+            .ivu-date-picker-focused input {
+                border-color: @bgColor;
+                outline: 0;
+            }
+            input:focus {
+                outline: none !important;
+            }
+        }
+    }
+    .middle{
+        height: 63px;
+        display: flex;
+        align-items: center;
+        padding-left: 21px;
+        p{
+            border: 1px solid #ddd;
+            border-top: 1px solid @bgColor;
+            padding: 2px 8px;
+            color:#000;
+            font-size: 14px;
+            margin-right: 15px;
+            .icon-cash{
+                margin-top: 3px;
+                display: inline-block;
+            }
+            .cash{
+               color:@bgColor;
+            }
+        }
+    }
+    // 表格
+    .table{
+        position: absolute;
+        top: 123px;
+        left: 20px;
+        right: 20px;
+        bottom: 64px;
+        overflow: hidden;
+        border-bottom: 1px solid #ddd;
+        .clicktr td{
+            background-color: @bgColor;
+            color: #fff;
+        }
+        .contributions{
+            border-bottom: 1px solid #555555;
+            cursor: pointer;
+            &:hover{
+                border-bottom: 1px solid @bgColor;
+                color: @bgColor;
+            }
+        }
+    }
+    // 分页
+    .footer{
+        position: absolute;
+        background: #fff;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 50px;
+        padding-right: 45px;
+        border-top: 1px solid #ddd;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .ivu-page-item-active {
+            background-color:@bgColor;
+            border-color: @bgColor;
+        }
+    }
+    // 查看图片区
+    .carouselcontent{
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1000;
+        position: fixed;
+        background: rgba(0,0,0,.3);
+        .close_icon{
+            font-size: 39px;
+            position: absolute;
+            z-index: 999;
+            cursor: pointer;
+            top: 80px;
+            color: #000;
+            left: 50%;
+            margin-left: 350px;
+            &:hover{
+                color:#A4D3EE;
+            }
+        }
+        .ivu-carousel{
+            width: 800px;
+            background: #fff;
+            z-index: 100;
+            border-radius: 6px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            .ivu-carousel-dots-inside{
+                left: 50%;
+                margin-left: -50px;
+                li{
+                    float: left;
+                }
+            }
+            .demo-carousel{
+                width: 760px;
+                height: 623px;
+                background: #fff;
+                margin: 0 auto;
+                margin-top: 59px;
+                overflow: hidden;
+                img{
+                    width: 760px;
+                    height: 623px;
+                }
+            }
+            
+            .bottom{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 20px;
+                padding: 50px 20px;
+                p{
+                    text-align: center;
+                    font-size: 14px;
+                    color:#000;
+                    span{
+                        color:@bgColor;
+                        margin-left: 5px;
+                    }
+                }
+                button{
+                    background: @bgColor;
+                    color: #fff;
+                    span{
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.bank .ivu-form-item-content{
+    margin-left: 92px !important;
+    margin-top: 9px;
+    width: 360px;
+    .ivu-select-selection{
+        border-radius: none !important;
+    }
+    .ivu-form-item-error-tip{
+        left: -13px;
+    }
+}
+.audit_pop .ivu-modal-footer{
+    display: none;
+}
+.modal_footer{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 27px;
+    padding-right: 40px;
+    border-top: 1px solid #eee;
+    padding-top: 17px;
+    button{
+        background: @bgColor;
+        color: #fff;
+        &:hover{
+            color: @bgColor;
+            border: 1px solid @bgColor;
+            background: #FFF;
+        }
+    }
+}
+.ivu-input[disabled], fieldset[disabled] .ivu-input {
+    background-color: #f3f3f3;
+    opacity: 1;
+    cursor: not-allowed;
+    color: #000;
+}
+.ivu-upload-list {
+    display: none;
+}
+.carouselcontent .close_icon{
+    font-size: 39px;
+}
+.demo-carousel{
+    width: 488px;
+    height: 350px;
+    margin-bottom: 20px;
+}
+.demo-carousel img{
+    width: 100%;
+    height: 100%;
+}
+
+// 删除提示框
+.outside{
+    position: fixed;
+    z-index: 999;
+    width:100%;
+    height:100%;
+    left: 45%;
+    top: 40%;        
+    padding-top:10px;
+    z-index: 10000;
+    .delete{
+        z-index: 1100;
+        position: fixed;
+        background:#1596ad;
+        border:3px solid #1596ad;
+        color:white;
+        padding:10px;
+        width: 200px;
+        height:100px;
+        // border-radius: 4px;
+        
+        font: 16px 宋体;
+        p{
+            text-align: center;
+        }
+        .build{
+            background: #ffffff;
+            padding:8px;
+            margin-top:20px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            button{
+                padding: 5px;
+                font-size:12px;
+                background: white;
+                border:1px solid #ddd;
+            }
+            button:hover{
+                border-color: @bgColor;
+            }
+        }
+    }
+}

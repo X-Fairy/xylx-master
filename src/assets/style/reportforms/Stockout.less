@@ -1,0 +1,68 @@
+.Stockout{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    // 头部
+    .top{
+        background: #e7e9eb;
+        height: 60px;
+        position: relative;
+        line-height: 60px;
+        padding-left: 30px;
+        border-bottom: 1px solid #ddd;
+        .ivu-input,input{
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+        .search{
+            display: flex;
+            align-items: center;
+            div{
+                display: flex;
+            }
+        }
+        .num{
+            color: #1d8c9f;
+            margin-right: 15px;
+        }
+        .ivu-select-multiple .ivu-select-selection {
+            padding: 0 24px 0 4px;
+            overflow: auto;
+            height: 35px;
+        }
+    }
+    // 列表区
+    .table{
+        position: absolute;
+        top: 80px;
+        left: 20px;
+        right: 20px;
+        bottom: 100px;
+        th,td{
+            text-align: center;
+            .ivu-table-cell{
+                position: relative;
+            }
+        }
+    }
+    // 分页
+    .footer{
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+        align-items: center;
+        padding-right: 41px;
+        box-sizing: border-box;
+        bottom: 0;
+        border-top: 1px solid #ccc;
+        z-index: 99;
+        .ivu-page-item-active {
+            background-color: #1596ad;
+            border-color: #1596ad;
+        }
+    }
+}

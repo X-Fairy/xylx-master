@@ -1,0 +1,76 @@
+
+.come_visitWrite{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    color:#000;
+    .write{
+        width: 100%;
+        height: 100%;
+        .title{
+            .ivu-input-large {
+                font-size: 20px;
+                padding: 6px 7px;
+                height: 55px;
+                border-radius: 0;
+                margin-bottom: 20px;
+                border-right: 0;
+                border-top: 0;
+            }
+        }
+        .submit{
+            position: relative;
+            width: 100%;
+            height: 55px;
+            padding: 20.5px 40px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #CCC;
+            margin-bottom: 20px;
+            .right button:not(:last-child){
+                border: 1px solid #CCC;
+                border-top: 2px solid #3DA8B9;
+                border-radius: 0;
+                border-bottom: 0;
+                background: #fff;
+                margin-right: 20px;
+                color: #555555;;
+            }
+            .right button:not(:last-child):hover{
+                background:#3DA8B9;
+                transition: all 0.5s linear;
+                color: #fff;
+            }
+            .right button:last-child{
+                display: block;
+                position: absolute;
+                top:70px;
+                right: 30px;
+                background: @bgColor;
+                border-radius: 0;
+            }
+            .back{
+                margin: 0 10px;
+            }
+        }
+        .area{
+            position: absolute;
+            top: 120px;
+            bottom: 100px;
+            overflow: auto;
+            z-index: 100;
+            right: 100px;
+            left:100px;
+            textarea.ivu-input{
+                height: 100%;
+                border:0;
+                resize: none;
+                padding: 10px;
+                font-size: 14px ;
+                line-height: 34px;
+            }
+            .ivu-input-wrapper{
+                height: 100%;
+            }
+        }
+    }
+}
