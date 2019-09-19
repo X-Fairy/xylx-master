@@ -159,7 +159,7 @@
                         <button class="checkMore" @click="editLower">多项修改所属招商</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubsea" v-if="tableShow">放入公海池</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubclaim" v-else>批量认领</button>
-                        <button class="checkMore searchD" style="margin-left: 20px;" @click="searchD">查看D类客户</button>
+                        <!-- <button class="checkMore searchD" style="margin-left: 20px;" @click="searchD">查看D类客户</button> -->
                         <button class="checkMore searchD" style="margin-left: 20px;" @click="searchVisit">已来访列表</button>
                         <Upload action="/NewA/Public/uploadmarks" :on-success="uploadmarks" v-show="uploadmarksShow" style="width: 100px;display:inline-block;margin-left: 20px;">
                             <Button type="ghost" icon="ios-cloud-upload-outline" class="ghost">上传信息</Button> 
@@ -397,6 +397,34 @@ export default {
                     label: '',
                     objectClass: {
                         color: '#fb9200',
+                    }
+                },
+                {
+                    value: '7',
+                    label: '',
+                    objectClass: {
+                        color: '#7f2c27',
+                    }
+                },
+                {
+                    value: '8',
+                    label: '',
+                    objectClass: {
+                        color: '#1bf945',
+                    }
+                },
+                {
+                    value: '9',
+                    label: '',
+                    objectClass: {
+                        color: '#045c5d',
+                    }
+                },
+                {
+                    value: '10',
+                    label: '',
+                    objectClass: {
+                        color: '#e9aaa0',
                     }
                 },
             ],
@@ -1001,6 +1029,46 @@ export default {
                                     marginRight: params.row.sign.indexOf('6') !== -1 ? '4px' : '',
                                 }
                             }),
+                            h('Icon',{
+                                props: {
+                                    type: params.row.sign.indexOf('7') !== -1 ? 'ios-pricetags' : '',
+                                },
+                                style:{
+                                    color: '#7f2c27',
+                                    fontSize: '20px',
+                                    marginRight: params.row.sign.indexOf('7') !== -1 ? '4px' : '',
+                                }
+                            }),
+                            h('Icon',{
+                                props: {
+                                    type: params.row.sign.indexOf('8') !== -1 ? 'ios-pricetags' : '',
+                                },
+                                style:{
+                                    color: '#1bf945',
+                                    fontSize: '20px',
+                                    marginRight: params.row.sign.indexOf('8') !== -1 ? '4px' : '',
+                                }
+                            }),
+                            h('Icon',{
+                                props: {
+                                    type: params.row.sign.indexOf('9') !== -1 ? 'ios-pricetags' : '',
+                                },
+                                style:{
+                                    color: '#045c5d',
+                                    fontSize: '20px',
+                                    marginRight: params.row.sign.indexOf('9') !== -1 ? '4px' : '',
+                                }
+                            }),
+                            h('Icon',{
+                                props: {
+                                    type: params.row.sign.indexOf('10') !== -1 ? 'ios-pricetags' : '',
+                                },
+                                style:{
+                                    color: '#e9aaa0',
+                                    fontSize: '20px',
+                                    marginRight: params.row.sign.indexOf('10') !== -1 ? '4px' : '',
+                                }
+                            }),
                         ]
                         )
                     }
@@ -1471,8 +1539,6 @@ export default {
                     this.uploadList=false;
                 }
             }
-            
-            
         },
         /* 上传列表文件 */
         uploadmarks(res){
@@ -1489,8 +1555,6 @@ export default {
                 this.errorNum = res.enum;
                 this.data=res.data;
             }
-            
-            // this.errorData = res.errorArr;
         },
         
         /**
@@ -2200,7 +2264,11 @@ export default {
         getSignModel(signModel) {
             this.searchParams.currentPage = 1;
             this.searchParams.signModel = signModel.sort();
-            this.getCustomerList();
+            if(this.tableShow==true){
+                this.getCustomerList();
+            }else{
+                this.getPubseas();
+            }
         },
         // 得到推广
         getExtendModel(extend){
@@ -2516,161 +2584,161 @@ export default {
         //     }
         // }
         // 查看D类客户
-        searchD(){
-            this.tableShow=true;
-            this.$resetAjax({
-                type: 'GET',
-                url: '/NewA/Customer/getlist',
-                data: {
-                    // 姓名检索
-                    username: this.searchParams.username,
-                    // 号码检索
-                    phone: this.searchParams.phone,
-                    // 渠道备注检索
-                    channel_notes: this.searchParams.channel_notes,
-                    // 省份检索
-                    proid: this.searchParams.provincemodel,
-                    // 城市检索
-                    city: this.searchParams.citymodel,
-                    // 渠道筛选
-                    channel: this.searchParams.sourcemodel,
-                    // 意向度
-                    intention: [4],
-                    // 是否有门店
-                    has_shop: this.searchParams.shopmodel,
-                    // 客户标志
-                    sign: this.searchParams.signModel,
-                    // 推广
-                    marks:this.searchParams.extendId,
-                    // 录入时间
-                    insert_time: this.searchParams.selectDate,
-                    // 最近跟进时间:
-                    last_time: this.searchParams.followdate,
-                    // 预约回访时间:
-                    follow_up_time : this.searchParams.visitdate,
-                    // 第几页
-                    p: this.searchParams.currentPage,
-                    // 录入时间排序
-                    order_ins: this.searchParams.order_ins,
-                    // 跟进状态
-                    clue: this.searchParams.clue,
-                    // 跟进时间排序
-                    order_las: this.searchParams.order_las,
-                    // 预约回访时间排序
-                    order_fol: this.searchParams.order_fol,
-                    // 选择天数
-                    recently: this.searchParams.recently,
-                    // 联系时间
-                    contime: this.searchParams.contime,
-                    // 下级
-                    uid: this.searchParams.lowlevel
+        // searchD(){
+        //     this.tableShow=true;
+        //     this.$resetAjax({
+        //         type: 'GET',
+        //         url: '/NewA/Customer/getlist',
+        //         data: {
+        //             // 姓名检索
+        //             username: this.searchParams.username,
+        //             // 号码检索
+        //             phone: this.searchParams.phone,
+        //             // 渠道备注检索
+        //             channel_notes: this.searchParams.channel_notes,
+        //             // 省份检索
+        //             proid: this.searchParams.provincemodel,
+        //             // 城市检索
+        //             city: this.searchParams.citymodel,
+        //             // 渠道筛选
+        //             channel: this.searchParams.sourcemodel,
+        //             // 意向度
+        //             intention: [4],
+        //             // 是否有门店
+        //             has_shop: this.searchParams.shopmodel,
+        //             // 客户标志
+        //             sign: this.searchParams.signModel,
+        //             // 推广
+        //             marks:this.searchParams.extendId,
+        //             // 录入时间
+        //             insert_time: this.searchParams.selectDate,
+        //             // 最近跟进时间:
+        //             last_time: this.searchParams.followdate,
+        //             // 预约回访时间:
+        //             follow_up_time : this.searchParams.visitdate,
+        //             // 第几页
+        //             p: this.searchParams.currentPage,
+        //             // 录入时间排序
+        //             order_ins: this.searchParams.order_ins,
+        //             // 跟进状态
+        //             clue: this.searchParams.clue,
+        //             // 跟进时间排序
+        //             order_las: this.searchParams.order_las,
+        //             // 预约回访时间排序
+        //             order_fol: this.searchParams.order_fol,
+        //             // 选择天数
+        //             recently: this.searchParams.recently,
+        //             // 联系时间
+        //             contime: this.searchParams.contime,
+        //             // 下级
+        //             uid: this.searchParams.lowlevel
 
-                },
-                success: (res) => {
-                    this.tableData = JSON.parse(res).data;
-                    this.total = Number(JSON.parse(res).count);
-                    if(JSON.parse(res).show===1){
-                        this.showList=true
-                    }else{
-                        this.showList=false
-                    }
-                    // 渠道管理权限设置
-                    if (JSON.parse(res).ifshow == 2) {
-                        this.ifshow = false;
-                    } else {
-                        this.ifshow = true;
-                    }
-                    // 得到意向并在表格里渲染出来
-                    this.tableData.forEach(ele => {
-                        // 预约回访时间:follow_up_time
-                        switch(ele.follow_up_time) {
-                            case null:
-                                ele.follow_up_time = '';
-                                break;
-                            case '0': 
-                                ele.follow_up_time = '';
-                                break;
-                            default:
-                                ele.follow_up_time = this.changeday(Number(ele.follow_up_time)*1000);
-                        }
-                        // 录入时间
-                        switch(ele.insert_time) {
-                            case null:
-                                ele.insert_time = '';
-                                break;
-                            case '0': 
-                                ele.insert_time = '';
-                                break;
-                            default:
-                                ele.insert_time = this.changeday(Number(ele.insert_time)*1000);
-                        }
-                        // 最近跟进时间:last_time
-                        switch(ele.last_time) {
-                            case null:
-                                ele.last_time = '';
-                                break;
-                            case '0': 
-                                ele.last_time = '';
-                                break;
-                            default:
-                                ele.last_time = this.changeday(Number(ele.last_time)*1000);
-                        }
-                        // 意向分析
-                        switch(ele.intention) {
-                            case '1':
-                                ele.intention = 'A';
-                                break;
-                            case '2':
-                                ele.intention = 'B';
-                                break;
-                            case '3':
-                                ele.intention = 'C';
-                                break;
-                            case '4':
-                                ele.intention = 'D';
-                                break;
-                            default: 
-                                ele.intention = '待定';
-                        }
-                        // 门店分析 
-                        switch(ele.status) {
-                            case '1':
-                                ele.status = '有';
-                                break;
-                            case '2':
-                                ele.status = '有意向店面';
-                                break;
-                            default:
-                                ele.status = '无';
-                        }
-                        // 推广
-                        switch(ele.marks) {
-                            case '1':
-                                ele.marks = '百度';
-                                break;
-                            case '2':
-                                ele.marks = '搜狗';
-                                break;
-                            case '3':
-                                ele.marks = '好搜';
-                                break;
-                            case '4':
-                                ele.marks = '神马';
-                                break;
-                            case '5':
-                                ele.marks = '百度品专';
-                                break;
-                            case '6':
-                                ele.marks = 'seo';
-                                break;
-                            default:
-                                ele.marks = '';
-                        }
-                    });
+        //         },
+        //         success: (res) => {
+        //             this.tableData = JSON.parse(res).data;
+        //             this.total = Number(JSON.parse(res).count);
+        //             if(JSON.parse(res).show===1){
+        //                 this.showList=true
+        //             }else{
+        //                 this.showList=false
+        //             }
+        //             // 渠道管理权限设置
+        //             if (JSON.parse(res).ifshow == 2) {
+        //                 this.ifshow = false;
+        //             } else {
+        //                 this.ifshow = true;
+        //             }
+        //             // 得到意向并在表格里渲染出来
+        //             this.tableData.forEach(ele => {
+        //                 // 预约回访时间:follow_up_time
+        //                 switch(ele.follow_up_time) {
+        //                     case null:
+        //                         ele.follow_up_time = '';
+        //                         break;
+        //                     case '0': 
+        //                         ele.follow_up_time = '';
+        //                         break;
+        //                     default:
+        //                         ele.follow_up_time = this.changeday(Number(ele.follow_up_time)*1000);
+        //                 }
+        //                 // 录入时间
+        //                 switch(ele.insert_time) {
+        //                     case null:
+        //                         ele.insert_time = '';
+        //                         break;
+        //                     case '0': 
+        //                         ele.insert_time = '';
+        //                         break;
+        //                     default:
+        //                         ele.insert_time = this.changeday(Number(ele.insert_time)*1000);
+        //                 }
+        //                 // 最近跟进时间:last_time
+        //                 switch(ele.last_time) {
+        //                     case null:
+        //                         ele.last_time = '';
+        //                         break;
+        //                     case '0': 
+        //                         ele.last_time = '';
+        //                         break;
+        //                     default:
+        //                         ele.last_time = this.changeday(Number(ele.last_time)*1000);
+        //                 }
+        //                 // 意向分析
+        //                 switch(ele.intention) {
+        //                     case '1':
+        //                         ele.intention = 'A';
+        //                         break;
+        //                     case '2':
+        //                         ele.intention = 'B';
+        //                         break;
+        //                     case '3':
+        //                         ele.intention = 'C';
+        //                         break;
+        //                     case '4':
+        //                         ele.intention = 'D';
+        //                         break;
+        //                     default: 
+        //                         ele.intention = '待定';
+        //                 }
+        //                 // 门店分析 
+        //                 switch(ele.status) {
+        //                     case '1':
+        //                         ele.status = '有';
+        //                         break;
+        //                     case '2':
+        //                         ele.status = '有意向店面';
+        //                         break;
+        //                     default:
+        //                         ele.status = '无';
+        //                 }
+        //                 // 推广
+        //                 switch(ele.marks) {
+        //                     case '1':
+        //                         ele.marks = '百度';
+        //                         break;
+        //                     case '2':
+        //                         ele.marks = '搜狗';
+        //                         break;
+        //                     case '3':
+        //                         ele.marks = '好搜';
+        //                         break;
+        //                     case '4':
+        //                         ele.marks = '神马';
+        //                         break;
+        //                     case '5':
+        //                         ele.marks = '百度品专';
+        //                         break;
+        //                     case '6':
+        //                         ele.marks = 'seo';
+        //                         break;
+        //                     default:
+        //                         ele.marks = '';
+        //                 }
+        //             });
                     
-                }
-            })
-        },
+        //         }
+        //     })
+        // },
         searchVisit(){
             this.tableShow=true;
             this.$resetAjax({

@@ -13,11 +13,16 @@
             </div>
         </div>
         <div class="middle">
+            <p title="点击填写金额" @click='showModal' style="cursor: pointer;background: #1596ad;color: #fff;height: 33px;line-height: 26px;">
+                
+                启用时期初未存金额
+                <span class="cash" style="color:#fff;">￥{{unsave}}</span> 
+            </p>
             <p title="应收现金总额" >
                 <span class="icon-cash">
                     <svg t="1565318408334" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="851" width="18" height="18"><path d="M398.222222 222.151111a29.724444 29.724444 0 0 0 24.604445 12.8h161.564444a29.724444 29.724444 0 0 0 23.466667-11.235555l68.266666-87.893334a27.591111 27.591111 0 0 0 5.12-24.035555 28.444444 28.444444 0 0 0-16.071111-18.915556A396.515556 396.515556 0 0 0 501.902222 56.888889a337.635556 337.635556 0 0 0-154.453333 34.844444 28.444444 28.444444 0 0 0-14.222222 18.062223 28.444444 28.444444 0 0 0 4.124444 22.186666z m207.644445-91.022222l-36.408889 46.933333h-130.844445l-32.711111-48.924444a352.142222 352.142222 0 0 1 200.391111 1.991111z m21.191111 157.44l-5.973334-2.844445H388.693333l-5.973333 2.844445C367.36 295.822222 8.391111 475.022222 80.782222 752.497778c0.995556 8.817778 30.72 212.195556 409.315556 214.186666h24.035555c384 0 413.582222-205.368889 414.008889-210.915555 73.813333-280.462222-285.297778-459.662222-300.657778-467.2zM873.244444 745.955556c-0.995556 6.826667-29.297778 164.408889-355.555555 165.546666-352.568889 6.826667-379.733333-158.72-381.297778-168.96C79.075556 521.955556 358.684444 363.804444 402.488889 340.48h205.226667c43.946667 23.466667 323.697778 181.333333 265.528888 405.475556zM608.711111 445.297778l-103.68 100.551111-103.537778-100.551111a30.008889 30.008889 0 0 0-41.528889 0 28.444444 28.444444 0 0 0 0 40.248889l93.44 90.737777h-49.635555a28.444444 28.444444 0 1 0 0 56.888889h72.96v45.368889h-73.528889a30.72 30.72 0 1 0 0 61.44h73.528889v61.724445a29.44 29.44 0 0 0 58.737778 0V739.555556h72.96a30.72 30.72 0 1 0 0-61.44h-72.96v-44.942223h73.528889a28.444444 28.444444 0 1 0 0-56.888889h-52.337778l93.44-90.737777a28.444444 28.444444 0 0 0 0-40.248889 29.866667 29.866667 0 0 0-41.386667 0z" p-id="852" fill="#d81e06"></path></svg>
                 </span>
-                应收现金
+                应存现金
                 <span class="cash">￥{{total_pay}}</span> 
             </p>
             <p title=" 实存现金总额" >
@@ -57,7 +62,15 @@
         </div>
         <!-- 缴款清单组件 -->
         <audit-modal :hasShow="isShow" :formValidate="formValidate" @asyncOK="asyncOK" ref="auditModal" @updateHasShow="updateHasShow"></audit-modal>
-       
+        <!--输入金额  -->
+        <Modal v-model="amountShow" :title="modalTitle" >
+            <span>金额：</span>
+            <Input v-model="money" placeholder="输入金额" style="width: 300px;margin: auto;"  type="number" ></Input>
+            <div slot="footer">
+                <Button  @click="amountShow=false" style="display: inline-block">取消</Button>
+                <Button type="primary" @click="amount" >确定</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -114,9 +127,66 @@ export default {
                     key: 'mob_pay' 
                 },
                 {
-                    title: '应收现金',
+                    title: '现金收款',
                     align: 'center',
                     key: 'cash_pay'
+                },
+                {
+                    title: '其他支出',
+                    align: 'center',
+                    key: 'other',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('span', {
+                                class: 'contributions',
+                                style:{
+                                    cursor:'pointer'
+                                },
+                                domProps: {
+                                    title: '点击编辑支出金额'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.money=params.row.other;
+                                        this.modalTitle='其他支出';
+                                        this.row=params.row;
+                                        this.amountShow=true;
+                                    }
+                                }
+                            },params.row.other),
+                        ]);
+                    }
+                },
+                {
+                    title: '储值卡消费',
+                    align: 'center',
+                    key: 'account_pay',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('span', {
+                                class: 'contributions',
+                                style:{
+                                    cursor:'pointer'
+                                },
+                                domProps: {
+                                    title: '点击编辑支出金额'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.money=params.row.account_pay;
+                                        this.modalTitle='储值卡消费';
+                                        this.row=params.row;
+                                        this.amountShow=true;
+                                    }
+                                }
+                            },params.row.account_pay),
+                        ]);
+                    }
+                },
+                {
+                    title: '应存现金',
+                    align: 'center',
+                    key: 'yingcun'
                 },
                 {
                     title: '实存现金',
@@ -131,11 +201,6 @@ export default {
                             }, row.jiaokuan),
                         ]);
                     }
-                },
-                {
-                    title: '储值卡支付',
-                    align: 'center',
-                    key: 'account_pay'
                 },
                 {
                     title: '操作',
@@ -180,7 +245,7 @@ export default {
             // 表格数据
             tableData: [],
             // 表格高度
-            tableHeight: 700,
+            tableHeight: 900,
             // 总条数
             total: 0,
             // 页面条数
@@ -206,9 +271,19 @@ export default {
             total_jk: '0',
             // 未存现金总额
             cha: '0',
+            //  启用时期初未存金额
+            unsave:'0',
             // 是否显示查看图片弹出框
             carouse:false,
-            value1:''
+            value1:'',
+            // 是否显示输入金额弹出框
+            amountShow:false,
+            // 弹出框的标题
+            modalTitle:'',
+            // 输入金额
+            money:'',
+            // 表格当前行
+            row:[]
         }
     },
 
@@ -216,12 +291,12 @@ export default {
         setTimeout(()=> {
             // 得到浏览器内容高度
             var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-            this.tableHeight = (windowHeight- 220);
+            this.tableHeight = (windowHeight- 260);
         },100)
         // 调整浏览器的时候
         $(window).on('resize', () => {
             var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-            this.tableHeight = (windowHeight - 220);
+            this.tableHeight = (windowHeight - 260);
         })
     },
 
@@ -291,6 +366,7 @@ export default {
                     this.total_pay = res.total_pay;
                     this.total_jk = res.total_jk;
                     this.cha = res.cha;
+                    this.unsave=res.unsave;
                 }
             })
         },
@@ -342,6 +418,77 @@ export default {
             this.formValidate.monery = '';
             this.formValidate.bankModel = '';
             this.formValidate.dateTime = '';
+        },
+        /* */
+        showModal(){
+            this.modalTitle='启用时期初未存金额';
+            this.amountShow=true;
+            this.money=this.unsave;
+        },
+        /* 填写金额 */
+        amount(){
+            if(this.modalTitle==='启用时期初未存金额'){
+                this.$resetAjax({
+                    url:'/NewA/Audit/addunsave',
+                    type:'post',
+                    data:{
+                        store: this.store,
+                        money:this.money
+                    },
+                    success:(res)=>{
+                        if(res.errorcode==0){
+                            this.amountShow=false;
+                            this.$root.tip.isShow = true;
+                            this.$root.tip.content = '填写成功!';
+                            this.getAudit();
+                            setTimeout(() => {
+                                this.$root.tip.isShow = false;
+                            }, 1500);
+                        }
+                    }
+                })
+            }else if(this.modalTitle=='其他支出'){
+                this.$resetAjax({
+                    url:'/NewA/Audit/addother',
+                    type:'post',
+                    data:{
+                        id: this.row.id,
+                        money:this.money
+                    },
+                    success:(res)=>{
+                        if(res.errorcode==0){
+                            this.amountShow=false;
+                            this.$root.tip.isShow = true;
+                            this.$root.tip.content = '填写成功!';
+                            this.getAudit();
+                            setTimeout(() => {
+                                this.$root.tip.isShow = false;
+                            }, 1500);
+                        }
+                    }
+                })
+            }else if(this.modalTitle=='储值卡消费'){
+                this.$resetAjax({
+                    url:'/NewA/Audit/savecard',
+                    type:'post',
+                    data:{
+                        id: this.row.id,
+                        money:this.money
+                    },
+                    success:(res)=>{
+                        if(res.errorcode==0){
+                            this.amountShow=false;
+                            this.$root.tip.isShow = true;
+                            this.$root.tip.content = '填写成功!';
+                            this.getAudit();
+                            setTimeout(() => {
+                                this.$root.tip.isShow = false;
+                            }, 1500);
+                        }
+                    }
+                })
+            }
+            
         }
     }
 }

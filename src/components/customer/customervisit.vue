@@ -5,7 +5,7 @@
             <div class="visit_content">
                 <div class="visit_top">
                     <h3>
-                        回访客户姓名:<span>{{customer.name}}</span>
+                        回访客户姓名:<span @click="editname(customer.name)" class="editIntention" title="点击修改客户姓名">{{customer.name}}</span>
                         电话: <span>{{customer.phone}}</span>
                         来源: <span>{{customer.channel}}</span>
                         门店:<span>{{customer.has_store}}</span>
@@ -58,10 +58,29 @@
             </div>
         </div>
         <!-- 修改意向度弹窗 -->
-        <Modal v-model="modal1" title="修改意向度" @on-ok="editIntentionQuery" @on-cancel="modal1 = false">
-            <Select v-model="modelIntention" style="width:470px" placeholder="请选择意向度" @on-change="getIntention">
-                <Option v-for="item in intentionalityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
+        <Modal v-model="modal1"  @on-ok="editIntentionQuery" @on-cancel="modal1 = false">
+            <div style="display: flex;align-items: center;margin-bottom: 30px;" >
+                <span style="font-size: 13px;color: #1296ad;">修改意向度：</span>
+                <Select v-model="modelIntention" style="width:470px" placeholder="请选择意向度" @on-change="getIntention">
+                    <Option v-for="item in intentionalityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                </Select>
+            </div>
+            <div style="display: flex;align-items: center;margin-bottom: 20px;">
+                <span style="font-size: 13px;color: #1296ad;">修改标记：</span>
+                <CheckboxGroup v-model="sign" @on-change="getsign(sign)" style="padding-left: 25px;">
+                    <Checkbox :label="item.value" v-for="item in signList" :key="item.value"><Icon type="ios-pricetags" :style="item.objectClass"></Icon></Checkbox>
+                </CheckboxGroup>
+            </div>
+        </Modal>
+        <Modal title="修改客户姓名" v-model="nameModal" :mask-closable="false" class="userModal">
+            <Form ref="userData" :model="userData" :rules="ruleValidate" :label-width="80">
+                <FormItem label="客户姓名" prop="username">
+                    <Input v-model="userData.username" /> 
+                </FormItem>
+            </Form>
+            <div class="modal_footer">
+                <Button @click="editNameQuery('userData')">确定</Button>
+            </div>
         </Modal>
     </div>
 </template>
@@ -78,6 +97,81 @@ export default {
 
     data() {
         return {
+            // 标记选定
+            sign: '',
+            // 标记数据
+            signList:[
+                {
+                    value: '1',
+                    label: '',
+                    objectClass: {
+                        color: '#9d50c8',
+                    }
+                },
+                 {
+                    value: '2',
+                    label: '',
+                    objectClass: {
+                        color: '#f35a59',
+                    }
+                },
+                {
+                    value: '3',
+                    label: '',
+                    objectClass: {
+                        color: '#169aff',
+                    }
+                },
+                {
+                    value: '4',
+                    label: '',
+                    objectClass: {
+                        color: '#20b275',
+                    }
+                },
+                {
+                    value: '5',
+                    label: '',
+                    objectClass: {
+                        color: '#f5c635',
+                    }
+                },
+                {
+                    value: '6',
+                    label: '',
+                    objectClass: {
+                        color: '#fb9200',
+                    }
+                },
+                {
+                    value: '7',
+                    label: '',
+                    objectClass: {
+                        color: '#7f2c27',
+                    }
+                },
+                {
+                    value: '8',
+                    label: '',
+                    objectClass: {
+                        color: '#1bf945',
+                    }
+                },
+                {
+                    value: '9',
+                    label: '',
+                    objectClass: {
+                        color: '#045c5d',
+                    }
+                },
+                {
+                    value: '10',
+                    label: '',
+                    objectClass: {
+                        color: '#e9aaa0',
+                    }
+                },
+            ],
             // 得到网址的参数对象
             urlParams: {},
             // 客户的信息
@@ -130,14 +224,17 @@ export default {
             show:true,
             // 是否显示来访记录列表
             isShowList: true,
-            // // 对时间进行限制,选择大于今天的时间
-            // options: {
-            //     disabledDate (date) {
-            //         return date && date.valueOf() < Date.now();
-            //     }
-            // },
-            // 预约回访时间
-            // orderDate: '',
+            // 修改客户姓名弹出框
+            nameModal:false,
+            // 新的客户姓名
+            userData:{
+                username:''
+            },
+            ruleValidate: {
+                username: [
+                    { required: true, message: '客户姓名不能为空', trigger: 'change' }
+                ]
+            },
         }
     },
      
@@ -211,7 +308,6 @@ export default {
                 },
                 success:(res) => {
                     let result = JSON.parse(res).data;
-                    
                     this.customer.phone = result.phone[result.phone.length - 1];
                     this.sourceList.forEach(ele => {
                         if (ele.cid == result.channel) {
@@ -232,6 +328,38 @@ export default {
                     this.getCustormerList();
                 }
              })
+        },
+        /**
+         * 选择得到哪个标志详情
+         */
+         getsign(sign) {
+            // if (signmodel.length !==0) {
+            //     signmodel = signmodel[signmodel.length - 1]
+            // }
+            this.sign = [this.sign];
+            this.signHandle();
+            
+        },
+        /**
+         * 编辑客户标记
+         */
+        signHandle() {
+            this.$resetAjax({
+                type: 'POST',
+                url: '/NewA/Public/updatesign',
+                data: {
+                    id: this.customer.custormer_id,
+                    sign: this.signmodel
+                },
+                success: (res) =>{
+                    this.modal1 = false;
+                    this.$root.tip.isShow = true;
+                    this.$root.tip.content = '客户标志编辑成功';
+                    setTimeout(() => {
+                        this.$root.tip.isShow = false;
+                    }, 1000);
+                }
+            })
         },
         /**
          * 得到回访列表
@@ -408,6 +536,11 @@ export default {
             })
             this.modal1 = true;
         },
+        /* 修改客户姓名准备工作，得到客户姓名 */
+        editname(name){
+            this.nameModal=true;
+            this.userData.username=name;
+        },
         /**
          * 编辑意向度时选择到哪个意向度
          */
@@ -435,6 +568,32 @@ export default {
                     this.getCustormerList();
                 }
              })
+        },
+        /* 修改客户姓名 */
+        editNameQuery(name){
+            this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$resetAjax({
+                            url: '/NewA/Customer/update',
+                            type: 'POST',
+                            data: {
+                                // 客户id   
+                                id: this.customer.custormer_id,
+                                username: this.userData.username,
+                            },
+                            success: (res) => {
+                                if(JSON.parse(res).errorcode==0){
+                                    this.customer.name=this.userData.username;
+                                    this.nameModal=false;
+                                    this.$Message.success('修改成功')
+                                }else{
+                                    this.$Message.error('修改失败')
+                                }
+                                
+                            }
+                        })
+                    }
+                })
         }
     }
 }

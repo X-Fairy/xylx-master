@@ -15,10 +15,18 @@
             <Page :total="total" :page-size="pageSize" @on-change="changePage" :current="currentPage" show-elevator show-total></Page>
         </div>
         <!-- 批量分配 -->
-        <Modal title="分配所属招商" v-model="isAttract" class-name="vertical-center-modal" @on-ok="asyncOK" :key="'mulity'" :mask-closable="false">
-            <Select v-model="lowerLeader"  :key="'mulity'">
-                 <Option v-for="option in lowlevelList" :value="option.userid" :key="option.userid">{{option.user_name}}</Option>
-             </Select> 
+        <Modal class="addModal" title="分配所属招商" v-model="isAttract" class-name="vertical-center-modal" @on-ok="asyncOK" :key="'mulity'" :mask-closable="false">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <FormItem label="选择招商" prop="lowerLeader">
+                    <Select v-model="formValidate.lowerLeader"  :key="'mulity'">
+                        <Option v-for="option in lowlevelList" :value="option.userid" :key="option.userid">{{option.user_name}}</Option>
+                    </Select> 
+                </FormItem>
+                <FormItem class="btn"> 
+                    <Button type="primary" @click="asyncOK('formValidate')">确定</Button>
+                </FormItem>
+            </Form>
+            
          </Modal>
     </div>
 </template>
@@ -329,7 +337,15 @@
                 // 多选时所属招商弹窗是否显示 
                 isAttract: false,
                 // 所属招商弹窗下级选择得到的
-                lowerLeader:'',
+                formValidate:{
+                    lowerLeader:'',
+                },
+                // 表单验证
+                ruleValidate: {
+                    lowerLeader: [
+                        { required: true,message: '招商不能为空', trigger: 'change' },
+                    ],
+                },
                 // 所属招商这行客户的id
                 lowerLeaderId: [],
                 // 下级数据
@@ -468,24 +484,28 @@
 
             },
             /* 发送批量分配请求 */
-            asyncOK(){
-                this.$resetAjax({
-                    url: '/NewA/Public/distribution',
-                    type: 'POST',
-                    data: {
-                        // 客户id   
-                        id: this.lowerLeaderId,
-                        // userid:  选中的下级的userid
-                        userid: this.lowerLeader,
-                    },
-                    success: (res) => {
-                        this.isRowAttract = false;
-                        this.getlist();
-                        this.$root.tip.isShow = true;
-                        this.$root.tip.content = '分配成功';
-                        setTimeout(() => {
-                            this.$root.tip.isShow = false;
-                        }, 1000);
+            asyncOK(name){
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$resetAjax({
+                            url: '/NewA/Public/distribution',
+                            type: 'POST',
+                            data: {
+                                // 客户id   
+                                id: this.lowerLeaderId,
+                                // userid:  选中的下级的userid
+                                userid: this.lowerLeader,
+                            },
+                            success: (res) => {
+                                this.isRowAttract = false;
+                                this.getlist();
+                                this.$root.tip.isShow = true;
+                                this.$root.tip.content = '分配成功';
+                                setTimeout(() => {
+                                    this.$root.tip.isShow = false;
+                                }, 1000);
+                            }
+                        })
                     }
                 })
             },

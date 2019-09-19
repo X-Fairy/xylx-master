@@ -44,7 +44,75 @@ let resetAjax = (opt) => {
 };
 
 Vue.prototype.$resetAjax = resetAjax;
+Vue.component('charts', {
+  template: '#charts',      
+  // 传入对应的数值与动态index
+  props: ['options', 'index'],
+  methods: {
+    initOption() {
+      var that = this
+      var arr1 = [] // x轴刻度
+      var arr2 = [] // y轴数据值
 
+       // 取出需要的数据
+      this.options.forEach(element => {
+        arr1.push(element.selectedTopic)
+        arr2.push(element.peopleNum)
+      })
+
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(
+        document.getElementById('charts' + this.index)
+      )
+
+      // 指定图表的配置项和数据
+      var option = {
+        color: ['#3582F8'],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: arr1, // X轴的刻度
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          // y轴的刻度值自动调整
+          {
+            type: 'value'
+          }
+        ],
+        series: {
+          name: 'y轴数值',
+          type: 'bar',
+          barWidth: '60%',
+          data: arr2 // 具体选择数值
+        }
+      }
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option)
+    }
+  },
+  mounted() {
+    this.initOption()
+  },
+  created() {}
+})
 Vue.component('HeaderComponent', HeaderComponent);
 /* eslint-disable no-new */
 new Vue({

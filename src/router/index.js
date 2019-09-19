@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/components/home';
+import xmcp from '@/components/xmcp';
+
 import enter from '@/components/apply/enter'
 import write from '@/components/apply/write'
 
@@ -20,11 +22,12 @@ import initialization from '@/components/store/initialization'
 // 直营门店
 
 import directlyStores from '@/components/directlyStores/directlyStores'
-
+import storeStatement from '@/components/storeStatement/storeStatement'
 
 // 店长查账
 import audit from '@/components/audit/audit'  
-
+// 储存卡查账
+import StoredValueCard from '@/components/audit/StoredValueCard'
 
 // 物流公司管理 
 import logistics from '@/components/logistics/logistics'    
@@ -344,6 +347,14 @@ export default new Router({
           }
         },
         {
+          path:'storeStatement',
+          name:'storeStatement',
+          component:storeStatement,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        },
+        {
           path:'audit',
           name:'audit',
           component:audit   
@@ -442,6 +453,11 @@ export default new Router({
           name:'exec',
           component:exec,   
         }, 
+        {
+          path:'StoredValueCard',
+          name:'StoredValueCard',
+          component:StoredValueCard,   
+        }, 
       ]
     },
     {
@@ -454,6 +470,10 @@ export default new Router({
       name:'printPage',
       component:printPage,   
     }, 
-    
+    {
+      path:'/xmcp',
+      name:'xmcp',
+      component:xmcp,   
+    }, 
   ]
 })
