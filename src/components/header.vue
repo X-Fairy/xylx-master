@@ -7,8 +7,8 @@
         </div>
         <!-- 功能 -->
         <ul>
-            <li @click="getAdministration" :class="{selected:currentLi == 1}">常用功能</li>
-            <li @click="getTotalTable" :class="{selected:currentLi == 2}">统计报表</li>
+            <li @click="getAdministration" :class="{selected:currentLi === 1}">常用功能</li>
+            <li @click="getTotalTable" :class="{selected:currentLi === 2}">统计报表</li>
             <li @click="goOld" :class="{selected:currentLi == 3}">OA系统</li>
             <li @click="getstoreTable" :class="{selected:currentLi == 4}">门店报表</li>
         </ul>
@@ -39,8 +39,17 @@ export default {
             isAdministration: true,
         }
     },
-   
+   created(){
+       this.show();
+   },
     methods:{
+        show(){
+            if(this.currentLi === 1){
+                this.isAdministration=true;
+            }else if(this.currentLi=== 2){
+                this.isAdministration = false;
+            };
+        },
         /**
          * 是否关闭一部份导航栏
         */  
@@ -48,7 +57,6 @@ export default {
             this.isShow = !this.isShow;
             bus.$emit("userDefinedEvent", this.isShow);
             this.$emit("style", this.isShow);
-            // console.log(this.width);
         },
          /**
          * 跳转到之前的OA系统
@@ -62,26 +70,21 @@ export default {
         */ 
         getAdministration() {
             this.currentLi = 1;
-            this.isAdministration = true;
-            if(this.currentLi==2){
-                this.isAdministration=false;
-            }
+            this.show();
             bus.$emit("customEvent", this.isAdministration);
         },
         getTotalTable() {
             this.currentLi = 2;
-            this.isAdministration = false;
+            this.show();
             bus.$emit("customEvent",this.isAdministration);
         },
         getstoreTable(){
             this.currentLi = 4;
-            
             this.$router.push('/storeStatement')
         }
     },
 }
 </script>
-
 <style lang="less" scoped>
 .header-container{
     z-index: 100;

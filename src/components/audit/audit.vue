@@ -203,6 +203,11 @@ export default {
                     }
                 },
                 {
+                    title: '余额',
+                    align: 'center',
+                    key: 'balance'
+                },
+                {
                     title: '操作',
                     key: 'action',
                     align: 'center',

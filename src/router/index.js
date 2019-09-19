@@ -112,7 +112,6 @@ import shopCar from '@/components/shopCar/shopCar'
 
 // 首批查询
 import search from '@/components/search/search'
-import exec from '@/components/search/exec'
 
 
 
@@ -347,14 +346,6 @@ export default new Router({
           }
         },
         {
-          path:'storeStatement',
-          name:'storeStatement',
-          component:storeStatement,
-          meta: {
-            keepAlive: true // 需要缓存
-          }
-        },
-        {
           path:'audit',
           name:'audit',
           component:audit   
@@ -449,15 +440,18 @@ export default new Router({
           component:unsalable,   
         }, 
         {
-          path:'exec',
-          name:'exec',
-          component:exec,   
-        }, 
-        {
           path:'StoredValueCard',
           name:'StoredValueCard',
           component:StoredValueCard,   
         }, 
+        {
+          path:'storeStatement',
+          name:'storeStatement',
+          component:storeStatement,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
+        },
       ]
     },
     {

@@ -72,8 +72,8 @@
                     <FormItem label="看过哪些别的品牌" prop="otherBrand">
                         <Input v-model="inputForm.otherBrand" placeholder="请输入内容"/>
                     </FormItem>  
-                    <FormItem label="客户编码" prop="inputUserid" v-show="customer_title==='编辑客户'">
-                        <Input v-model="inputForm.inputUserid" placeholder="请输入五位数字客户id"/>
+                    <FormItem label="客户编码" prop="inputUserid" v-show="customer_title==='编辑客户'" >
+                        <Input v-model="inputForm.inputUserid" placeholder="" readonly/>
                     </FormItem>
                     <FormItem label="有无开店经验" prop="hasExperience">
                         <Select v-model="inputForm.hasExperience"  @on-change="getHasExperience(inputForm.hasExperience)">
@@ -350,7 +350,6 @@ export default {
                 for (let i = 0, len = this.openCityList.length; i < len; i++) {
                     callback(new Error('该城市不存在，请重新选择'));
                 }
-                
         },
         /**
          * 判断是新增还是编辑还是详情

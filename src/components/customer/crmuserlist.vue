@@ -14,7 +14,7 @@
             <!-- 分页 -->
             <Page :total="total" :page-size="pageSize" @on-change="changePage" :current="currentPage" show-elevator show-total></Page>
         </div>
-        <!-- 批量分配 -->
+        <!-- 批量分配 --> 
         <Modal class="addModal" title="分配所属招商" v-model="isAttract" class-name="vertical-center-modal" @on-ok="asyncOK" :key="'mulity'" :mask-closable="false">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
                 <FormItem label="选择招商" prop="lowerLeader">
@@ -337,7 +337,7 @@
                 // 多选时所属招商弹窗是否显示 
                 isAttract: false,
                 // 所属招商弹窗下级选择得到的
-                formValidate:{
+                formValidate:{  
                     lowerLeader:'',
                 },
                 // 表单验证

@@ -1,0 +1,11 @@
+1.生成webpack框架,通俗的说是下载项目
+在D盘workspace里打开当前命令窗口，输入 vue init webpack 项目名称，例如：vue init webpack face
+
+2.配置服务器
+在config=>index.js=>
+proxyTable: {
+     // 配置请求地址
+    '/newoa': 'http://172.21.8.58/'
+},
+3. 额外引入插件js
+在 src => assets => 新建js文件

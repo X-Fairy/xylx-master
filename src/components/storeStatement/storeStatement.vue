@@ -155,9 +155,9 @@ export default{
                 }
             }
             if(this.num==10){
-                this.active=10
+                this.active=10;
             }else if(this.num==20){
-                this.active=20
+                this.active=20;
             }
            this.report();
         },
