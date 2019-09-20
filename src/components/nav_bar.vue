@@ -255,7 +255,6 @@ export default {
         currentPath() {
             return this.$route.name;
         },
-        
     },
     methods: {
         get(){

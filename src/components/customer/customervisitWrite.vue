@@ -3,9 +3,9 @@
         <div class="write">
             <div class="submit">
                 <div class="left">
-                    <p class="selectepart">请选择回访时间</p>
+                    <!-- <p class="selectepart">请选择回访时间</p> -->
                     <Row>
-                        <DatePicker type="date" :options="options3" placeholder="Select date" :value="selectDate" style="width: 140px" @on-change="getTime" format="yyyy-MM-dd"></DatePicker>
+                        <DatePicker type="date" :options="options3" placeholder="请选择回访时间" :value="selectDate" style="width: 140px" @on-change="getTime" format="yyyy-MM-dd"></DatePicker>
                     </Row>
                     <p class="selectepart" style="margin-left:20px;">是否要预约回访</p>
                     <Select v-model="orderModel" style="width:80px" @on-change="getOrder(orderModel)">
@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 <div class="right">
-                    <Button type="success" @click="$router.push({path: 'customer'})">返回客户列表</Button>
-                    <Button type="primary" @click="goVisitList()">返回回访列表</Button>
-                    <Button type="info" @click="publishQuery">发布</Button>
+                    <!-- <Button type="success" @click="$router.push({path: 'customer'})">返回客户列表</Button>
+                    <Button type="primary" @click="goVisitList()">返回回访列表</Button> -->
+                    <Button type="info" @click="publishQuery">新增跟进</Button>
                 </div>
             </div>
             <div class="area">
@@ -80,7 +80,7 @@ export default {
                 }
             },
             // 是否要预约回访
-            orderModel: 1,
+            orderModel: 2,
             // 是否要预约回访数据
             orderList: [
                 {
@@ -207,9 +207,9 @@ export default {
         /**
          * 返回回访列表
          */
-        goVisitList() {
-            this.$router.push({path: 'customervisit', query:{isaim: 2, name: this.customer.name, id: this.customer.customer_id,  phone: this.customer.phone, channels: this.customer.channels, has_store: this.customer.status, intention: this.customer.intention}})
-        },
+        // goVisitList() {
+        //     this.$router.push({path: 'customervisit', query:{isaim: 2, name: this.customer.name, id: this.customer.customer_id,  phone: this.customer.phone, channels: this.customer.channels, has_store: this.customer.status, intention: this.customer.intention}})
+        // },
         /**
          * 毫秒转成-- 年月日形式
         */ 
@@ -258,9 +258,10 @@ export default {
                                 }else{
                                     this.$root.tip.isShow = true;
                                     this.$root.tip.content = '增加回访成功';
+                                    this.$parent.getCustormerList();
                                     setTimeout(() => {
                                         this.$root.tip.isShow = false;
-                                        this.$router.push({path: 'customervisit', query:{isaim: 2, name: this.customer.name, id: this.customer.customer_id,  phone: this.customer.phone, channels: this.customer.channels, has_store: this.customer.status, intention: this.customer.intention}})
+                                        // this.$router.push({path: 'customervisit', query:{isaim: 2, name: this.customer.name, id: this.customer.customer_id,  phone: this.customer.phone, channels: this.customer.channels, has_store: this.customer.status, intention: this.customer.intention}})
                                     }, 1500);
                                 }
                                  
@@ -284,9 +285,10 @@ export default {
                     success: (res) =>{
                         this.$root.tip.isShow = true;
                         this.$root.tip.content = '修改回访成功';
+                        this.$parent.getCustormerList();
                         setTimeout(() => {
                             this.$root.tip.isShow = false;
-                            this.$router.push({path: 'customervisit', query:{isaim: 2, name: this.customer.name, id: this.customer.customer_id,  phone: this.customer.phone, channels: this.customer.channels, has_store: this.customer.status, intention: this.customer.intention}})
+                            // this.$router.push({path: 'customervisit', query:{isaim: 2, name: this.customer.name, id: this.customer.customer_id,  phone: this.customer.phone, channels: this.customer.channels, has_store: this.customer.status, intention: this.customer.intention}})
                         }, 1500); 
                     }
                 })

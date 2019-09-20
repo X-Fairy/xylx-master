@@ -16,6 +16,7 @@
             overflow: auto;
             box-sizing: border-box;
             background: #fff;
+
             .visit_top{
                 border-bottom: 1px solid #CCC;
                 color: #000;
@@ -78,70 +79,80 @@
                     }
                 }
             }
-           
-            .visit_list{
-                position: absolute;
-                left: 0px;
-                right: 0;
-                bottom: 0;
-                top: 57px;
-                overflow: auto;
-                padding:20px;
-                box-sizing: border-box;
-                background: white;
-                border-top: 1px solid #ddd;
-                h2{
-                    color: #3b87b1;
-                    float: left;
-                    font-size: 14px;
-                    line-height: 20px;
-                    font-family: 微软雅黑;
-                }
-                .ivu-timeline-item-head-blue {/*修改*/
-                    border-color: #099fb8;
-                    color: #099fb8;
-                }
-                p{
-                    float: left;
-                    color: #1596ad;
-                }
-                li{
-                    .recode{
-                        display: flex;
-                        justify-content: space-between;
-                        font-size: 16px;
-                        line-height: 32px;
-                        margin-top: 24px;
-                        background: #F8F8F9;
-                        padding: 10px;
-                        h4{
-                            margin-top:-6px;
+            
+            .writeContent{
+                
+                .addwrite{
+                    width: 50% !important;
+                 }
+                .visit_list{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 57px;
+                    overflow: auto;
+                    padding:20px;
+                    box-sizing: border-box;
+                    background: white;
+                    border-top: 1px solid #ddd;
+                    
+                    h2{
+                        color: #3b87b1;
+                        float: left;
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-family: 微软雅黑;
+                    }
+                    .ivu-timeline-item-head-blue {/*修改*/
+                        border-color: #099fb8;
+                        color: #099fb8;
+                    }
+                    p{
+                        float: left;
+                        color: #1596ad;
+                    }
+                    li{
+                        .recode{
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 16px;
+                            line-height: 32px;
+                            margin-top: 24px;
+                            background: #F8F8F9;
+                            padding: 10px;
+                            h4{
+                                margin-top:-6px;
+                            }
+                        }
+                        .visit_detail{
+                            font-size: 10px;
+                            height: 34px;
+                            line-height: 100%;
+                            box-sizing: border-box;
+                            display: flex;
+                            justify-content: flex-end;
+                            align-items: center;
+                        }
+                        .point{
+                            font-size: 14px;
+                            line-height: 26px;
+                            color: #000;
+                            background: #fff;
+                            text-indent: 2rem;
+                            padding-right: 2rem;
                         }
                     }
-                    .visit_detail{
-                        font-size: 10px;
-                        height: 34px;
-                        line-height: 100%;
-                        box-sizing: border-box;
-                        display: flex;
-                        justify-content: flex-end;
-                        align-items: center;
-                    }
-                    .point{
-                        font-size: 16px;
-                        line-height: 26px;
-                        color: #000;
-                        background: #fff;
-                        text-indent: 2rem;
-                        padding-right: 2rem;
-                    }
                 }
+                
             }
+            
         }
         .no-comment{
             position: absolute;
             top: 50%;
-            left: 44%;
+            left: 40%;
+            margin-left: -230px;
             transform: translate(-44%,-50%);
             p{
                 text-align: center;

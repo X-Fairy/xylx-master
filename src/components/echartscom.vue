@@ -49,6 +49,12 @@
                 bottom: '3%',
                 containLabel: true,
               },
+              yAxis:{
+                name:'销量/总金额',
+                type:'Number',
+
+              },
+              
               xAxis: [
                 {
                     axisLabel: {

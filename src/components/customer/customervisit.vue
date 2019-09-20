@@ -19,32 +19,37 @@
                     </div> -->
                     <div class="visit_right">
                         <Button type="info" @click="handlePubsea" v-show="show">放入公海池</Button>
-                        <Button type="info" class="add_visit" @click="addVisit()" v-show="show">新增跟进</Button>
+                        <!-- <Button type="info" class="add_visit" @click="addVisit()" v-show="show">新增跟进</Button> -->
                         <Button type="warning" @click="$router.push({path: 'customer'})">返回客户列表</Button>
                     </div>
                 </div>
                 <!-- 回访内容区 -->
-                <ul class="visit_list" v-show="isShowList">
-                    <Timeline>
-                        <TimelineItem v-for="(item) in visitData" :key="item.id">
-                            <span style="float: left">{{item.user_name}}</span>
-                            <p class="time">&nbsp;&nbsp;&nbsp;{{changeday(Number(item.last_time)*1000)}}</p>
-                            <li>
-                                <div class="recode">
-                                     <p class="point" :title="item.notes">{{item.notes}}</p>
-                                    <!-- <div class="right">
-                                        <Button type="primary" size="small" @click="editVisit(index,item)">编辑</Button>
-                                        <Button type="error" size="small" @click="goDelete(index,item)">删除</Button>
-                                    </div> -->
-                                </div>
-                            </li>
-                        </TimelineItem>
-                    </Timeline>
-                </ul>
-                <div class="no-comment" v-show="!isShowList">
-                    <img src="@/assets/images/icon_comment.png" alt="">
-                    <p>智慧如你，不想<a @click="addVisit()"> 记录下客户的故事 </a>咩~</p>
+                <div class="writeContent">
+                    <ul class="visit_list" v-show="isShowList" :class="show?'addwrite' :'nowrite'">
+                        <Timeline>
+                            <TimelineItem v-for="(item) in visitData" :key="item.id">
+                                <span style="float: left">{{item.user_name}}</span>
+                                <p class="time">&nbsp;&nbsp;&nbsp;{{changeday(Number(item.last_time)*1000)}}</p>
+                                <li>
+                                    <div class="recode">
+                                            <p class="point" :title="item.notes">{{item.notes}}</p>
+                                        <!-- <div class="right">
+                                            <Button type="primary" size="small" @click="editVisit(index,item)">编辑</Button>
+                                            <Button type="error" size="small" @click="goDelete(index,item)">删除</Button>
+                                        </div> -->
+                                    </div>
+                                </li>
+                            </TimelineItem>
+                        </Timeline>
+                    </ul>
+                    <div class="no-comment" v-show="!isShowList">
+                            <img src="@/assets/images/icon_comment.png" alt="">
+                            <p>暂无客户跟进</p>
+                        </div>
+                    <customervisit-Write v-show="show"></customervisit-Write>
                 </div>
+               
+                
             </div>
         </div>
         <!-- 提示是否删除 -->
@@ -89,10 +94,11 @@
 <script>
 import tipModal from '../tip.vue'
 import {getUrlParams} from  '@/assets/js/tool.js'
-
+import customervisitWrite from '@/components/customer/customervisitWrite'
 export default {
     components: {
         tipModal,
+        customervisitWrite
     },
 
     data() {

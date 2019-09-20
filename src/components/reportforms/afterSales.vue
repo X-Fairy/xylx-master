@@ -49,6 +49,7 @@
                         <p>名称:<span>{{goodName}}</span></p>
                         <Button @click="carouse=false">关闭</Button>
                     </div>
+                
                 </CarouselItem>
             </Carousel>
         </div>
@@ -57,13 +58,10 @@
         <!-- <p class="login" @click="login">12456464563</p> -->
     </div>
 </template>
-
-
 <script>
 import spin from '../spin.vue'
 // 提示组件
 import tipModal from '../tip.vue'
-
 export default {
      components:{
         // 加载进度
@@ -73,7 +71,6 @@ export default {
 
     data() {
         return {
-
             value1: 0,
             // 商品条码
             code: '',
@@ -210,7 +207,6 @@ export default {
             index:0,
         }
     },
-
     mounted() {
         setTimeout(()=> {
             // 得到浏览器内容高度
@@ -224,7 +220,6 @@ export default {
         })
       
     },
-
     methods: {
         login() {
             this.$resetAjax({
@@ -287,8 +282,7 @@ export default {
                         // 产品类型
                         cls_no: this.saleType,
                         // 时间
-                        timelist: this.dateList 
-                        
+                        timelist: this.dateList
                     },
                     success: (res) => {
                         this.spinShow = false;
