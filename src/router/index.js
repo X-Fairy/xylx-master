@@ -28,7 +28,8 @@ import storeStatement from '@/components/storeStatement/storeStatement'
 import audit from '@/components/audit/audit'  
 // 储存卡查账
 import StoredValueCard from '@/components/audit/StoredValueCard'
-
+// 门店汇总
+import gather from '@/components/audit/gather'
 // 物流公司管理 
 import logistics from '@/components/logistics/logistics'    
 import logisticsAbout from '@/components/logistics/logisticsAbout'    
@@ -443,6 +444,11 @@ export default new Router({
           path:'StoredValueCard',
           name:'StoredValueCard',
           component:StoredValueCard,   
+        }, 
+        {
+          path:'gather',
+          name:'gather',
+          component:gather,   
         }, 
         {
           path:'storeStatement',
