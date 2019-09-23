@@ -431,13 +431,14 @@ export default {
           */
         getOpenProvice(openProvice) {
             this.inputForm.openProvice = openProvice;
-            this.getCitys(this.inputForm.openProvice)
+            this.inputForm.openCity='';
+            this.getCitys(this.inputForm.openProvice);
+            
         },
         /**
           * 得到哪个开店城市
           */
         getOpenCity(openCity) {
-            
             this.inputForm.openCity = openCity;
         },
          /**
@@ -498,7 +499,7 @@ export default {
                     url: '/NewA/Public/checkphone',
                     type: 'POST',
                     data:{
-                        phone: this.inputForm.inputPhone[length].tel
+                        phone: this.inputForm.inputPhone[length].tel.trim()
                     },
                     success: (res) => {
                         if (JSON.parse(res).msg == 'error') {
@@ -530,7 +531,6 @@ export default {
         getFollowTime(date) {
             this.inputForm.followTime = this.changeday(Date.parse(date));
         },
-        
         /**
         *毫秒转成-- 年月日形式
         */ 
@@ -612,16 +612,7 @@ export default {
          */
         submitModal() {
             if (this.customer_title == '新增客户') {
-                // if (this.inputForm.isFollow == '1' && this.inputForm.followTime == '') {
-                //     this.$root.tip.isShow = true;
-                //     this.$root.tip.content = '抱歉,跟进提醒时间不能为空!';
-                //     setTimeout(() => {
-                //         this.$root.tip.isShow = false;
-                //     }, 1500);
-                // } else {
-                    
-                    
-                if (this.inputForm.inputPhone[0].tel === '') {
+                if (this.inputForm.inputPhone[0].tel.trim() === '' || this.inputForm.inputPhone[1].tel.trim()==='' || this.inputForm.inputPhone[2].tel.trim()==='') {
                     this.$root.tip.isShow = true;
                     this.$root.tip.content = '抱歉,电话号码不能为空!';
                         setTimeout(() => {
@@ -638,7 +629,7 @@ export default {
                                         // 客户姓名
                                         username: this.inputForm.inputName,
                                         // 电话号码
-                                        phone: this.inputForm.inputPhone.map(item => item.tel),
+                                        phone: this.inputForm.inputPhone.map(item => item.tel.trim()),
                                         // 特殊备注
                                         special: this.inputForm.specialMemo,
                                         // 是否有门店  1有一家  2有多家  3有意向  4无
@@ -697,7 +688,7 @@ export default {
                                                 }
                                             })
                                             let id=JSON.parse(res).id;
-                                            let phone=this.inputForm.inputPhone.map(item => item.tel);
+                                            let phone=this.inputForm.inputPhone.map(item => item.tel.trim());
                                             let routeData= this.$router.resolve({ name: 'customervisit', query: {isaim: 1,id:id, name: this.inputForm.inputName, phone: phone, channels: this.inputForm.inputSource, intention: this.inputForm.intentionality,isShow:2} });
                                         
                                         window.open(routeData.href, '_blank');
@@ -725,7 +716,7 @@ export default {
                         // 客户id
                         userid: this.inputForm.inputUserid,
                         // 电话号码
-                        phone: this.inputForm.inputPhone.map(item => item.tel),
+                        phone:this.inputForm.inputPhone.map(item => item.tel.trim()),
                         // 特殊备注
                         special: this.inputForm.specialMemo,
                         // 是否有门店  1有一家  2有多家  3有意向  4无

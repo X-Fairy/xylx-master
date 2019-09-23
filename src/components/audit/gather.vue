@@ -165,10 +165,8 @@ export default {
                         if(typeof(res.data[i].qmwcxj)=="undefined"){
                             res.data[i].qmwcxj="0.00";
                         }
-                        console.log(res.data[i].qmwcxj);
                         this.tableData.push(res.data[i]);
                     }
-                    // this.total = Number(res.count);
                 }
             })
         },

@@ -55,7 +55,7 @@
         </div>
         <!-- 加载进度 -->
         <spin v-if="spinShow"></spin>
-        <p class="login" @click="login">12456464563</p>
+        <!-- <p class="login" @click="login">12456464563</p> -->
     </div>
 </template>
 <script>

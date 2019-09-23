@@ -116,7 +116,7 @@ import search from '@/components/search/search'
 
 
 
-
+import data from '@/components/data'
 
 Vue.use(Router)
 
@@ -475,5 +475,10 @@ export default new Router({
       name:'xmcp',
       component:xmcp,   
     }, 
+    {
+      path:'/data',
+      name:data,
+      component:data,   
+    }
   ]
 })
