@@ -612,9 +612,11 @@ export default {
          */
         submitModal() {
             if (this.customer_title == '新增客户') {
-                if (this.inputForm.inputPhone[0].tel.trim() === '' || this.inputForm.inputPhone[1].tel.trim()==='' || this.inputForm.inputPhone[2].tel.trim()==='') {
-                    this.$root.tip.isShow = true;
-                    this.$root.tip.content = '抱歉,电话号码不能为空!';
+                console.log(this.inputForm.inputPhone[0].tel);
+                for(let i in this.inputForm.inputPhone){
+                    if(this.inputForm.inputPhone[i].tel.trim()===''){
+                        this.$root.tip.isShow = true;
+                         this.$root.tip.content = '抱歉,电话号码不能为空!';
                         setTimeout(() => {
                             this.$root.tip.isShow = false;
                         }, 1500);
@@ -629,7 +631,7 @@ export default {
                                         // 客户姓名
                                         username: this.inputForm.inputName,
                                         // 电话号码
-                                        phone: this.inputForm.inputPhone.map(item => item.tel.trim()),
+                                        phone: this.inputForm.inputPhone.map(item => (item.tel).trim()),
                                         // 特殊备注
                                         special: this.inputForm.specialMemo,
                                         // 是否有门店  1有一家  2有多家  3有意向  4无
@@ -699,6 +701,8 @@ export default {
                         })
                     }
                 // }
+                }
+               
             }
             else if (this.customer_title == '编辑客户') {
                 let time = Date.parse(this.inputForm.expectOpen);

@@ -235,10 +235,20 @@
             </div>
         </div>
         <!-- 全选所属招商弹窗 filterable-->
-        <Modal title="多个修改所属招商" v-model="isAttract" class-name="vertical-center-modal" @on-ok="asyncOK" :key="'mulity'" :mask-closable="false">
-           <Select v-model="lowerLeader"  :key="'mulity'">
+        <Modal title="多个修改所属招商" class="addModal" v-model="isAttract" class-name="vertical-center-modal" @on-ok="asyncOK" :key="'mulity'" :mask-closable="false">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <FormItem label="选择招商" prop="lowerLeader">
+                    <Select v-model="formValidate.lowerLeader"  :key="'mulity'">
+                        <Option v-for="option in lowlevelList" :value="option.userid" :key="option.userid">{{option.user_name}}</Option>
+                    </Select> 
+                </FormItem>
+                <FormItem class="btn"> 
+                    <Button type="primary" @click="asyncOK('formValidate')">确定</Button>
+                </FormItem>
+            </Form>
+            <!-- <Select v-model="lowerLeader"  :key="'mulity'">
                 <Option v-for="option in lowlevelList" :value="option.userid" :key="option.userid">{{option.user_name}}</Option>
-            </Select> 
+            </Select>  -->
         </Modal>
         <!-- 单选所属招商弹窗 -->
         <Modal title="单个修改所属招商" v-model="isRowAttract" class-name="vertical-center-modal" @on-ok="asynRowcOK" :key="'simily'" :mask-closable="false">
@@ -343,6 +353,16 @@ export default {
             },
             // 多选时所属招商弹窗是否显示 
             isAttract: false,
+             // 所属招商弹窗下级选择得到的
+             formValidate:{  
+                lowerLeader:'',
+            },
+            // 表单验证
+            ruleValidate: {
+                lowerLeader: [
+                    { required: true,message: '招商不能为空', trigger: 'change' },
+                ],
+            },
             // 单选时所属招商弹窗是否显示 
             isRowAttract: false,
             // 所属招商弹窗下级选择得到的
@@ -2118,30 +2138,37 @@ export default {
         /**
          * 多选所属弹窗里选择下级提交请求
          */
-        asyncOK() {
-            this.$resetAjax({
-                url: '/NewA/Public/distribution',
-                type: 'POST',
-                data: {
-                    // 客户id   
-                    id: this.lowerLeaderId,
-                    // userid:  选中的下级的userid
-                    userid: this.lowerLeader,
+        asyncOK(name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    this.$resetAjax({
+                        url: '/NewA/Public/distribution',
+                        type: 'POST',
+                        data: {
+                            // 客户id   
+                            id: this.lowerLeaderId,
+                            // userid:  选中的下级的userid
+                            userid: this.formValidate.lowerLeader,
 
-                },
-                success: (res) => {
-                    this.isAttract = false;
-                    this.getCustomerList();
-                    this.lowerLeaderId = [];
-                    this.lowerLeader = '';
-                    this.$root.tip.isShow = true;
-                    this.$root.tip.content = '修改成功';
-                    setTimeout(() => {
-                        this.$root.tip.isShow = false;
-                    }, 1000);
+                        },
+                        success: (res) => {
+                            this.isAttract = false;
+                            if(this.tableShow==true){
+                                this.getCustomerList();
+                            }else{
+                                this.getPubseas();
+                            }
+                            this.lowerLeaderId = [];
+                            this.lowerLeader = '';
+                            this.$root.tip.isShow = true;
+                            this.$root.tip.content = '修改成功';
+                            setTimeout(() => {
+                                this.$root.tip.isShow = false;
+                            }, 1000);
+                        }
+                    })
                 }
-            })
-            
+            })   
         },
         /**
          * 得到所有下级的数据
