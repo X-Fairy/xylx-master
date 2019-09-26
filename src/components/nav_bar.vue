@@ -201,7 +201,7 @@ export default {
                     align:'center'
                 },
                 {
-                    title: '已放公海池客户数量',
+                    title: '可放入公海池客户数量',
                     key: 'num',
                     align:'center'
                 },

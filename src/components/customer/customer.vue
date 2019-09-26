@@ -157,6 +157,7 @@
                     <!-- 客户数据 -->
                     <div class="table" :style="styleObject">
                         <button class="checkMore" @click="editLower">多项修改所属招商</button>
+                        <button class="checkMore" style="margin-left: 20px;" @click="handleIntention" v-if="tableShow">批量修改意向度</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubsea" v-if="tableShow">放入公海池</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubclaim" v-else>批量认领</button>
                         <!-- <button class="checkMore searchD" style="margin-left: 20px;" @click="searchD">查看D类客户</button> -->
@@ -266,7 +267,20 @@
                 <Button @click="userSearch(userDate)">查询</Button>
             </div>
         </Modal>
-       
+       <!-- 修改意向度弹窗 -->
+       <Modal v-model="intentionModal"  @on-ok="editIntentionQuery" @on-cancel="intentionModal = false" :title="titleName" class="addModal">
+            <Form ref="formValidateIntention" :model="formValidateIntention" :rules="ruleValidateIntention" :label-width="90">
+                <FormItem label="修改意向度" prop="modelIntention">
+                    <Select v-model="formValidate.modelIntention" style="width:470px" placeholder="请选择意向度" @on-change="getIntention">
+                        <Option v-for="item in purposeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem>
+                    <Button type="primary" @click="editIntentionQuery('formValidateIntention')" style="float: right;">确定</Button>
+                </FormItem>
+            </Form>
+            
+        </Modal>
     </div>
 </template>
 
@@ -545,23 +559,23 @@ export default {
             // 意向度数据
             purposeList: [
                 {
-                    value: 1,
+                    value: '1',
                     label: 'A(对我们品牌有直接兴趣的客户)'
                 },
                 {
-                    value: 2,
+                    value: '2',
                     label: 'B(对我们行业有直接兴趣的客户)'
                 },
                 {
-                    value: 3,
+                    value: '3',
                     label: 'C(对投资开店有直接兴趣的客户)'
                 },
                 {
-                    value: 4,
+                    value: '4',
                     label: 'D(无效客户)'
                 },
                 {
-                    value: 5,
+                    value: '5',
                     label: '待定:未接，不接，暂时无法联系上的，拒接小于三次的'
                 }
             ],
@@ -910,7 +924,20 @@ export default {
             // 是否显示查看
             showList:false,
             // 推广
-            searchExtendId:[]
+            searchExtendId:[],
+            // 是否弹出修改意向度的弹框
+            intentionModal:false,
+            // 选择的意向度
+            formValidateIntention:{
+                modelIntention:'',
+            },
+            ruleValidateIntention: {
+                modelIntention: [
+                    { required: true,  message: '意向度不能为空', trigger: 'change' }
+                ],
+            },
+            // 客户姓名
+            titleName:''
         }
     },
     // 灵活性表头
@@ -940,6 +967,34 @@ export default {
                     width: 120,
                     key: 'channels',
                     fixed: 'left'
+                },
+                {
+                    title: '意向度',
+                    width:75,
+                    key: 'intention', 
+                    fixed: 'left',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('a', {
+                                class: 'handle',
+                                style: {
+                                    color: '#495060',
+                                    fontSize: '12px',
+                                },
+                                domProps: {
+                                    title: '点击修改意向度'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.intentionModal=true;
+                                        this.rowid = params.row.id;
+                                        this.titleName=params.row.username;
+                                        this.formValidateIntention.modelIntention=params.row.intention;
+                                    }
+                                }
+                            }, params.row.intention),
+                        ])
+                    }
                 },
                 {
                     title:'推广',
@@ -1440,12 +1495,32 @@ export default {
                 },
             ];
             // 根据是否要显示金额来动态的显示表头的销售金额这一列
-            let item3 = {
-                title: '意向度',
-                width:75,
-                key: 'intention', 
-                fixed: 'left'
-            };
+            // let item3 = {
+            //     title: '意向度',
+            //     width:75,
+            //     key: 'intention', 
+            //     fixed: 'left',
+            //     render: (h, params) => {
+            //         return h('div', [
+            //             h('a', {
+            //                 class: 'handle',
+            //                 style: {
+            //                     color: '#495060',
+            //                     fontSize: '12px',
+            //                 },
+            //                 domProps: {
+            //                     title: '点击修改意向度'
+            //                 },
+            //                 on: {
+            //                     click: () => {
+            //                         this.intentionModal=true;
+            //                         this.rowid = params.row.id;
+            //                     }
+            //                 }
+            //             }, params.row.intention),
+            //         ])
+            //     }
+            // };
             let item4 =  {
                 title: '门店',
                 width: 70,
@@ -1473,7 +1548,7 @@ export default {
                     ])
                 }
             };
-            this.searchParams.purposemodel.length !== 0 && arr.splice(4,0, item3)
+            // this.searchParams.purposemodel.length !== 0 && arr.splice(4,0, item3)
             this.searchParams.shopmodel.length !== 0 && arr.splice(4,0,item4);
             return arr;
         }
@@ -2922,7 +2997,58 @@ export default {
                     
                 }
             })
-        }
+        },
+        /**
+         * 编辑意向度时选择到哪个意向度
+         */
+         getIntention(data) {
+            this.formValidateIntention.modelIntention = data;
+           
+        },
+        /**
+         * 提交修改意向度请求
+         */
+         editIntentionQuery(name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    this.$resetAjax({
+                        type: 'POST',
+                        url: '/NewA/Customer/update_intention',
+                        data: {
+                            id: this.rowid,
+                            intention: this.formValidate.modelIntention
+                        },
+                        success: (res) =>{
+                            this.intentionModal = false;
+                            this.$Message.success('修改成功！');
+                            this.getCustomerList();
+                        }
+                    })
+                }
+            })
+            
+        },
+        // 批量修改客户意向度
+        handleIntention(){
+            if(this.selectionData.length!==0){
+                this.$Modal.confirm({
+                    content: '是否批量修改客户意向度？',
+                    onOk:()=>{
+                        this.titleName='批量修改客户意向度'
+                        this.intentionModal=true;
+                        this.rowid=this.selectionData.map(ele => {
+                            return ele.id
+                        });
+                    }
+                });
+            }else {
+                this.$root.tip.isShow = true;
+                this.$root.tip.content = '修改前,请先勾选您要修改的客户!!!';
+                setTimeout(() => {
+                    this.$root.tip.isShow = false;
+                }, 3000);
+            }
+        },
     }
 }
 </script>

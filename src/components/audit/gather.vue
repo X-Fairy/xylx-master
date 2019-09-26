@@ -9,20 +9,33 @@
                 </div>
             </div>
             <div class="right">
-                
+                <Button @click="daochuModal=true">导出列表</Button>
             </div>
         </div>
         <div class="table">
             <Table  :columns="columns" :data="tableData" border :height="tableHeight"></Table>
         </div>
-        
+        <Modal class="addModal" v-model="daochuModal" title="选择时间区间">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <FormItem label="开始时间" prop="startTime">
+                    <DatePicker v-model='formValidate.startTime' type="month"  :options="options"  placeholder="请选择开始时间" ></DatePicker>
+                </FormItem>
+                <FormItem label="截至时间" prop="endTime">
+                    <DatePicker v-model='formValidate.endTime' type="month" :options="options"  placeholder="请选择截至时间"></DatePicker>
+                </FormItem>
+                <FormItem>
+                    <Button type="ghost" style="margin-right: 8px"  @click="daochuModal=false">确定</Button>
+                    <Button type="primary" @click="handleSubmit('formValidate')">确定</Button>
+                </FormItem>
+            </Form>
+        </Modal>
     </div>
 </template>
 
 
 <script>
 
-import {changeTime} from  '@/assets/js/tool.js'
+import {changeday} from  '@/assets/js/tool.js'
 
 export default {
     data() { 
@@ -115,6 +128,23 @@ export default {
             tableData: [],
             // 表格高度
             tableHeight: 900,
+            // 是否显示导出数据弹出框
+            daochuModal:false,
+            // 表单数据
+            formValidate:{
+                startTime:'',
+                endTime:''
+            },
+            ruleValidate: {
+                startTime: [
+                    { required: true, type: 'date', message: '时间不能为空', trigger: 'change' }
+                ],
+                endTime: [
+                    { required: true, type: 'date', message: '时间不能为空', trigger: 'change' }
+                ],
+            },
+            // 导出列表选择得时间
+            dateArr:[]
         }
     },
 
@@ -170,8 +200,60 @@ export default {
                 }
             })
         },
-        
-        
+        //导出列表
+        handleSubmit (name) {
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    let arr=[];
+                    let num='';
+                    for(let i in this.formValidate){
+                        num=changeday(Number(this.formValidate[i]));
+                        arr.push(num);
+                    }
+                    let start=arr[0];
+                    let end=arr[1];
+                    this.getYearAndMonth(start, end);
+                    let url='';
+                    for(let i=0;i<this.dateArr.length;i++){
+                        url+=('time[]='+this.dateArr[i]+'&');
+                    }
+                    location.href = `http://oa.xmvogue.com/index.php/NewA/Audit/daochu?${url}`;
+                } else {
+                   
+                }
+            })
+        },
+        getYearAndMonth(start, end) {
+            var result = [];
+            var starts = start.split('-');
+            var ends = end.split('-');
+            var staYear = parseInt(starts[0]);
+            var staMon = parseInt(starts[1]);
+            var endYear = parseInt(ends[0]);
+            var endMon = parseInt(ends[1]);
+            result.push(staYear+"-"+starts[1]);
+            result.push(endYear+"-"+ends[1]);
+            while (staYear <= endYear) {
+                if (staYear === endYear) {
+                    while (staMon < endMon) {
+                        staMon++;
+                        staMon = "0"+staMon;
+                        result.push(staYear+"-"+staMon);
+                    }
+                    staYear++;
+                } else {
+                    staMon++;
+                    if (staMon > 12) {
+                        staMon = 1;
+                        staYear++;
+                    }
+                    staMon = "0"+staMon;
+                    result.push(staYear+"-"+staMon);
+                }
+            }
+            result.splice(1,1);
+            this.dateArr=result;
+        }
         
     }
 }

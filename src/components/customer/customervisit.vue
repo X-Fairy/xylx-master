@@ -284,17 +284,18 @@ export default {
             this.customer.has_store = this.urlParams.has_store;
             this.customer.channel = this.urlParams.channels;
             var intention = this.urlParams.intention;
+            console.log(intention);
             switch(intention) {
-                case '1': 
+                case 'A': 
                     this.customer.intention = 'A(对我们品牌有直接兴趣的客户)';
                     break;
-                case '2':
+                case 'B':
                     this.customer.intention = 'B(对我们行业有直接兴趣的客户)'
                     break;
-                case '3':
+                case 'C':
                     this.customer.intention = 'C(对投资开店有直接兴趣的客户)'
                     break;
-                case '4':
+                case 'D':
                     this.customer.intention = 'D(无效客户)'
                     break;
                 default: 
