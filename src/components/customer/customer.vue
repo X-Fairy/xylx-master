@@ -157,7 +157,7 @@
                     <!-- 客户数据 -->
                     <div class="table" :style="styleObject">
                         <button class="checkMore" @click="editLower">多项修改所属招商</button>
-                        <button class="checkMore" style="margin-left: 20px;" @click="handleIntention" v-if="tableShow">批量修改意向度</button>
+                        <button class="checkMore" style="margin-left: 20px;background: rgb(243, 90, 89);color: #fff;border-color: rgb(243, 90, 89);" @click="handleIntention" v-if="tableShow">批量修改意向度</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubsea" v-if="tableShow">放入公海池</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubclaim" v-else>批量认领</button>
                         <!-- <button class="checkMore searchD" style="margin-left: 20px;" @click="searchD">查看D类客户</button> -->

@@ -3,12 +3,20 @@
         <div class="top">
             <div class="left">
                 <span class="title">门店</span>
-                <Select v-model="store" style="width:300px" @on-change="changeStore(store)">
+                <Select v-model="store" style="width:300px">
                     <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE"><p class="item"><span class="itemStyle">店名</span> {{ item.NAME  }} </p><span class="itemStyle two">编码</span>{{item.CODE}}</Option>
                 </Select>
+                <Button slot="append" icon="ios-search" @click="changeStore"></Button>
+                <Button type="primary" @click="addcard" class="add">新增储值卡</Button>
             </div>
             <div class="right">
-                <Button type="primary" @click="addcard" class="add">新增储值卡</Button>
+                <div style="margin-right: 50px;">
+                    <DatePicker class="month" :value="date" type="month" :options="options" placeholder="请选择时间" style="width: 150px" @on-change="getTime"></DatePicker>
+                    <Button slot="append"  @click="searchGather">汇总查询</Button>
+                </div>
+                
+<!--                 
+                <Button  @click="tableShow=false"  class="storeGather">门店汇总</Button> -->
                 <!-- <span class="title">日期</span>
                 <DatePicker :value="dateRange" type="daterange" :options="options" @on-change="getSelectTime" placeholder="请选择时间区间..." style="width: 200px"></DatePicker> -->
             </div>
@@ -44,11 +52,13 @@
             </p>
         </div>
         <div class="table">
-            <Table  :columns="columns" :data="tableData" border :height="tableHeight"></Table>
+            <Table  :columns="columns" :data="tableData" border :height="tableHeight" v-if='tableShow'></Table>
+            <!-- 门店汇总列表 -->
+            <Table  :columns="gathercolumns" :data="gatherData" border :height="tableHeight" v-else></Table>
         </div>
         <!-- 分页 -->
         <div class="footer">
-            <Page :total="total" :page-size="pageSize" @on-change="changePage" :current="currentPage" show-elevator show-total></Page>
+            <Page v-if='tableShow' :total="total" :page-size="pageSize" @on-change="changePage" :current="currentPage" show-elevator show-total></Page>
         </div>
         <!-- 全局查看图片轮播图 -->
         <div class="carouselcontent" v-if="gloadCarouse">
@@ -332,6 +342,57 @@
                 weicun: 0,
                 //  启用时期初未存金额
                 unsave:0,
+                // 是否显示门店汇总列表
+                tableShow:true,
+                // 选择汇总时间
+                date:'',
+                // 时间限制
+                options: {
+                    disabledDate (date) {
+                        return date && date.valueOf() >= Date.now();
+                    }
+                },
+                // 门店汇总表头
+                gathercolumns: [
+                    {
+                        title: '门店编号',
+                        align: 'center',
+                        key: 'CODE',
+                    },
+                    {
+                        title: ' 门店名称',
+                        align: 'center',
+                        key: 'NAME',
+                    },
+                    {
+                        title: '期初储值卡未存现金',
+                        align: 'center',
+                        key:'qcwcje'
+                    },
+                    {
+                        title: ' 本期储值卡充值金额',
+                        align: 'center',
+                        key: 'bqczje' 
+                    },
+                    {
+                        title: '本期储值卡赠送金额',
+                        align: 'center',
+                        key: 'bqzsje'
+                    },
+                    
+                    {
+                        title: '本期储值卡实存金额',
+                        align: 'center',
+                        key: 'bqscje'
+                    },
+                    {
+                        title: '期末储值卡未存现金',
+                        align: 'center',
+                        key: 'qmwcje' ,
+                    },
+                ],
+                // 门店汇总数据
+                gatherData:[]
             }
         },
         created(){
@@ -354,7 +415,8 @@
             /**
              * 选中到哪个直营门店
              */
-            changeStore(store) {   
+            changeStore() {
+                this.tableShow=true;  
                 this.currentPage = 1;
                 this.getCardlist();
             },
@@ -380,6 +442,49 @@
                         this.weicun=this.unsave+this.yincun-this.shicun;
                     }
                 })
+            },
+             /**
+            *  选择时间
+            */
+            getTime(value) {
+                this.date=value;
+            },
+            /* 获取门店汇总数据 */
+            searchGather(){
+                if(this.date==''){
+                    $('.month').addClass('error');
+                }else{
+                    $('.month').removeClass('error');
+                    this.tableShow=false;
+                    this.$resetAjax({
+                        url:'/NewA/Audit/cardreport',
+                        type:'get',
+                        data:{
+                            time:this.date
+                        },
+                        success:(res)=>{
+                            this.gatherData=res.data;
+                            this.gatherData.forEach(ele=>{
+                                if(typeof(ele.bqczje)==='undefined'){
+                                    ele.bqczje='0.00'
+                                }
+                                if(typeof(ele.bqscje)==='undefined'){
+                                    ele.bqscje='0.00'
+                                }
+                                if(typeof(ele.bqzsje)==='undefined'){
+                                    ele.bqzsje='0.00'
+                                }
+                                if(typeof(ele.qcwcje)==='undefined'){
+                                    ele.qcwcje='0.00'
+                                }
+                                if(typeof(ele.qmwcje)==='undefined'){
+                                    ele.qmwcje='0.00'
+                                }
+                            })
+                        }
+                    })
+                }
+               
             },
             /* 新增储值卡 */
             addcard(){
@@ -413,6 +518,7 @@
                                     this.addModal=false;
                                     if(res.msg=="success") {
                                         this.$Message.success('新增成功');
+                                        this.tableShow=true;
                                         this.getCardlist();
                                     } else{
                                         this.$Message.error('新增失败')
@@ -433,6 +539,7 @@
                                     url:this.cardForm.url
                                 },
                                 success:(res)=>{
+                                    this.tableShow=true;
                                     this.cardForm=[];
                                     this.addModal=false;
                                     if(res.msg=="success") {

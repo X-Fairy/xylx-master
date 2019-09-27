@@ -284,7 +284,6 @@ export default {
             this.customer.has_store = this.urlParams.has_store;
             this.customer.channel = this.urlParams.channels;
             var intention = this.urlParams.intention;
-            console.log(intention);
             switch(intention) {
                 case 'A': 
                     this.customer.intention = 'A(对我们品牌有直接兴趣的客户)';

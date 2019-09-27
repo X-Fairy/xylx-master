@@ -3,14 +3,30 @@
     height: 100%;
     background: #fff;
     position: relative;
-    .right .add{
-        margin-right: 100px;
+    .left .add{
+        margin-left: 30px;
         background: @bgColor;
         border-color: @bgColor;
         cursor: pointer;
         &:hover{
             background: #1fa8c0;
         }
+    }
+    .right{
+        margin-right: 10px;
+        button{
+            background: @bgColor;
+            border-color: @bgColor;
+            color: #fff;
+            cursor: pointer;
+            &:hover{
+                background: #1fa8c0;
+            }
+        }
+        .error .ivu-input{
+            border:1px solid red !important;
+        }
+        
     }
     .table{
         top: 130px;
