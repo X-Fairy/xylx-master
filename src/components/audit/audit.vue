@@ -39,6 +39,10 @@
                  未存现金
                 <span class="cash">￥{{cha}}</span>
             </p>
+            <p style="background: #1596ad;color: #fff;height: 33px;line-height: 26px;">
+                销售总额
+                <span class="cash" style="color:#fff;">￥{{total_sale}}</span>
+            </p>
         </div>
         <div class="table">
             <Table  :columns="columns" :data="tableData" border :height="tableHeight"></Table>
@@ -64,8 +68,14 @@
         <audit-modal :hasShow="isShow" :formValidate="formValidate" @asyncOK="asyncOK" ref="auditModal" @updateHasShow="updateHasShow"></audit-modal>
         <!--输入金额  -->
         <Modal v-model="amountShow" :title="modalTitle" >
-            <span>金额：</span>
-            <Input v-model="money" placeholder="输入金额" style="width: 300px;margin: auto;"  type="number" ></Input>
+            <div>
+                <span>金额：</span>
+                <Input v-model="money" placeholder="输入金额" style="width: 300px;margin: auto;"  type="number" ></Input>
+            </div>
+            <div :class="modalTitle=='其他支出' ? '' : 'none'">
+                <span>备注</span>
+                <Input v-model="notes" type="textarea" placeholder="请输入支出备注..."></Input>
+            </div>
             <div slot="footer">
                 <Button  @click="amountShow=false" style="display: inline-block">取消</Button>
                 <Button type="primary" @click="amount" >确定</Button>
@@ -276,6 +286,8 @@ export default {
             total_jk: '0',
             // 未存现金总额
             cha: '0',
+            // 销售总额
+            total_sale:'0',
             //  启用时期初未存金额
             unsave:'0',
             // 是否显示查看图片弹出框
@@ -287,6 +299,8 @@ export default {
             modalTitle:'',
             // 输入金额
             money:'',
+            // 输入备注
+            notes:'',
             // 表格当前行
             row:[]
         }
@@ -372,6 +386,7 @@ export default {
                     this.total_jk = res.total_jk;
                     this.cha = res.cha;
                     this.unsave=res.unsave;
+                    this.total_sale=res.total_sale;
                 }
             })
         },
@@ -438,7 +453,8 @@ export default {
                     type:'post',
                     data:{
                         store: this.store,
-                        money:this.money
+                        money:this.money,
+                        notes:this.notes
                     },
                     success:(res)=>{
                         if(res.errorcode==0){

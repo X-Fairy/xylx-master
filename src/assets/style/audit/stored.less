@@ -3,14 +3,8 @@
     height: 100%;
     background: #fff;
     position: relative;
-    .left .add{
-        margin-left: 30px;
-        background: @bgColor;
-        border-color: @bgColor;
-        cursor: pointer;
-        &:hover{
-            background: #1fa8c0;
-        }
+    .left {
+        display: flex;
     }
     .right{
         margin-right: 10px;
@@ -37,6 +31,9 @@
 .addModal .ivu-modal{
     width: 600px !important;
     margin:auto;
+    .ivu-form-item {
+        margin-bottom: 15px !important;
+    }
     .imgs{
        
         .close_icon{

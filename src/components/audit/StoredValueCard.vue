@@ -2,12 +2,19 @@
     <div class="stored">
         <div class="top">
             <div class="left">
-                <span class="title">门店</span>
-                <Select v-model="store" style="width:300px">
-                    <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE"><p class="item"><span class="itemStyle">店名</span> {{ item.NAME  }} </p><span class="itemStyle two">编码</span>{{item.CODE}}</Option>
-                </Select>
-                <Button slot="append" icon="ios-search" @click="changeStore"></Button>
-                <Button type="primary" @click="addcard" class="add">新增储值卡</Button>
+                <div>
+                    <span class="title">门店</span>
+                    <Select v-model="store" style="width:300px" @on-change="changeStore">
+                        <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE"><p class="item"><span class="itemStyle">店名</span> {{ item.NAME  }} </p><span class="itemStyle two">编码</span>{{item.CODE}}</Option>
+                    </Select>
+                    <!-- <Button slot="append" icon="ios-search" ></Button> -->
+                </div>
+                <div style="margin-left: 50px;">
+                    <span class="title">时间筛选</span>
+                    <DatePicker :value="dateRange" type="daterange" :options="options" @on-change="getSelectTime" placeholder="请选择时间区间..." style="width: 200px"></DatePicker>
+                   
+                </div>
+                
             </div>
             <div class="right">
                 <div style="margin-right: 50px;">
@@ -50,6 +57,7 @@
                     未存现金
                 <span class="cash">￥{{weicun}}</span>
             </p>
+            <Button type="primary" @click="addcard" class="add">新增储值卡</Button>
         </div>
         <div class="table">
             <Table  :columns="columns" :data="tableData" border :height="tableHeight" v-if='tableShow'></Table>
@@ -151,6 +159,8 @@
                 storeList: [],
                 // 选中哪个直营门店
                 store: '11373',
+                // 时间范围选择
+                dateRange: [],
                 // 新增储值卡弹出框是否显示
                 addModal:false,
                 // 弹出框标题：
@@ -168,19 +178,19 @@
                 // 表单验证
                 ruleValidate: {
                     date: [
-                        { required: true, type: 'date',message: '销售日期不能为空', trigger: 'change' },
+                        { required: true, type: 'date',message: '销售日期不能为空', trigger: 'blur' },
                     ],
                     recharge: [
-                        { required: true, message: '储值卡现金充值不能为空', trigger: 'change' }
+                        { required: true, message: '储值卡现金充值不能为空', trigger: 'blur' }
                     ],
                     payable: [
-                        { required: true, message: '应存现金不能为空', trigger: 'change' }
+                        { required: true, message: '应存现金不能为空', trigger: 'blur' }
                     ],
                     give: [
-                        { required: true, message: '储值卡赠送金额不能为空', trigger: 'change' }
+                        { required: true, message: '储值卡赠送金额不能为空', trigger: 'blur' }
                     ],
                     actual: [
-                        { required: true, message: '实存现金不能为空', trigger: 'change' }
+                        { required: true, message: '实存现金不能为空', trigger: 'blur' }
                     ],
                 },
                 // 是否显示查看图片按钮
@@ -418,6 +428,20 @@
             changeStore() {
                 this.tableShow=true;  
                 this.currentPage = 1;
+                // this.dateRange = [];
+                this.getCardlist();
+            },
+            /**
+            *  选择时间
+            */
+            getSelectTime(value) {
+                this.tableShow=true;  
+                this.currentPage = 1;
+                if (value[0] == "" || value[1] == "") {
+                    this.dateRange = [];
+                } else {
+                    this.dateRange = value;
+                }
                 this.getCardlist();
             },
             /* 获取数据 */
@@ -429,7 +453,8 @@
                     type:'get',
                     data:{
                         p:this.currentPage,
-                        store:this.store
+                        store:this.store,
+                        time:this.dateRange
                     },
                     success:(res)=>{
                         this.tableData=res.data;
@@ -494,7 +519,8 @@
                 this.carouse=false;
                 this.cardForm={ 
                     store: this.store, 
-                }
+                };
+              
             },
             // 提交表单
             handleSubmit (name) {
@@ -514,7 +540,7 @@
                                     url:this.cardForm.url
                                 },
                                 success:(res)=>{
-                                    this.cardForm=[];
+                                    this.cardForm={};
                                     this.addModal=false;
                                     if(res.msg=="success") {
                                         this.$Message.success('新增成功');
@@ -540,7 +566,7 @@
                                 },
                                 success:(res)=>{
                                     this.tableShow=true;
-                                    this.cardForm=[];
+                                    this.cardForm={};
                                     this.addModal=false;
                                     if(res.msg=="success") {
                                         this.$Message.success('修改成功')
