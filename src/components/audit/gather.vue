@@ -24,7 +24,7 @@
                     <DatePicker v-model='formValidate.endTime' type="month" :options="options"  placeholder="请选择截至时间"></DatePicker>
                 </FormItem>
                 <FormItem>
-                    <Button type="ghost" style="margin-right: 8px"  @click="daochuModal=false">确定</Button>
+                    <Button type="ghost" style="margin-right: 8px"  @click="daochuModal=false">取消</Button>
                     <Button type="primary" @click="handleSubmit('formValidate')">确定</Button>
                 </FormItem>
             </Form>
@@ -223,6 +223,7 @@ export default {
                 }
             })
         },
+        // 获取区间时间的所有月份
         getYearAndMonth(start, end) {
             var result = [];
             var starts = start.split('-');

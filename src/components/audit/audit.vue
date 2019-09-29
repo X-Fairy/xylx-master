@@ -2,14 +2,20 @@
     <div class="audit">
         <div class="top">
             <div class="left">
-                <span class="title">门店</span>
-                <Select v-model="store" style="width:300px" @on-change="changeStore(store)">
-                    <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE"><p class="item"><span class="itemStyle">店名</span> {{ item.NAME  }} </p><span class="itemStyle two">编码</span>{{item.CODE}}</Option>
-                </Select>
+                <div style="margin-right: 50px;">
+                    <span class="title">门店</span>
+                    <Select v-model="store" style="width:300px" @on-change="changeStore(store)">
+                        <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE"><p class="item"><span class="itemStyle">店名</span> {{ item.NAME  }} </p><span class="itemStyle two">编码</span>{{item.CODE}}</Option>
+                    </Select>
+                </div>
+                <div>
+                    <span class="title">日期</span>
+                    <DatePicker :value="dateRange" type="daterange" :options="options" @on-change="getSelectTime" placeholder="请选择时间区间..." style="width: 200px"></DatePicker>
+                </div>
             </div>
             <div class="right">
-                <span class="title">日期</span>
-                <DatePicker :value="dateRange" type="daterange" :options="options" @on-change="getSelectTime" placeholder="请选择时间区间..." style="width: 200px"></DatePicker>
+                <Button @click="handleSubmit">导出列表</Button>
+                <Button @click="allstore" style="background: #1596ad;color: #fff;">导出全部门店</Button>
             </div>
         </div>
         <div class="middle">
@@ -81,6 +87,21 @@
                 <Button type="primary" @click="amount" >确定</Button>
             </div>
         </Modal>
+        <!-- 导出列表 -->
+        <!-- <Modal class="addModal" v-model="daochuModal" title="选择时间区间">
+            <Form ref="formValidateDate" :model="formValidateDate" :rules="ruleValidateDate" :label-width="80">
+                <FormItem label="开始时间" prop="startTime">
+                    <DatePicker v-model='formValidateDate.startTime' type="month"   placeholder="请选择开始时间" ></DatePicker>
+                </FormItem>
+                <FormItem label="截至时间" prop="endTime">
+                    <DatePicker v-model='formValidateDate.endTime' type="month"  placeholder="请选择截至时间"></DatePicker>
+                </FormItem>
+                <FormItem>
+                    <Button type="ghost" style="margin-right: 8px"  @click="daochuModal=false">取消</Button>
+                    <Button type="primary" @click="handleSubmit('formValidateDate')">确定</Button>
+                </FormItem>
+            </Form>
+        </Modal> -->
     </div>
 </template>
 
@@ -88,6 +109,7 @@
 <script>
 
 import {changeTime} from  '@/assets/js/tool.js'
+import {changeday} from  '@/assets/js/tool.js'
 import tipModal from '../tip.vue'
 import auditModal from '@/components/audit/audit-modal'   // 引入缴款清单模态框组件
 
@@ -302,7 +324,24 @@ export default {
             // 输入备注
             notes:'',
             // 表格当前行
-            row:[]
+            row:[],
+            // 时间弹出框
+            daochuModal:false,
+            // 表单数据
+            formValidateDate:{
+                startTime:'',
+                endTime:''
+            },
+            ruleValidateDate: {
+                startTime: [
+                    { required: true, type: 'date', message: '时间不能为空', trigger: 'change' }
+                ],
+                endTime: [
+                    { required: true, type: 'date', message: '时间不能为空', trigger: 'change' }
+                ],
+            },
+            // 导出列表选择得时间
+            dateArr:[]
         }
     },
 
@@ -509,8 +548,31 @@ export default {
                     }
                 })
             }
-            
-        }
+        },
+        //导出列表
+        handleSubmit () {
+            if(this.dateRange.length==0){
+                this.$root.tip.isShow = true;
+                this.$root.tip.content = '请填写时间';
+                setTimeout(() => {
+                    this.$root.tip.isShow = false;
+                }, 1500);
+            }else{
+                location.href = `http://oa.xmvogue.com/index.php/NewA/Audit/dcindex?store_code=${this.store}&timelist[0]=${this.dateRange[0]}&timelist[1]=${this.dateRange[1]}`;
+            }
+        },
+       /* 导出所有门店 */
+       allstore(){
+            if(this.dateRange.length==0){
+                this.$root.tip.isShow = true;
+                this.$root.tip.content = '请填写时间';
+                setTimeout(() => {
+                    this.$root.tip.isShow = false;
+                }, 1500);
+            }else{
+                location.href = `http://oa.xmvogue.com/index.php/NewA/Audit/allstore?time[0]=${this.dateRange[0]}&time[1]=${this.dateRange[1]}`;
+            }
+       }
     }
 }
 
