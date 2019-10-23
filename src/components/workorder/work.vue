@@ -227,7 +227,6 @@ import { create } from 'domain';
             * 选择监督人的id
             */
             supervisor(value){
-                console.log(this.model);
                 if (value) { 
                     $('.supervisorid .ivu-form-item-error-tip').css({display: 'none'});
                     $('.supervisorid .ivu-select-selection').css({border: '1px solid #fff'})

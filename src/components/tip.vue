@@ -18,7 +18,7 @@ export default {
 
 <style lang="less" scoped>
 .success{
-        z-index: 1000000;
+        z-index: 1000000000000000000000000;
         position: fixed;
         left:45%;
         top: 50%;

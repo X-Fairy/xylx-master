@@ -15,11 +15,18 @@ Vue.use(BaiduMap, {
   // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
   ak: 'AW4NMrvKPWEKZbWnVFjz9d7QpjWtiTp3'
 })
+import VueAwesomeSwiper from 'vue-awesome-swiper' // 引入轮播
+import 'swiper/dist/css/swiper.css'
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
+
+import './assets/icon/iconfont.css'            // 引入阿里巴巴矢量图样式
 import VueQuillEditor from 'vue-quill-editor'  // 富文本编辑器
 import 'quill/dist/quill.core.css'   // 富文本编辑器
 import 'quill/dist/quill.snow.css'   // 富文本编辑器
 import 'quill/dist/quill.bubble.css'   // 富文本编辑器
 Vue.use(VueQuillEditor)    // 富文本编辑器
+import md5 from 'js-md5';  
+Vue.prototype.$md5 = md5;  // 将md5转换成vue原型
 
 Vue.component('Echart', ECharts);
 Vue.use(iView);

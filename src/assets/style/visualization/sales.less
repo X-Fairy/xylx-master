@@ -1,0 +1,236 @@
+.sales{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .top{
+        height: 8%;
+        width: 100%;
+        .top_inner{
+            width: 1500px;
+            height: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // 时间弹窗
+            .ivu-select-dropdown{
+                background: #13266b url(../../images/view/pop_back.png) center center no-repeat; 
+                background-size: 100% 100%;
+                color:#fff;
+                .ivu-date-picker-cells-cell:hover em{
+                    background: #7efafc;
+                    color:#000;
+                }
+                span.ivu-date-picker-cells-cell-disabled{
+                    background: #0d183c;
+                    &:hover em{
+                        background: #0d183c;
+                        color:#000;
+                    }
+                }
+                .ivu-date-picker-cells-cell-range:before{
+                    background: #0d183c;
+                }
+            }
+            .check{
+                width: 60px;
+                height: 30px;
+                margin-top: 1px;
+                cursor: pointer;
+                display: flex;
+                position: relative;
+                margin-left: 15px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+                span{
+                    position: absolute;
+                    color:#fff;
+                    left: 18px;
+                    top:5px;
+                    font-size: 14px;
+                    &:hover{
+                        color:#40c3c4;
+                    }
+                }
+            }
+            .inner_left{
+                font-size: 18px;
+                color:#fff;
+            }
+            .inner_right{
+                display: flex;
+                justify-content: space-around;
+                .area{
+                    margin: 0 25px;
+                }
+                .ivu-input-icon-normal + .ivu-input, .ivu-input {
+                    background: #162e48;
+                    border-color: #2d8cf0;
+                    color: #fff;
+                }
+            }
+        }
+    }
+    .divide-wrap{
+        position: relative;
+        height: 1px;
+        z-index: 1;
+        .colorbar-before{
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 9;
+            background-color: #1b24ff;
+        }
+        .colorbar-after{
+            content: "";
+            position: absolute;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 9;
+            background-color: #fd0371;
+        }
+        .colorbar{
+            width: 100%;
+            height: 100%;
+            z-index: 11;
+            background: url(//fanyi.bdstatic.com/static/translation/img/header/colorbar_623c2a2.png) center no-repeat;
+            position: relative;
+        }
+    }
+    .sales_contanier{
+        position: absolute;
+        top: 100px;
+        bottom: 10px;
+        width: 100%;
+        .contanier_inner{
+            width: 100%;
+            padding: 0 15px;
+            margin: 0 auto;
+            height: 100%;
+            background: url(../../images/view/5c3edc29e782a.png) center center no-repeat;
+            background-size: 100% 100%;
+            padding-top: 80px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-around;
+            .table{
+                width:42%;
+                height: 87%;
+                border: 1px solid #5296ad;
+                border-bottom: 0;
+                margin-top: 6px;
+                box-sizing: border-box;
+                .ivu-table-wrapper{
+                    background: transparent;
+                    border: 0;
+                    height: 100% !important;
+                    thead{
+                        th{
+                            border-bottom: 1px solid #467eef;
+                        }
+                    }
+                    .ivu-table{
+                        background: transparent;
+                        color:#4fb4bb;
+                        td{
+                            background: transparent;
+                            border-bottom: 1px solid #1a2a42;
+                            box-sizing: border-box;
+                        }
+                        th{
+                            background: transparent;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ivu-page{
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 9px;
+        color: #00e1ff;
+        .ivu-page-next, .ivu-page-prev{
+            background: transparent;
+            border-color:#155dff;
+        }
+        .ivu-page-options-elevator input{
+            color: #ff6302;
+            text-align: center;
+            background: transparent;
+            border-color:#155dff;
+        }
+        .ivu-page-item-active {
+            background-color: #00e1ff;
+            border-color: #2d8cf0;
+            a{
+                color:#000;
+            }
+        }
+    }
+    // 提示
+    .tip{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 290px;
+        height: 105px;
+        box-shadow: #fff;
+        background: url(../../images/view/5bf20422adbb84.png) 1px center no-repeat;
+        background-size: 100% 100%;
+        z-index: 100;
+        border-radius: 9px;
+        box-shadow: 0 3px 9px 2px #fc5e8d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        color: #01feff;
+    }
+    /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+    ::-webkit-scrollbar  
+    {  
+        width: 10px;    
+        background-color: transparent;  
+    }  
+
+    /*定义滚动条轨道 内阴影+圆角*/  
+    ::-webkit-scrollbar-track  
+    {  
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+        border-radius: 10px;  
+        background-color: #070e26;  
+    }  
+
+    /*定义滑块 内阴影+圆角*/  
+    ::-webkit-scrollbar-thumb{  
+        border-radius: 10px;  
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+        background-image: linear-gradient( 135deg, #2AFADF 10%, #4C83FF 100%);
+    }  
+    /*定义最上方和最下方的按钮*/
+    ::-webkit-scrollbar-button{
+        background-image: linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%);
+        border:1px solid yellow;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -91,5 +91,9 @@ export default {
 	}
 	.ivu-message{
 		top:50% !important;
+		font-size: 16px !important;
+	}
+	.ivu-carousel-dots-inside {
+		bottom: -10px !important;
 	}
 </style>

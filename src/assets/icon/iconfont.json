@@ -1,0 +1,58 @@
+{
+  "id": "1318031",
+  "name": "ximei",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "582413",
+      "name": "回访",
+      "font_class": "huifang",
+      "unicode": "e6a4",
+      "unicode_decimal": 59044
+    },
+    {
+      "icon_id": "637759",
+      "name": "订单",
+      "font_class": "dingdan",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "2164251",
+      "name": "上传图片_f",
+      "font_class": "shangchuantupian_f",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    },
+    {
+      "icon_id": "4318811",
+      "name": "PDF",
+      "font_class": "PDF",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "5700809",
+      "name": "excel",
+      "font_class": "excel",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "7159332",
+      "name": "下载",
+      "font_class": "xiazai",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "9881673",
+      "name": "KHCFDC_WORD",
+      "font_class": "WORD",
+      "unicode": "e6eb",
+      "unicode_decimal": 59115
+    }
+  ]
+}

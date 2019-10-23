@@ -612,7 +612,6 @@ export default {
          */
         submitModal() {
             if (this.customer_title == '新增客户') {
-                console.log(this.inputForm.inputPhone[0].tel);
                 for(let i in this.inputForm.inputPhone){
                     if(this.inputForm.inputPhone[i].tel.trim()===''){
                         this.$root.tip.isShow = true;
@@ -693,7 +692,7 @@ export default {
                                             let phone=this.inputForm.inputPhone.map(item => item.tel.trim());
                                             let routeData= this.$router.resolve({ name: 'customervisit', query: {isaim: 1,id:id, name: this.inputForm.inputName, phone: phone, channels: this.inputForm.inputSource, intention: this.inputForm.intentionality,isShow:2} });
                                         
-                                        window.open(routeData.href, '_blank');
+                                            window.open(routeData.href, '_blank');
                                         }
                                     }
                                 })
@@ -767,6 +766,8 @@ export default {
                                 this.$root.tip.isShow = false;
                                 this.$router.push({path: 'customer'});
                             }, 2000);
+                            let routeData4= this.$router.resolve({ name: 'customervisit', query: { isShow:2,isaim: 2, name: this.inputForm.inputName, id: Number(this.customer_id), phone: this.inputForm.inputPhone, channels: this.inputForm.inputSource, has_store: this.inputForm.hasExperience, intention: this.inputForm.intentionality} });
+                            window.open(routeData4.href, '_blank');
                         }
                     }
                 })

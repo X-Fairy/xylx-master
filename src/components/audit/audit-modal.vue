@@ -16,7 +16,7 @@
                 <Input v-model="formValidate.monery" type="number" placeholder="请输入缴款金额..."  /> 
             </FormItem>
             <FormItem prop="imgs">
-                <Upload v-model="formValidate.imgs" style="display: inline-block;margin-left: 13px;margin-top:5px;" multiple action="/NewA/Audit/getimage" :on-success="uploadImage" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError">
+                <Upload v-model="formValidate.imgs" style="display: inline-block;margin-left: 13px;margin-top:5px;" multiple action="/newoa/NewA/Audit/getimage" :on-success="uploadImage" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError">
                     <Button type="ghost" icon="images" class="ghost" >上传单据</Button>
                 </Upload>
                 <Button class="look_image" icon="eye" v-if="isShowImageButton" @click="carouse=true">查看单据</Button>
@@ -24,13 +24,13 @@
         </Form>
         <!-- 查看图片轮播图 -->
         <div class="carouselcontent" v-if="carouse">
-            <Icon type="ios-close-outline" class="close_icon" title="关闭弹窗" @click="carouse=false;"></Icon>
+            <Icon type="ios-close-outline" class="close_icon" title="关闭弹窗" @click="closeAudio"></Icon>
             <Carousel v-model="value1">
                 <CarouselItem v-for="(item,index) in imgs" :key="index">
                     <div class="demo-carousel"><img :src="item" alt="加载图片..."></div>
-                    <div class="bottom">
+                    <div class="bottom" >
                         <!-- <p>照片名称:<span>{{item.name}}</span></p> -->
-                        <Button title="点击删除当前这张图片" @click="deleteImage(item)">删除</Button>
+                        <Button title="点击删除当前这张图片" @click="deleteImage(item)" >删除</Button>
                     </div>
                 </CarouselItem>
             </Carousel>
@@ -84,7 +84,7 @@ export default {
             // 上传的单据：
             imgs:[],
             //  是否显示查看图片按钮
-            isShowImageButton: true,
+            isShowImageButton: false,
             //查看上传单据
             carouse:false,
             value1:0,
@@ -144,18 +144,20 @@ export default {
         */ 
         uploadImage(res) {
             if(res.msg=="success") {
-                this.$root.tip.isShow = true;
-                this.$root.tip.content = '上传成功!';
-                setTimeout(() => {
-                    this.$root.tip.isShow = false;
-                }, 1500);
+                // this.$root.tip.isShow = true;
+                // this.$root.tip.content = '上传成功!';
+                // setTimeout(() => {
+                //     this.$root.tip.isShow = false;
+                // }, 1500);
+                this.$Message.success('上传成功!')
                 this.imgs.push(res.data);
             } else{
-                this.$root.tip.isShow = true;
-                this.$root.tip.content = '上传失败!';
-                setTimeout(() => {
-                    this.$root.tip.isShow = false;
-                }, 1500);
+                // this.$root.tip.isShow = true;
+                // this.$root.tip.content = '上传失败!';
+                // setTimeout(() => {
+                //     this.$root.tip.isShow = false;
+                // }, 1500);
+                this.$Message.error('上传失败！')
             }
             if (this.imgs.length !== 0) {
                 this.isShowImageButton = true;
@@ -184,22 +186,28 @@ export default {
             });
             this.imgs.splice(index,1);
             this.isDelete = false;
-            this.$root.tip.isShow = true;
-            this.$root.tip.content = '删除图片成功!';
+            this.$Message.success('删除图片成功!');
             this.value1=0;
-            setTimeout(() => {
-                this.$root.tip.isShow = false;
-            }, 1500);
+            // this.$root.tip.isShow = true;
+            // this.$root.tip.content = '删除图片成功!';
+            // this.value1=0;
+            // setTimeout(() => {
+            //     this.$root.tip.isShow = false;
+            // }, 1500);
             if (this.imgs.length == 0) {
                 this.carouse = false;
-                this.$root.tip.isShow = true;
-                this.$root.tip.content = '暂无上传图片!';
+                this.$Message.success('暂无上传图片!');
+                // this.$root.tip.isShow = true;
+                // this.$root.tip.content = '暂无上传图片!';
                 this.isShowImageButton = false;
-                setTimeout(() => {
-                    this.$root.tip.isShow = false;
-                }, 1500);
+                // setTimeout(() => {
+                //     this.$root.tip.isShow = false;
+                // }, 1500);
             }
         },
+        closeAudio(){
+            this.carouse=false;
+        }
     }
 }
 </script>

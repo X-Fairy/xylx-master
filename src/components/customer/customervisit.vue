@@ -104,7 +104,7 @@ export default {
     data() {
         return {
             // 标记选定
-            sign: '',
+            sign: [],
             // 标记数据
             signList:[
                 {
@@ -342,7 +342,8 @@ export default {
             // if (signmodel.length !==0) {
             //     signmodel = signmodel[signmodel.length - 1]
             // }
-            this.sign = [this.sign];
+            // this.sign = [this.sign];
+            console.log(this.sign)
             this.signHandle();
             
         },
@@ -355,7 +356,7 @@ export default {
                 url: '/NewA/Public/updatesign',
                 data: {
                     id: this.customer.custormer_id,
-                    sign: this.signmodel
+                    sign: this.sign
                 },
                 success: (res) =>{
                     this.modal1 = false;

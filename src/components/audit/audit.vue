@@ -15,7 +15,7 @@
             </div>
             <div class="right">
                 <Button @click="handleSubmit">导出列表</Button>
-                <Button @click="allstore" style="background: #1596ad;color: #fff;">导出全部门店</Button>
+                <Button @click="allstore" style="background: #1596ad;color: #fff;" v-if="position !== '店长'">导出全部门店</Button>
             </div>
         </div>
         <div class="middle">
@@ -66,7 +66,7 @@
                 </CarouselItem>
             </Carousel>
         </div>
-         <!-- 分页 -->
+        <!-- 分页 -->
         <div class="footer">
             <Page :total="total" :page-size="pageSize" @on-change="changePage" :current="currentPage" show-elevator show-total></Page>
         </div>
@@ -80,7 +80,7 @@
             </div>
             <div :class="modalTitle=='其他支出' ? '' : 'none'">
                 <span>备注</span>
-                <Input v-model="notes" type="textarea" placeholder="请输入支出备注..."></Input>
+                <Input v-model="notes" type="textarea" placeholder="请输入支出备注..." />
             </div>
             <div slot="footer">
                 <Button  @click="amountShow=false" style="display: inline-block">取消</Button>
@@ -122,6 +122,8 @@ export default {
     },
     data() { 
         return {
+            // 职位
+            position: '',
             // 直营门店数据
             storeList: [],
             // 选中哪个直营门店
@@ -361,8 +363,6 @@ export default {
     created() {
         // 得到门店数据
         this.getStoreList();
-        // 获取账户列表数据
-        this.getAudit();
     },
 
 
@@ -376,6 +376,8 @@ export default {
                 url: '/NewA/Audit/get_store',
                 success:(res) => {
                     this.storeList = res;
+                    this.store=res[0].CODE;
+                    this.getAudit();
                 }
             })
         },
@@ -417,10 +419,11 @@ export default {
                     this.tableData = res.data;
                     this.total = Number(res.count);
                     // 如果是门店店长，就不能对全部的直营门店进行选择
-                    if (res.position == '店长') {
-                        this.storeList = [];
-                        this.storeList.push(res.store_info);
-                    };
+                    // if (res.position == '店长') {
+                    //     this.storeList = [];
+                    //     this.storeList.push(res.store_info);
+                    // };
+                    this.position = res.position;
                     this.total_pay = res.total_pay;
                     this.total_jk = res.total_jk;
                     this.cha = res.cha;
@@ -454,16 +457,20 @@ export default {
                         imgs:this.formValidate.imgs //上传单据
                     },
                     success:(res) => {
-                        if (res.info) {
-                            // 成功了关掉模态框，并且重新请求数据。
-                            this.isShow = false;
+                        if(res.msg=='信息不匹配'){
+                            this.$Message.warning('信息不匹配！');
+                            // this.$root.tip.isShow = true;
+                            // this.$root.tip.content = '信息不匹配!';
+                            // setTimeout(() => {
+                            //     this.$root.tip.isShow = false;
+                            // }, 1500);
+                        }else if(res.msg=='信息不全'){
+                            this.$Message.warning('信息不全！');
+                        }else{
+                            this.$Message.warning('匹配成功！');
+                            this.show=false;
                             this.getAudit();
-                        } 
-                        this.$root.tip.isShow = true;
-                        this.$root.tip.content = `亲亲, ${res.msg}！`;
-                        setTimeout(() => {
-                            this.$root.tip.isShow = false;
-                        }, 2000);
+                        }
                     }
                 })
             }

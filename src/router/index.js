@@ -22,7 +22,11 @@ import initialization from '@/components/store/initialization'
 // 直营门店
 
 import directlyStores from '@/components/directlyStores/directlyStores'
-import storeStatement from '@/components/storeStatement/storeStatement'
+import storeStatement from '@/components/storeStatement/storeStatement' 
+import directShop from '@/components/directlyStores/directShop' 
+import shopManage from '@/components/directlyStores/shopManage' 
+
+
 
 // 店长查账
 import audit from '@/components/audit/audit'  
@@ -114,6 +118,13 @@ import shopCar from '@/components/shopCar/shopCar'
 // 首批查询
 import search from '@/components/search/search'
 
+// 门店数据可视化
+import visualization from '@/components/visualization/visualization'  // 数据可视化主页
+import salesTrend from '@/components/visualization/salesTrend'   // 总销售额走势图表 volume sales
+import sales from '@/components/visualization/sales'   // 总销售额走势图表 volume 
+import volume from '@/components/visualization/volume'   // 总销售额走势图表 
+// 区域数据可视化
+import domain from '@/components/visualization/domain'    // 区域数据可视化主页
 
 
 import data from '@/components/data'
@@ -345,7 +356,23 @@ export default new Router({
           meta: {
             keepAlive: true // 需要缓存
           }
-        },
+        }, 
+        {
+            path:'directShop',
+            name:'directShop',
+            component:directShop,
+            meta: {
+              keepAlive: true // 需要缓存
+            }
+        }, 
+        {
+            path:'shopManage',
+            name:'shopManage',
+            component:shopManage,
+            meta: {
+              keepAlive: true // 需要缓存
+            }
+        }, 
         {
           path:'audit',
           name:'audit',
@@ -479,6 +506,39 @@ export default new Router({
       path:'/data',
       name:data,
       component:data,   
-    }
+    },
+    {
+        path:'/visualization',
+        name:'visualization',
+        component:visualization,    // 门店可视化数据主页
+        meta: {
+            keepAlive: true // 需要缓存
+        }
+    },
+    {
+        path:'/domain',
+        name:'domain',
+        component:domain,    // 区域可视化数据主页
+        meta: {
+            keepAlive: true // 需要缓存
+        }
+    },
+    {
+        path:'/salesTrend',
+        name:'salesTrend',
+        component:salesTrend,    // 总销售额走势图
+        children: [
+            {
+                path:'sales',
+                name:'sales',
+                component:sales,    // 总销售额走势图
+            },
+            {
+                path:'volume',
+                name:'volume',
+                component:volume,    // 总销售额走势图
+            },
+        ]
+    }, 
   ]
 })

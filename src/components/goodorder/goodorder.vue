@@ -18,7 +18,7 @@
        <div class="table">
             <Table border :height="tableHeight" :columns="columns" :data="tableData"></Table>
         </div>
-         <!-- <p @click="login">6564154564</p> -->
+         <p @click="login">6564154564</p>
     </div>
    
 </template>
@@ -154,15 +154,15 @@ export default {
     },
 
     methods: {
-        // login() {
-        //     this.$resetAjax({
-        //     url: '/NewA/Miandenglu/index',
-        //     type: 'POST',
-        //     success:(res)=>{
-        //         console.log(res)
-        //         },
-        //     })
-        // },
+        login() {
+            this.$resetAjax({
+            url: '/NewA/Miandenglu/index',
+            type: 'POST',
+            success:(res)=>{
+                console.log(res)
+                },
+            })
+        },
         /**
          * 获取订单数据
          */

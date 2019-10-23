@@ -109,21 +109,22 @@
                 <FormItem label="应存现金" prop="payable"> 
                     <Input  v-model="cardForm.payable" placeholder="请输入应存现金" clearable></Input> 
                 </FormItem>
-                <FormItem label="实存现金" prop="actual"> 
-                    <Input v-model="cardForm.actual" placeholder="请输入实存现金" clearable></Input>
-                </FormItem>
+                <!-- <FormItem label="实存现金" prop="actual"  v-show="rechargeShow"> 
+                    <Input v-model="cardForm.actual" placeholder="请输入实存现金" disabled></Input>
+                </FormItem> -->
                 <FormItem label="销售日期" prop="date">
                     <DatePicker type="date" v-model="cardForm.date"  placeholder="请选择销售日期" style="width: 390px"></DatePicker>
                 </FormItem> 
-                <FormItem label="上传图片" prop="url" class="images"> 
+                <!-- <FormItem label="上传图片" prop="url" class="images"> 
                     <Upload v-model="cardForm.url" multiple action="/NewA/Audit/getimage" :on-success="uploadImage" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError">
                         <Button type="ghost" icon="images" class="ghost" >上传图片</Button>
                     </Upload>
                     <Button class="look_image" icon="eye" v-if="isShowImageButton" @click="carouse=true">查看上传图片</Button>                    
-                </FormItem>
-                <FormItem class="btn"> 
-                    <Button type="primary" @click="handleSubmit('cardForm')">提交</Button>
-                    <Button type="ghost" @click="handleReset('cardForm')" style="margin-left: 8px">重置</Button>
+                </FormItem> -->
+                <FormItem class="btn">
+                    <Button type="ghost" @click="handleReset('cardForm')" >重置</Button>
+                    <Button type="primary" @click="handleSubmit('cardForm')" style="margin-left: 8px">提交</Button>
+                    
                 </FormItem>
             </Form>
             <!-- 局部查看图片轮播图 -->
@@ -158,14 +159,19 @@
                 <Button type="primary" @click="amount" >确定</Button>
             </div>
         </Modal>
+        <!-- 缴款清单组件 -->
+        <audit-modal :hasShow="isShow" :formValidate="formValidate" @asyncOK="asyncOK" ref="auditModal" @updateHasShow="updateHasShow"></audit-modal>
     </div>
 </template>
 <script>
     // 引用时间
     import {changeday} from "@/assets/js/tool.js"//时间戳
+    import {changeTime} from  '@/assets/js/tool.js'
+    import auditModal from '@/components/audit/audit-modal'   // 引入缴款清单模态框组件
     export default{
         components:{
             changeday,
+            auditModal
         },
         data(){
             return {
@@ -186,9 +192,11 @@
                     recharge: '', 
                     give: '', 
                     payable: '', 
-                    actual:'',
-                    url:[]
+                    // actual:'',
+                    // url:[]
                 }, 
+                // 是否显示储值卡现金充值
+                rechargeShow:false,
                 // 表单验证
                 ruleValidate: {
                     date: [
@@ -203,12 +211,27 @@
                     give: [
                         { required: true, message: '储值卡赠送金额不能为空', trigger: 'blur' }
                     ],
-                    actual: [
-                        { required: true, message: '实存现金不能为空', trigger: 'blur' }
-                    ],
+                    // actual: [
+                    //     { required: true, message: '实存现金不能为空', trigger: 'change' }
+                    // ],
                 },
                 // 是否显示查看图片按钮
                 isShowImageButton:false,
+                // 是否弹出缴款框
+                isShow:false,
+                // 缴款数据
+                formValidate: {
+                    // 缴款时间
+                    dateTime: '',
+                    // 选择哪个银行
+                    bankModel: '',
+                    // 缴款金额
+                    monery: '',
+                    // 销售日期
+                    sale_date: '',
+                    //上传单据
+                    imgs:[]
+                },
                 // 表格头部
                 columns:[
                     {
@@ -252,14 +275,15 @@
                         align: 'center',
                         render: (h, {row}) => {
                             return h('div', [
-                                // h('span', {
-                                //     class: 'contributions',
-                                //     on: {
-                                //         click: () => {
-                                            
-                                //         }
-                                //     }
-                                // }, '缴款'),
+                                h('span', {
+                                    class: 'contributions',
+                                    on: {
+                                        click: () => {
+                                            this.isShow=true;
+                                            this.formValidate.sale_date = row.sale_date; // 销售日期
+                                        }
+                                    }
+                                }, '缴款'),
                                 h('span', {
                                     class: 'contributions',
                                     style:{
@@ -268,7 +292,6 @@
                                     on: {
                                         click: () => {
                                             this.deleteId=row.id;
-                                            // this.getImage();
                                             if(this.getImage()){
                                                 if(this.lookImgs.length>0){
                                                     this.gloadCarouse=true;
@@ -290,10 +313,11 @@
                                         click: () => {
                                             this.addModal=true;
                                             this.title='修改';
+                                            this.rechargeShow=true;
                                             this.cardForm=row;
                                             this.deleteId=row.id;
                                             this.cardForm.store=this.store;
-                                            this.cardForm.actual=row.cash_actual;
+                                            // this.cardForm.actual=row.cash_actual;
                                             this.cardForm.date=row.sale_date;
                                             this.cardForm.payable=row.cash_payable;
                                             this.getImage();
@@ -534,12 +558,14 @@
             addcard(){
                 this.addModal=true;
                 this.title='新增';
+                this.rechargeShow=false;
                 this.isShowImageButton=false;
                 this.carouse=false;
-                this.cardForm={ 
-                    store: this.store, 
-                };
-              
+                this.cardForm={
+                    store:this.store
+                }
+                // this.cardForm.store= this.store;
+                console.log(this.cardForm);
             },
             // 提交表单
             handleSubmit (name) {
@@ -551,11 +577,11 @@
                                 type:'POST',
                                 data:{
                                     store:this.cardForm.store,
-                                    sale_date:changeday(this.cardForm.date),
+                                    sale_date:changeday(this.cardForm.date), 
                                     recharge:this.cardForm.recharge,
                                     give:this.cardForm.give,
                                     cash_payable:this.cardForm.payable,
-                                    cash_actual:this.cardForm.actual,
+                                    // cash_actual:this.cardForm.actual,
                                     url:this.cardForm.url
                                 },
                                 success:(res)=>{
@@ -580,7 +606,7 @@
                                     recharge:this.cardForm.recharge,
                                     give:this.cardForm.give,
                                     cash_payable:this.cardForm.payable,
-                                    cash_actual:this.cardForm.actual,
+                                    // cash_actual:this.cardForm.actual,
                                     url:this.cardForm.url
                                 },
                                 success:(res)=>{
@@ -601,7 +627,49 @@
             },
             // 表单重置
             handleReset (name) {
-                this.$refs[name].resetFields();
+                this.cardForm={ 
+                    store: this.store, 
+                };
+            },
+             /**
+             * 缴款请求
+             */
+            asyncOK() {
+                let flag = this.$refs['auditModal'].validateForm();
+                if (flag) {
+                    this.$resetAjax({
+                        type: 'POST',
+                        url: '/NewA/Audit/cardcz',
+                        data: {
+                            bk: this.formValidate.bankModel,              // 银行
+                            sj: changeTime(this.formValidate.dateTime),   //时间
+                            money: this.formValidate.monery,           //金额
+                            sale_date: this.formValidate.sale_date,    // 销售时间
+                            store: this.store,     // 门店CODE
+                            imgs:this.formValidate.imgs //上传单据
+                        },
+                        success:(res) => {
+                            if(res.msg=='信息不匹配'){
+                                this.$Message.warning('信息不匹配！');
+                            }else if(res.msg=='信息不全'){
+                                this.$Message.warning('信息不全！');
+                            }else{
+                                this.$Message.warning('匹配成功！');
+                                this.isShow=false;
+                                this.getCardlist();
+                            }
+                        }
+                    })
+                }
+            },
+            /**
+             *  关闭模态框
+             */
+            updateHasShow(hasShow) {
+                this.isShow = hasShow;
+                this.formValidate.monery = '';
+                this.formValidate.bankModel = '';
+                this.formValidate.dateTime = '';
             },
             /*
             * 图片格式验证
@@ -613,31 +681,31 @@
                 });
             },
             // 上传图片
-            uploadImage(res){
-                if (this.lookImgs.length !== 0) {
-                    this.isShowImageButton = true;
-                } else {
-                    this.isShowImageButton = false;
-                }
-                if(res.msg=="success") {
-                    this.$Message.success('上传成功')
-                    this.lookImgs.push(res.data);
-                } else{
-                    this.$Message.error('上传失败')
-                }
-                if(this.title=='新增'){
-                    this.cardForm.url=this.lookImgs;
-                }else if(this.title=='修改'){
-                    this.cardForm.url=this.lookImgs;
-                    for(let i=0;i<this.cardForm.url.length;i++){
-                        if(typeof(this.cardForm.url[i])==='string'){
-                            let obj={};
-                            obj['url']=this.cardForm.url[i];
-                            this.cardForm.url[i]=obj
-                        }
-                    }
-                }
-            },
+            // uploadImage(res){
+            //     if (this.lookImgs.length !== 0) {
+            //         this.isShowImageButton = true;
+            //     } else {
+            //         this.isShowImageButton = false;
+            //     }
+            //     if(res.msg=="success") {
+            //         this.$Message.success('上传成功')
+            //         this.lookImgs.push(res.data);
+            //     } else{
+            //         this.$Message.error('上传失败')
+            //     }
+            //     if(this.title=='新增'){
+            //         this.cardForm.url=this.lookImgs;
+            //     }else if(this.title=='修改'){
+            //         this.cardForm.url=this.lookImgs;
+            //         for(let i=0;i<this.cardForm.url.length;i++){
+            //             if(typeof(this.cardForm.url[i])==='string'){
+            //                 let obj={};
+            //                 obj['url']=this.cardForm.url[i];
+            //                 this.cardForm.url[i]=obj
+            //             }
+            //         }
+            //     }
+            // },
             /**
             * 删除图片工作准备
             */
@@ -684,8 +752,6 @@
                             this.$Message.warning('暂无图片');
                             this.carouse=false;  
                         }
-                       
-                        
                     }
                 }) 
             },
