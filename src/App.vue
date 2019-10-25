@@ -96,4 +96,5 @@ export default {
 	.ivu-carousel-dots-inside {
 		bottom: -10px !important;
 	}
+	
 </style>

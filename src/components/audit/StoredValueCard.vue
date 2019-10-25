@@ -670,6 +670,7 @@
                 this.formValidate.monery = '';
                 this.formValidate.bankModel = '';
                 this.formValidate.dateTime = '';
+                this.formValidate.imgs=[];
             },
             /*
             * 图片格式验证

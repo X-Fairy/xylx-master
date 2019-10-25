@@ -8,7 +8,7 @@
                 <span @click="searchShop"><Icon type="ios-search-strong"></Icon></span>
             </div>
         </div>
-        <p class="add_btn" @click="addShop">新增</p>
+        <p class="add_btn" @click="query">新增</p>
         <div class="table">
             <Table  :height="tableHeight" :columns="columns" :data="tableData"></Table>
         </div>
@@ -43,6 +43,9 @@
                 <FormItem label="状态" prop="status" v-if="title==='编辑'">
                     <Input v-model="formValidate.status" placeholder=" 请输入门店状态..." />
                 </FormItem>
+                <FormItem label="区域" prop="district">
+                    <Input v-model="formValidate.district" placeholder=" 请输入门店区域..." />
+                </FormItem>
                 <FormItem label="经度" prop="longitude">
                     <Input v-model="formValidate.longitude" placeholder=" 请输入门店所在经度..." />
                 </FormItem>
@@ -72,6 +75,7 @@ export default {
             keyword: '',             // 关键字查询
             tableData: [],           // 表格列表数据
             tableHeight: 900,        // 表格高度
+            editId: '',
             columns: [               // 表头
                  {
                     align: 'center',
@@ -152,17 +156,19 @@ export default {
                                     click: () => {
                                         this.isShow = true;
                                         this.title = '编辑';
+                                        this.editId = row.id;
                                         this.formValidate = {
                                             store_name: row.store_name,                                 // 店名
                                             store_code: row.store_code,                                 // 编码
-                                            longitude: row.longitude === null ? row.longitude : '',     // 经度
-                                            latitude: row.longitude === null ? row.latitude : '',       // 纬度
-                                            area: row.longitude === null ? row.area : '',               // 面积
+                                            longitude: row.longitude || '',     // 经度
+                                            latitude: row.latitude  || '',       // 纬度
+                                            area: row.area,               // 面积
                                             manager: row.manager,                                       // 店长
-                                            clerk: row.longitude === null ? row.clerk : '',             // 人数
-                                            department: row.longitude === null ? row.department : '',   // 部门
-                                            rent: row.longitude === null ? row.rent : '',               // 租金
+                                            clerk: row.clerk,            // 人数
+                                            department: row.department || '',   // 部门
+                                            rent: row.rent,               // 租金
                                             status: row.status,                                         // 状态
+                                            district: row.district,     // 区域
                                         };
                                     }
                                 }
@@ -217,12 +223,13 @@ export default {
                 store_code: '',    // 编码
                 longitude: '',     // 经度
                 latitude: '',      // 纬度
-                area: '',          // 面积
+                area: 0.00,          // 面积
                 manager: '',       // 店长
-                clerk: '',         // 人数
+                clerk: 0,         // 人数
                 department: '',    // 部门
-                rent: '',          // 租金
+                rent: 0.00,          // 租金
                 status: '',        // 状态
+                district: '',     // 区域
             },
             ruleValidate: {
                 store_name: [
@@ -232,12 +239,27 @@ export default {
                     { required: true, message: '门店编码不能为空', trigger: 'blur' },
                     { type: 'string', min: 5, max: 5, message: '门店编码为5位数', trigger: 'blur' }
                 ],
+                department: [
+                    { required: true, message: '部门不能为空', trigger: 'blur' }
+                ],
                 manager: [
                     { required: true, message: '门店店长不能为空', trigger: 'blur' }
                 ],
                 status: [
                     { required: true, message: '门店状态不能为空', trigger: 'blur' }
-                ]
+                ],
+                clerk: [
+                    { required: true, message: '门店人数不能为空', trigger: 'blur' }
+                ],
+                rent: [
+                    { required: true, message: '门店租金不能为空', trigger: 'blur' }
+                ],
+                area: [
+                    { required: true, message: '门店面积不能为空', trigger: 'blur' }
+                ],
+                district: [
+                    { required: true, message: '区域不能为空', trigger: 'blur' }
+                ],
             }
             
         }
@@ -310,7 +332,7 @@ export default {
         /**
          * 新增店面准备
          */
-        addShop() {
+        query() {
             this.isShow = true;
             this.title = '新增';
             this.formValidate = {
@@ -323,6 +345,7 @@ export default {
                 clerk:  '',         // 人数
                 department:  '',    // 部门
                 rent:  '',          // 租金
+                district: '',     // 区域
             };
         },
         /**
@@ -330,82 +353,110 @@ export default {
          */
         goQuery() {
             this.$refs.formValidate.validate((valid) => {
-                if (valid) {
-                    if(this.title === '新增') {
-                        var token = this.getToken(this.formValidate); 
-                            var data = {token,};
-                            for(var k in this.formValidate) {
-                                if(!(this.formValidate[k].length === 0 || this.formValidate[k] === '')) {
-                                    data[k] = this.formValidate[k];
-                                } else {}
-                            }
-                            this.$resetAjax({
-                                url:'/NewA/Storelist/add',
-                                type:'POST',
-                                data: data,
-                                success:(res)=>{
-                                    let result = JSON.parse(res);
-                                    switch(result.errorcode) {
-                                        case 0:
-                                            this.$Message.success('棒棒哒,新增成功');
-                                            this.formValidate = {
-                                                store_name:  '',    // 店名
-                                                store_code:  '',    // 编码
-                                                longitude:  '',     // 经度
-                                                latitude:  '',      // 纬度
-                                                area:  '',          // 面积
-                                                manager:  '',       // 店长
-                                                clerk:  '',         // 人数
-                                                department:  '',    // 部门
-                                                rent:  '',          // 租金
-                                            };
-                                            this.isShow = false;
-                                            this.getShopList();
-                                            break;
-                                        case 1:
-                                            this.$Message.error(`${result.msg}`);
-                                        }
-                                }
-                            })
-                    } else{
-                        var token = this.getToken(this.formValidate); 
-                            var data = {token,};
-                            for(var k in this.formValidate) {
-                                if(!(this.formValidate[k].length === 0 || this.formValidate[k] === '')) {
-                                    data[k] = this.formValidate[k];
-                                } else {}
-                            }
-                            this.$resetAjax({
-                                url:'/NewA/Storelist/update',
-                                type:'POST',
-                                data: data,
-                                success:(res) =>{
-                                    let result = JSON.parse(res);
-                                    switch(result.errorcode) {
-                                        case 0:
-                                            this.$Message.success('棒棒哒,新增成功');
-                                            this.formValidate = {
-                                                store_name:  '',    // 店名
-                                                store_code:  '',    // 编码
-                                                longitude:  '',     // 经度
-                                                latitude:  '',      // 纬度
-                                                area:  '',          // 面积
-                                                manager:  '',       // 店长
-                                                clerk:  '',         // 人数
-                                                department:  '',    // 部门
-                                                rent:  '',          // 租金
-                                                status: '',         // 状态
-                                            };
-                                            this.isShow = false;
-                                            break;
-                                        case 1:
-                                            this.$Message.error(`${result.msg}`);
-                                        }
-                                }
-                            })
-                    }
+                if (!valid) {
+                    return false;
+                }
+                if(this.title === '新增') {
+                    this.addShopquery()
+                } else{
+                   this.editShopQuery();
+                }
                     
-                } else { }
+                
+            })
+        },
+        /**
+         * 新增请求
+         */
+        addShopquery() {
+            var token = this.getToken(this.formValidate); 
+            var data = {token,};
+            for(var k in this.formValidate) {
+                if(!(this.formValidate[k].length === 0 || this.formValidate[k] === '')) {
+                    data[k] = this.formValidate[k];
+                }
+            }
+            this.$resetAjax({
+                url:'/NewA/Storelist/add',
+                type:'POST',
+                data: data,
+                success:(res)=>{
+                    let result = JSON.parse(res);
+                    switch(result.errorcode) {
+                        case 0:
+                            this.$Message.success('棒棒哒,新增成功');
+                            this.formValidate = {
+                                store_name:  '',    // 店名
+                                store_code:  '',    // 编码
+                                longitude:  '',     // 经度
+                                latitude:  '',      // 纬度
+                                area:  '',          // 面积
+                                manager:  '',       // 店长
+                                clerk:  '',         // 人数
+                                department:  '',    // 部门
+                                rent:  '',          // 租金
+                                district: '',     // 区域
+                            };
+                            this.isShow = false;
+                            this.getShopList();
+                            break;
+                        case 1:
+                            this.$Message.error(`${result.msg}`);
+                        }
+                }
+            })
+        },
+        /**
+         * 编辑请求
+         */
+        editShopQuery() {
+            var data1 = {};
+            this.formValidate.clerk === '' ? '0' : this.formValidate.clerk;
+            var dataObj = this.formValidate;
+            var data2 = {id:this.editId};
+            for(var key in dataObj) {
+                data2[key] = dataObj[key]
+            };
+            for(var i in data2) {
+                if(data2[i] === "") {
+                    data1[i] = data2[i];
+                    delete data2[i]
+                }
+            }
+            var token = this.getToken(data2); 
+            data2.token = token;
+            this.$resetAjax({
+                url:'/NewA/Storelist/update',
+                type:'POST',
+                data: data2,
+                success:(res) =>{
+                    let result = JSON.parse(res);
+                    switch(result.errorcode) {
+                        case 0:
+                            this.$Message.success('棒棒哒,编辑成功');
+                            this.formValidate = {
+                                store_name:  '',    // 店名
+                                store_code:  '',    // 编码
+                                longitude:  '',     // 经度
+                                latitude:  '',      // 纬度
+                                area:  '',          // 面积
+                                manager:  '',       // 店长
+                                clerk:  '',         // 人数
+                                department:  '',    // 部门
+                                rent:  '',          // 租金
+                                status: '',         // 状态
+                                district: '',     // 区域
+                            };
+                            this.isShow = false;
+                            this.getShopList();
+                            break;
+                        case 1:
+                            this.$Message.error(`您没有修改当前门店`);
+                            setTimeout(() => {
+                                this.isShow = false;
+                            }, 1500);
+                        }
+                }
             })
         },
         /**
@@ -413,12 +464,10 @@ export default {
          */
         getToken(obj) {
             var tokenStr = '',
-                objValue = Object.values(obj);
+            objValue = Object.values(obj);
             objValue.forEach(ele => {
-                if(ele.length === 0 || ele === '') {
-                    tokenStr = tokenStr
-                } else {
-                    tokenStr += this.$md5(ele)
+                if (ele.trim() && ele !== '0' && ele !== '0.00') {
+                    tokenStr += this.$md5(ele.trim())
                 }
             })
             return this.$md5(tokenStr)

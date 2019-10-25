@@ -125,7 +125,8 @@ import sales from '@/components/visualization/sales'   // 总销售额走势图�
 import volume from '@/components/visualization/volume'   // 总销售额走势图表 
 // 区域数据可视化
 import domain from '@/components/visualization/domain'    // 区域数据可视化主页
-
+// 大区门店数据
+import areaData from '@/components/visualization/areaData'
 
 import data from '@/components/data'
 
@@ -514,6 +515,14 @@ export default new Router({
         meta: {
             keepAlive: true // 需要缓存
         }
+    },
+    {
+      path:'/areaData',
+      name:'areaData',
+      component:areaData,    // 门店可视化数据主页
+      meta: {
+          keepAlive: true // 需要缓存
+      }
     },
     {
         path:'/domain',

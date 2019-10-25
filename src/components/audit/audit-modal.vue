@@ -1,5 +1,5 @@
 <template>
-    <Modal title="缴款清单" v-model="hasShow" class="audit_pop" :mask-closable="false" @on-cancel="$emit('updateHasShow', false)" :key="'simily'">
+    <Modal title="缴款清单" v-model="hasShow" class="audit_pop" :mask-closable="false" @on-cancel="closeModal" :key="'simily'">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
             <FormItem label="销售日期">
                 <Input v-model="formValidate.sale_date" disabled /> 
@@ -16,7 +16,7 @@
                 <Input v-model="formValidate.monery" type="number" placeholder="请输入缴款金额..."  /> 
             </FormItem>
             <FormItem prop="imgs">
-                <Upload v-model="formValidate.imgs" style="display: inline-block;margin-left: 13px;margin-top:5px;" multiple action="/newoa/NewA/Audit/getimage" :on-success="uploadImage" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError">
+                <Upload v-model="formValidate.imgs" style="display: inline-block;margin-left: 13px;margin-top:5px;" multiple action="/NewA/Audit/getimage" :on-success="uploadImage" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError">
                     <Button type="ghost" icon="images" class="ghost" >上传单据</Button>
                 </Upload>
                 <Button class="look_image" icon="eye" v-if="isShowImageButton" @click="carouse=true">查看单据</Button>
@@ -24,7 +24,7 @@
         </Form>
         <!-- 查看图片轮播图 -->
         <div class="carouselcontent" v-if="carouse">
-            <Icon type="ios-close-outline" class="close_icon" title="关闭弹窗" @click="closeAudio"></Icon>
+            <Icon type="ios-close-outline" class="close_icon" title="关闭弹窗" @click="carouse=false"></Icon>
             <Carousel v-model="value1">
                 <CarouselItem v-for="(item,index) in imgs" :key="index">
                     <div class="demo-carousel"><img :src="item" alt="加载图片..."></div>
@@ -56,7 +56,7 @@
 export default {
     props: [
         'formValidate',
-        'hasShow'
+        'hasShow',
     ],
 
     data() {
@@ -72,13 +72,13 @@ export default {
             // 表单验证
             ruleValidate: {
                 bankModel: [
-                    { required: true, message: '缴款银行不能为空', trigger: 'change' }
+                    { required: true, message: '缴款银行不能为空', trigger: 'blur' }
                 ],
                 monery: [
                     { required: true, message: '缴款金额不能为空', trigger: 'blur' }
                 ],
                 dateTime: [
-                    { required: true, type:'date', message: '缴款时间不能为空', trigger: 'change' }
+                    { required: true, type:'date', message: '缴款时间不能为空', trigger: 'blur' }
                 ],
             },
             // 上传的单据：
@@ -98,10 +98,17 @@ export default {
     created() {
         // 获取银行列表数据
         this.getBank();
+        
     },
 
 
     methods: {
+        closeModal(){
+            this.$emit('updateHasShow', false);
+            this.imgs=[];
+            this.carouse=false;
+            this.isShowImageButton = false;
+        },
         /**
          *  获取银行列表数据
          */
@@ -165,6 +172,7 @@ export default {
                 this.isShowImageButton = false;
             }
             this.formValidate.imgs=this.imgs;
+            
         },
         /**
         * 删除图片工作准备
@@ -205,9 +213,6 @@ export default {
                 // }, 1500);
             }
         },
-        closeAudio(){
-            this.carouse=false;
-        }
     }
 }
 </script>

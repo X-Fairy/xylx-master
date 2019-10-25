@@ -252,6 +252,10 @@ export default {
                                 on: {
                                     click: () => {
                                         this.isShow = true;
+                                        this.formValidate.monery = '';
+                                        this.formValidate.bankModel = '';
+                                        this.formValidate.dateTime = '';
+                                        this.formValidate.imgs=[];
                                         this.formValidate.sale_date = row.sale_date; // 销售日期
                                     }
                                 }
@@ -343,7 +347,7 @@ export default {
                 ],
             },
             // 导出列表选择得时间
-            dateArr:[]
+            dateArr:[],
         }
     },
 
@@ -481,9 +485,6 @@ export default {
          */
         updateHasShow(hasShow) {
             this.isShow = hasShow;
-            this.formValidate.monery = '';
-            this.formValidate.bankModel = '';
-            this.formValidate.dateTime = '';
         },
         /* */
         showModal(){

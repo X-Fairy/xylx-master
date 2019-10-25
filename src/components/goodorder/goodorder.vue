@@ -18,7 +18,7 @@
        <div class="table">
             <Table border :height="tableHeight" :columns="columns" :data="tableData"></Table>
         </div>
-         <p @click="login">6564154564</p>
+         <!-- <p @click="login">6564154564</p> -->
     </div>
    
 </template>
@@ -177,6 +177,8 @@ export default {
                 success: (res) => {
                     this.tableData = res.data;
                     this.name = res.name;
+                    this.weishu = '';
+                    this.cancel_text = '';
                 }
             }) 
         },
@@ -184,7 +186,6 @@ export default {
          * 取消尾数提交
          */
         cancelQuery(data) {
-            console.log(data)
             this.$resetAjax({
                 type: 'POST',
                 url: '/NewA/CancelOrder/getweishu',
