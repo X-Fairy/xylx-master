@@ -64,6 +64,12 @@
                     color:#7efafc;
                     user-select:none;
                 }
+                .cityClass .ivu-form-item-content{
+                    width: 200px !important;
+                    .ivu-cascader-label{
+                        color: #fff !important
+                    }
+                }
                 .ivu-form-item-error-tip{
                     left: -45px;
                     user-select:none;
@@ -856,30 +862,36 @@
             animation: all .5s linear;
             // 选择框
             .select_list{
+                display: flex;
+                justify-content: center;
                 .ivu-select-placeholder,.ivu-select-selection{
-                    background-image: linear-gradient( 135deg, #81FFEF 10%, #F067B4 100%);
+                    background: linear-gradient(#0077c1,#07c4dd);
                 }
                 .ivu-select-selection{
                     border: 0;
                 }
                 .ivu-select-selected-value{
                     text-align: center;
-                    color:#000;
+                    color:#fff;
+                }
+                .ivu-select-arrow{
+                    color: #fff;
                 }
                 .ivu-select-dropdown{
                     .ivu-select-item{
                         color:#07c4dd;
                         &:hover{
                         background-image: linear-gradient( 135deg, #A0FE65 10%, #FA016D 100%);
-                        color:#000;
+                            color:#000;
                         }
                     }
                 }
             }
             .ivu-input-number{
                 .ivu-input-number-input{
-                    background-image: linear-gradient( 135deg, #81FFEF 10%, #F067B4 100%) !important;
-                    color:#000;
+                    background: linear-gradient(#063358,#0077c1);
+                    border-color: #7efafc;
+                    color:#fff;
                 }
                 input:focus{
                     outline: none !important;

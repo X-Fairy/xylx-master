@@ -454,6 +454,23 @@
             this.getStoreList();
             this.getCardlist();
         },
+        mounted() {
+            setTimeout(()=> {
+                // 得到浏览器内容高度
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                this.tableHeight = (windowHeight- 350);
+                this.errorHeight = windowHeight- 480;
+            },100)
+            // 调整浏览器的时候
+            $(window).on('resize', () => {
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                this.tableHeight = (windowHeight - 350);
+                this.errorHeight = windowHeight- 480;
+            })
+            bus.$on('eventName', () => { 
+                this.getCustomerList();
+            })
+        },
         methods:{
              /**
              * 得到门店数据

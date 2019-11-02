@@ -567,12 +567,19 @@ let stockOptions = function(vm) {
         //     }
         // },
         tooltip: {  // 鼠标悬浮提示
-            trigger: 'axis',
+            trigger: 'item',
             axisPointer: {
                 animation: false,
-                type: 'none'  // 去掉提示线
-            }
+                type: 'none'                                // 去掉提示线
+            },
         },
+        // tooltip: {  // 鼠标悬浮提示
+        //     trigger: 'axis',
+        //     axisPointer: {
+        //         animation: false,
+        //         type: 'none'  // 去掉提示线
+        //     }
+        // },
         calculable : true,
         animation: true,
         xAxis : [
@@ -825,7 +832,6 @@ let stockOptions = function(vm) {
     //     ]
     // }
 }
-
 
 /**
  * 连带率
@@ -1191,9 +1197,9 @@ let priceRatioOptions = function(vm) {
 } 
 
 /**
- * 总销售额走势
+ * 区域总销售额走势
  */
-let salesTrendOptions = function(vm) {
+let salesTrendOptions = function(vm,bm) {
     return {
         tooltip : {
             trigger: 'axis',
@@ -1202,12 +1208,31 @@ let salesTrendOptions = function(vm) {
                 label: {
                     backgroundColor: '#6a7985'
                 }
+            },
+            // formatter: "{a} <br/>{c} {b}",
+            formatter:function(params){ 
+                let value=params[1].value;
+                switch(value) {
+                    case 0:
+                       params[1].value='工作日';
+                        break;
+                    case 1:
+                        params[1].value='法定节假日'
+                        break;
+                    case 2:
+                        params[1].value='节假日调休补班'
+                        break;
+                    case 3:
+                       params[1].value='休息日'
+                        break;
+                }
+                return '<p>销售额：'+params[0].value+'</p><p>'+params[1].value+'</p>';
             }
         },
         calculable : true,
         animation: true,
         legend: {
-        data:['销售额'],
+        data:['销售额','假日'],
         textStyle:{//图例文字的样式
             color:'#fff',
             fontSize: 22,
@@ -1280,6 +1305,7 @@ let salesTrendOptions = function(vm) {
                 }
             }
         ],
+        
         series : [
             {
                 name:'销售额',
@@ -1329,11 +1355,217 @@ let salesTrendOptions = function(vm) {
                     color : '#004c5E'
                 },
                 data: vm.map(ele => ele.realamt),
+            },
+            {
+                name:'假日',
+                type:'line',
+                data: bm.map(ele =>ele.code), 
+                
             }
         ]
     }
 }
-
+/**
+ * 门店总销售额走势
+ */
+let vsalesTrendOptions = function(vm,bm,cm) {
+    return {
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            },
+            // formatter: function (params) { 
+            //     console.log(params,params.length)
+            // }               
+            formatter:function(params){ 
+                let value=params[2].value;
+                let weather=params[1].value;
+                switch(value) {
+                    case 0:
+                       params[2].value='工作日';
+                        break;
+                    case 1:
+                        params[2].value='法定节假日'
+                        break;
+                    case 2:
+                        params[2].value='节假日调休补班'
+                        break;
+                    case 3:
+                       params[2].value='休息日'
+                        break;
+                }
+                switch(weather) {
+                    case 1:
+                       params[1].value='晴';
+                        break;
+                    case 2:
+                        params[1].value='多云'
+                        break;
+                    case 3:
+                        params[1].value='阴'
+                        break;
+                    case 4:
+                       params[1].value='小雨'
+                        break;
+                    case 5:
+                       params[1].value='阵雨'
+                        break;
+                    case 6:
+                       params[1].value='大雨'
+                        break;
+                }
+                return '<p>销售额：'+params[0].value+'</p><p>'+params[2].value+'</p><p>天气:'+params[1].value;
+            }
+        },
+        calculable : true,
+        animation: true,
+        legend: {
+        data:['销售额','天气','假日'],
+        textStyle:{//图例文字的样式
+            color:'#fff',
+            fontSize: 22,
+        },
+            x:"center",
+            y:"top",
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        grid: {
+            left: 80,
+            top:80,
+            bottom:120,
+            right: 50,
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : vm.map(ele => ele.fildate),
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: '#87a0dc',  //更改坐标轴文字颜色
+                        fontSize: 10    //更改坐标轴文字大小
+                    },
+                    interval: 0,
+                    rotate:30,   
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#6076ad' //更改坐标轴颜色
+                    },
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value',
+                splitLine: {
+                    lineStyle: {
+                        // 使用深浅的间隔色
+                        color: ['#1a2a42']
+                    }
+                },
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                    color: '#87a0dc',  //更改坐标轴文字颜色
+                    fontSize : 12,      //更改坐标轴文字大小
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#fff' //更改坐标轴颜色
+                    }
+                }
+            }
+        ],
+        
+        series : [
+            {
+                name:'销售额',
+                type:'line',
+                stack: '总量',
+                symbolSize:8,   //拐点圆的大小
+                color:['#efda4d'],  //折线条的颜色
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'top',
+                        color: '#d4237a'
+                    }
+                },
+                //折线平滑
+                smooth : true,
+                symbol : 'circle',
+                symbolSize : 6,
+                //线条样式
+                lineStyle : {
+                    color : {
+                        type : 'linear',
+                        x : 0,
+                        y : 0,
+                        x2 : 0,
+                        y2 : 1,
+                        colorStops : [ {
+                            offset : 0,
+                            // 0% 处的颜色
+                            color : '#fff'
+                        }, {
+                            offset : 1,
+                            // 100% 处的颜色
+                            color : '#efda4d'
+                        } ],
+                        globalCoord : false
+                    },
+                    width : 2,
+                    type : 'solid',
+                },
+                //折线连接点样式
+                itemStyle : {
+                    color : '#249cf9',
+                },
+                //折线堆积区域样式
+                areaStyle : {
+                    color : '#004c5E'
+                },
+                data: vm.map(ele => ele.realamt),
+            },
+            {
+                name:'天气',
+                type:'line',
+                stack: '总量',
+                data: cm.map(ele =>ele.weather), 
+                
+            },
+            {
+                name:'假日',
+                type:'line',
+                stack: '总量',
+                data: bm.map(ele =>ele.code), 
+                
+            },
+            
+        ]
+    }
+}
 /**
  * 畅销TOP 10单个商品销售额走势和总销售额走势
  */
@@ -1498,6 +1730,8 @@ export{
     categoryOptions,          // 品类结构大类占比
     middleOptions,            // 品类结构中类占比
     subgroupOptions,          // 品类结构小类占比
-    salesTrendOptions,        // 总销售额走势
+    salesTrendOptions,        // 区域总销售额走势
+    vsalesTrendOptions,        // 门店总销售额走势
     goodsTrendOptions,        // 畅销TOP 10单个商品销售额走势和总销售额走势
+    kuncun,
 }

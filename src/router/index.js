@@ -24,8 +24,8 @@ import initialization from '@/components/store/initialization'
 import directlyStores from '@/components/directlyStores/directlyStores'
 import storeStatement from '@/components/storeStatement/storeStatement' 
 import directShop from '@/components/directlyStores/directShop' 
-import shopManage from '@/components/directlyStores/shopManage' 
-
+import shopManage from '@/components/directlyStores/shopManage'
+import personnel from '@/components/directlyStores/personnel' 
 
 
 // 店长查账
@@ -127,6 +127,7 @@ import volume from '@/components/visualization/volume'   // 总销售额走势�
 import domain from '@/components/visualization/domain'    // 区域数据可视化主页
 // 大区门店数据
 import areaData from '@/components/visualization/areaData'
+import storeData from '@/components/visualization/storeData'
 
 import data from '@/components/data'
 
@@ -373,6 +374,14 @@ export default new Router({
             meta: {
               keepAlive: true // 需要缓存
             }
+        },
+        {
+          path:'personnel',
+          name:'personnel',
+          component:personnel,
+          meta: {
+            keepAlive: true // 需要缓存
+          }
         }, 
         {
           path:'audit',
@@ -520,6 +529,14 @@ export default new Router({
       path:'/areaData',
       name:'areaData',
       component:areaData,    // 门店可视化数据主页
+      meta: {
+          keepAlive: true // 需要缓存
+      }
+    },
+    {
+      path:'/storeData',
+      name:'storeData',
+      component:storeData,    // 门店可视化数据主页
       meta: {
           keepAlive: true // 需要缓存
       }

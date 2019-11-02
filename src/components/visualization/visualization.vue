@@ -14,6 +14,9 @@
                     <FormItem label="面积" prop="area">
                         <Input v-model="formValidate.area" :disabled="isDisabled" placeholder="门店面积..." style="width: 80px"/>
                     </FormItem>
+                    <FormItem label="城市" prop="city" class="cityClass">
+                        <Cascader :data="cityData" v-model="city" change-on-select @on-change="handleChange" trigger="hover"  placeholder="请选择城市"></Cascader>
+                    </FormItem>
                     <FormItem label="租金" prop="rent">
                         <Input v-model="formValidate.rent" placeholder="门店租金..." style="width: 80px"/>
                     </FormItem>
@@ -123,7 +126,7 @@
                     <ul class="goal">
                         <li v-for="(item, index) in goalData" :key="index" @click="lookSalesRank(item)">
                             <h3>{{item.title}}</h3>
-                            <p>{{item.value}}</p>
+                            <p>{{item.value}}</p>123
                         </li>
                     </ul>
                 </div>
@@ -137,7 +140,7 @@
                         <span class="more_icon" @click="searchGoodsList"><img src="@/assets/images/view/more_icon.png" alt=""></span>
                     </h2>
                     <p v-if="bestSellerSlides.length === 0" class="hasno">畅销 TOP10 暂无数据 ...</p>
-                    <div v-else  class="best_seller"  @mouseenter="bestSellerSwiperEnter" @mouseleave="bestSellerSwiperLeave"  @click="bestSellerClick" >
+                    <div v-else  class="best_seller"  @mouseenter="bestSellerSwiperEnter" @mouseleave="bestSellerSwiperLeave"   >
                         <swiper class="bestSeller-swiper" ref="bestSellerSwiper" :options="bestSellerOption" @slideChange="bestSlideChange">
                             <swiper-slide v-for="(item, index) in bestSellerSlides" :key="index">
                                 <div  class="select_list">
@@ -145,7 +148,7 @@
                                         <Option v-for="(item,index) in bestSellerNames" :value="item.value" :key="index">{{ item.text }}</Option>
                                     </Select>
                                 </div>
-                                <div style="width:100%;height:95%;">
+                                <div style="width:100%;height:95%;" @click="bestSellerClick">
                                     <Echart style="width:100%;height:100%" :options="item.options" :autoResize="true" /> 
                                 </div>
                             </swiper-slide>
@@ -256,7 +259,7 @@
                     <img @click="isShowMore=false;isTotalTrend=false;" src="@/assets/images/view/pop_close.png" class="close_icon" alt="">
                 </h3>
                 <div class="saleTrend">
-                    <Echart style="width:100%;height:100%" :options="salesTrendOptions" :autoResize="true" v-if="isShowSales"/> 
+                    <Echart style="width:100%;height:100%" :options="vsalesTrendOptions" :autoResize="true" v-if="isShowSales"/> 
                     <Echart style="width:100%;height:100%" :options="goodsTrendOptions" :autoResize="true" v-else /> 
                 </div>
             </div>
@@ -331,7 +334,7 @@ import
     middleOptions,                                               // 品类结构中类占比
     subgroupOptions,                                             // 品类结构小类占比
     priceRatioOptions,                                           // 价位段占比  
-    salesTrendOptions,                                           // 总销售额走势
+    vsalesTrendOptions,                                           // 总销售额走势
     goodsTrendOptions,                                           // 畅销TOP 10单个商品销售额走势和总销售额走势
 
 } from './chart-config'; 
@@ -345,12 +348,14 @@ import 'swiper/dist/css/swiper.css'                               // 引入轮�
 import { swiper, swiperSlide } from 'vue-awesome-swiper'          // 引入轮播
 import "@/assets/style/animate.less";                             // 引入动画样式
 import '@/assets/js/tool';
-
+import {getUrlParams} from  '@/assets/js/tool.js'
 let isFrist = true;
 export default {
     name: 'carrousel',
     data() {
         return {
+            // 得到网址的参数对象
+            urlParams: {},
             shopName: '门店看板',                                           // 店名
             options3: {
                 disabledDate(date) {
@@ -364,9 +369,11 @@ export default {
                 rent: '',                                            // 门店租金
                 area: '',                                            // 门店面积
                 beginTime: new Date(new Date().format('yyyy-MM') + '-01'),
-                endTime: new Date(new Date().getTime() - 24*60*60*1000),
+                endTime: new Date(new Date().getTime()),
                 dateValue: [],                                       // 当前选择的时间数组
+                
             },
+            city:[],                                   //城市
             ruleValidate: {
                 beginTime: [
                     { required: true, message: '起始时间不能为空。', trigger: 'blur', pattern: /.+/ }
@@ -565,7 +572,7 @@ export default {
             clsId: '',                                           // 品类结构id
             priceRatioOptions: {},                               // 价位段占比
             priceList: [],                                       // 价位段占比数据
-            salesTrendOptions: {},                               // 总销售额走势
+            vsalesTrendOptions: {},                               // 总销售额走势
             isShowSales: true,                                   // 是否显示总销售额走势
             goodsTrendOptions,                                   // 畅销TOP 10单个商品销售额走势和总销售额走势
             popDistance: {                                       // 弹窗样式
@@ -622,6 +629,30 @@ export default {
                     name: '休闲食品'
                 },
             ],
+            // 时间区间
+            dayList:[],
+            result:[],
+            weather:[],
+            cityid:'',
+            // 城市数据
+            cityData:[
+                {
+                    value:'',
+                    label:'',
+                    children:[
+                        {
+                            value:'',
+                            label:'',
+                            children:[
+                                {
+                                    value:'',
+                                    label:''
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     },
     
@@ -640,6 +671,7 @@ export default {
         })
     },
     created() {
+        this.getUrlData();
         this.getCheckLogin();
         // 获取当前默认选择时间及时间参数
         this.getDefaultDate();
@@ -647,6 +679,7 @@ export default {
         this.endStr = (changeday(this.formValidate.endTime)).slice(0, 7);
         this.beginNum = (new Date(this.formValidate.beginTime)).getTime();
         this.endNum = (new Date(this.formValidate.endTime)).getTime();
+        this.getCity();
         
     },
     watch: {
@@ -676,7 +709,6 @@ export default {
                 this.formValidate.goalSale = '';
                 this.formValidate.human = '';
                 this.formValidate.rent = '';
-                this.formValidate.area = '';
             } 
         },
         'formValidate.goalSale'(newVal, val) {
@@ -708,7 +740,76 @@ export default {
         }
     },
     methods: {
-        
+        /**
+        * 转化ztree数据；数据递归处理
+        * @param {Array} data 需要转换的数据
+        */
+        dgZtree(data) {
+            
+            data.forEach(item => {
+                // title转化
+                item.label = item.city;
+                item.value = item.cityid
+                // // 当前节点是否要展开
+                // item.value = item.dept_id;
+                // 是否选中当前节点
+                // item.selected = false;
+                // 如果当前节点有子节点，再次把子节点进行递归处理；数据判断，子节点数据是数组，防止报错
+                if (item.children instanceof Array && item.children.length) {
+                    this.dgZtree(item.children);
+                }
+            })
+            return data;
+        },
+        /* 获取城市 */
+        getCity(){
+            this.$resetAjax({
+                url:'/NewA/Storelist/getcity',
+                type:'POST',
+                // data,
+                success:(res)=>{
+                    let result = JSON.parse(res);
+                    this.cityData = this.dgZtree([JSON.parse(res)][0]);
+                }
+            })
+        },
+        /**
+         * 得到网址的参数
+         */
+         getUrlData:function(){
+            this.urlParams = getUrlParams();
+            if(typeof(this.urlParams.store)!=='undefined'){
+                this.store = this.urlParams.store;
+                this.getStoreMsg();
+            }
+        },
+        /* 获取门店信息 */
+        getStoreMsg(){
+            this.$resetAjax({
+                type: 'POST',
+                url: '/public/index.php?s=home/Index/getStoreInfo',
+                // root: '',
+                root: 'http://bi.xmvogue.com/',
+                data: {
+                    store:this.store          // 门店编码
+                },
+                success:(res) => {
+                    let result=JSON.parse(res)[0];
+                    if(result.cityid!==null){
+                        this.city=[result.city];
+                        this.cityid=result.cityid;
+                    }
+                    this.shopName=result.store_name;
+                    this.formValidate.store=result.store_code.toString();
+                    this.formValidate.area=result.area;
+                    this.formValidate.goalSale=result.target;
+                    this.formValidate.rent=result.rent;
+                    this.formValidate.human=result.clerk.toString();
+                                 
+                    
+                }
+            })
+        },
         barChartClick() {
             console.log(arguments)
             debugger
@@ -762,6 +863,10 @@ export default {
                 },
                 success:(res) => {
                     let result = JSON.parse(res);
+                    if(result.cityid!==null){
+                        this.cityid=result.cityid;
+                        this.city=[result.city];
+                    }
                     let msg = result.msg;
                     switch(msg) {
                         case 'success':
@@ -917,6 +1022,10 @@ export default {
                 }, 1500);
                 return false;
             }
+        },
+        handleChange(value, selectedData){
+            console.log(value);
+            // this.formValidate.city=value[value.length-1];
         },
         /**
          *  查询前判断租金、目标销售金额、店铺人数是否都已填好
@@ -1284,19 +1393,28 @@ export default {
          *  查看总销售额走势
          */
         lookSalesRank(item) {
-            this.isShowTypePop = false;
-            if(item.id === 1) {
-                this.isShowMore = true;
-                this.getSaleTrend();
-                // 说明是总销售额
-                // this.$router.push({path: 'salesTrend/sales',query:{stime: this.stime, etime: this.etime,store: this.formValidate.store }}); // 到销售走势页面
+            if(this.city.length==0){
+                this.isShowTip = true;
+                this.tipContent = '选择门店所在城市，可以查看天气情况';
+                setTimeout(() => {
+                    this.isShowTip = false;
+                }, 1500);
+            }else{
+                this.cityid=this.city[this.city.length-1];
+                this.isShowTypePop = false;
+                if(item.id === 1) {
+                    this.isShowMore = true;
+                    this.getSaleTrend();
+                    // 说明是总销售额
+                    // this.$router.push({path: 'salesTrend/sales',query:{stime: this.stime, etime: this.etime,store: this.formValidate.store }}); // 到销售走势页面
+                }  
             }
         },
         /**
          * 查询总销售额走势
          */
         getSaleTrend() {
-            this.salesTrendOptions = {};
+            this.vsalesTrendOptions = {};
             let data = {
                 stime: this.stime,
                 etime: this.etime,
@@ -1311,8 +1429,79 @@ export default {
                 success:(res) => {
                     this.isTotalTrend = true;
                     this.isShowSales = true;
-                    let result = JSON.parse(res);
-                    this.salesTrendOptions = salesTrendOptions(result)
+                    this.result = JSON.parse(res);
+                    this.getdays();
+                    
+                }
+            })
+        },
+        // 获取节假日
+        getdays(){
+            let data = {
+                stime: this.stime,
+                etime: this.etime,
+            };
+            this.$resetAjax({
+                type: 'POST',
+                url: '/public/index.php?s=home/Index/holiday',
+                // root: '',
+                root: 'http://bi.xmvogue.com/',
+                data,
+                success:(res) => {
+                    JSON.parse(res).forEach(ele=>{
+                        this.dayList.push(ele);
+                    })
+                    this.dayList.forEach(ele=>{
+                        ele.fildate=ele.time;
+                    })
+                    this.getwether();
+                }
+            })
+        },
+        getwether(){
+            let data = {
+                stime: this.stime,
+                etime: this.etime,
+                cityid: this.cityid
+            };
+            this.$resetAjax({
+                type: 'POST',
+                url: '/public/index.php?s=home/Index/weather',
+                // root: '',
+                root: 'http://bi.xmvogue.com/',
+                data,
+                success:(res) => {;
+                    let list=JSON.parse(res).list;
+                    list.forEach(ele=>{
+                        this.weather.push(ele);
+                    })
+                    this.weather.forEach(ele=>{
+                        ele.fildate=ele.time;
+                        switch(ele.weather){
+                            case '晴':
+                                ele.weather=1
+                                break;
+                            case '多云':
+                                ele.weather=2
+                                break;
+                            case '阴':
+                                ele.weather=3
+                                break;
+                            case '小雨':
+                                ele.weather=4
+                                break;
+                            case '阵雨':
+                                ele.weather=5
+                                break;
+                            case '大雨':
+                                ele.weather=6
+                                break;
+                            case '小雪':
+                                ele.weather=7
+                                break;
+                        }
+                    })
+                    this.vsalesTrendOptions = vsalesTrendOptions(this.result,this.dayList,this.weather);
                 }
             })
         },
@@ -1320,10 +1509,6 @@ export default {
          * 点击畅销商品查看走商品走势图
         */
         bestSellerClick() {
-            // this.$refs['barChart'+index][0].chart.on('click', function ()　{
-            //     console.log(arguments)
-            //     debugger
-            // })
             let str = event.path[2].textContent;
             let strname = str.split(':');
             this.bestSellerSlides.forEach((ele,index) => {

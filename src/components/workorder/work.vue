@@ -213,7 +213,7 @@ import { create } from 'domain';
                     type:'get',
                     success:(res)=>{
                         this.depRecords = res;
-                        // console.log(this.depRecords);
+                        console.log(this.depRecords);
                         for(let i in this.depRecords){
                             this.depRecords[i].value=this.depRecords[i].dept_id;
                             this.depRecords[i].label=this.depRecords[i].dept_name;
@@ -389,6 +389,7 @@ import { create } from 'domain';
                     url:'/NewA/Public/getdeptlist',
                     type:'post',
                     success:(res) =>{
+                        console.log(JSON.parse(res).data)
                        this.depData = this.dgZtree([JSON.parse(res).data]);
                     //    console.log(this.depData);
                     }
@@ -437,6 +438,7 @@ import { create } from 'domain';
              * @param {Array} data 需要转换的数据
              */
             dgZtree(data) {
+                console.log(data);
                 data.forEach(item => {
                     // title转化
                     item.label = item.dept_name;

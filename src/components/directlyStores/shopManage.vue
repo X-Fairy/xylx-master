@@ -46,6 +46,10 @@
                 <FormItem label="区域" prop="district">
                     <Input v-model="formValidate.district" placeholder=" 请输入门店区域..." />
                 </FormItem>
+                <!-- @on-change="loadData" -->
+                <FormItem label="城市" prop="city" class="cityClass">
+                    <Cascader :data="cityData" v-model="formValidate.city" change-on-select   @on-change="handleChange"  trigger="hover"  placeholder="请选择城市"></Cascader>
+                </FormItem>
                 <FormItem label="经度" prop="longitude">
                     <Input v-model="formValidate.longitude" placeholder=" 请输入门店所在经度..." />
                 </FormItem>
@@ -118,11 +122,20 @@ export default {
                     key: 'clerk',
                     title: '人数'
                 },
-                
+                {
+                    align: 'center',
+                    key: 'target',
+                    title: '销售目标'
+                },
                 {
                     align: 'center',
                     key: 'district',
                     title: '区域'
+                },
+                {
+                    align: 'center',
+                    key: 'city',
+                    title: '城市'
                 },
                 {
                     align: 'center',
@@ -157,6 +170,7 @@ export default {
                                         this.isShow = true;
                                         this.title = '编辑';
                                         this.editId = row.id;
+                                        console.log(row);
                                         this.formValidate = {
                                             store_name: row.store_name,                                 // 店名
                                             store_code: row.store_code,                                 // 编码
@@ -169,6 +183,7 @@ export default {
                                             rent: row.rent,               // 租金
                                             status: row.status,                                         // 状态
                                             district: row.district,     // 区域
+                                            
                                         };
                                     }
                                 }
@@ -230,6 +245,7 @@ export default {
                 rent: 0.00,          // 租金
                 status: '',        // 状态
                 district: '',     // 区域
+                city:''
             },
             ruleValidate: {
                 store_name: [
@@ -260,7 +276,29 @@ export default {
                 district: [
                     { required: true, message: '区域不能为空', trigger: 'blur' }
                 ],
-            }
+                city: [
+                    { required: true, message: '城市不能为空', trigger: 'blur' }
+                ],
+            },
+            // 城市数据
+            cityData:[
+                {
+                    value:'',
+                    label:'',
+                    children:[
+                        {
+                            value:'',
+                            label:'',
+                            children:[
+                                {
+                                    value:'',
+                                    label:''
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
             
         }
     },
@@ -280,9 +318,46 @@ export default {
     created() {
         // 得到所有直营门店数据
         this.getShopList();
+        this.getCity();
     },
 
     methods: {
+        /**
+        * 转化ztree数据；数据递归处理
+        * @param {Array} data 需要转换的数据
+        */
+        dgZtree(data) {
+            
+            data.forEach(item => {
+                // title转化
+                item.label = item.city;
+                item.value = item.cityid
+                // // 当前节点是否要展开
+                // item.value = item.dept_id;
+                // 是否选中当前节点
+                // item.selected = false;
+                // 如果当前节点有子节点，再次把子节点进行递归处理；数据判断，子节点数据是数组，防止报错
+                if (item.children instanceof Array && item.children.length) {
+                    this.dgZtree(item.children);
+                }
+            })
+            return data;
+        },
+        /* 获取城市 */
+        getCity(){
+            this.$resetAjax({
+                url:'/NewA/Storelist/getcity',
+                type:'POST',
+                // data,
+                success:(res)=>{
+                    let result = JSON.parse(res);
+                    this.cityData = this.dgZtree([JSON.parse(res)][0]);
+                }
+            })
+        },
+        handleChange(value, selectedData){
+            this.formValidate.city=value[value.length-1];
+        },
         /**
          * 得到所有直营门店数据
          */
@@ -346,6 +421,7 @@ export default {
                 department:  '',    // 部门
                 rent:  '',          // 租金
                 district: '',     // 区域
+                city:''
             };
         },
         /**
@@ -370,6 +446,7 @@ export default {
          */
         addShopquery() {
             var token = this.getToken(this.formValidate); 
+            
             var data = {token,};
             for(var k in this.formValidate) {
                 if(!(this.formValidate[k].length === 0 || this.formValidate[k] === '')) {
@@ -396,6 +473,7 @@ export default {
                                 department:  '',    // 部门
                                 rent:  '',          // 租金
                                 district: '',     // 区域
+                                city:''
                             };
                             this.isShow = false;
                             this.getShopList();
@@ -413,16 +491,21 @@ export default {
             var data1 = {};
             this.formValidate.clerk === '' ? '0' : this.formValidate.clerk;
             var dataObj = this.formValidate;
+            // console.log(dataObj);
+            
             var data2 = {id:this.editId};
             for(var key in dataObj) {
                 data2[key] = dataObj[key]
             };
             for(var i in data2) {
-                if(data2[i] === "") {
+                if(data2[i] === "" ) {
                     data1[i] = data2[i];
                     delete data2[i]
                 }
             }
+            console.log(data2)
+            debugger
+            // console.log(data2);
             var token = this.getToken(data2); 
             data2.token = token;
             this.$resetAjax({
@@ -446,6 +529,7 @@ export default {
                                 rent:  '',          // 租金
                                 status: '',         // 状态
                                 district: '',     // 区域
+                                city:''
                             };
                             this.isShow = false;
                             this.getShopList();
@@ -463,13 +547,17 @@ export default {
          * 获取参数的加密的Token值  obj对象
          */
         getToken(obj) {
+           
             var tokenStr = '',
             objValue = Object.values(obj);
             objValue.forEach(ele => {
-                if (ele.trim() && ele !== '0' && ele !== '0.00') {
+                if (ele.trim()) {
                     tokenStr += this.$md5(ele.trim())
+                    // console.log(ele);
+                    console.log(tokenStr);
                 }
             })
+            console.log(this.$md5(tokenStr));
             return this.$md5(tokenStr)
         },
         /**
