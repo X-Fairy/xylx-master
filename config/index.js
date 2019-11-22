@@ -21,13 +21,13 @@ module.exports = {
           '^/newoa': '/'   //重写接口
         }
       },
-    // '/public': {                                  // BI本地时放开
-    //     target: 'http://bi.xmvogue.com/',         
-    //     changeOrigin: true,  
-    //     // pathRewrite: {
-    //     //   '^/public': '/'   
-    //     // } 
-    //   }
+      // '/public': {                                 
+      //     target: 'http://bi.xmvogue.com/',         
+      //     changeOrigin: true,  
+      //     // pathRewrite: {
+      //     //   '^/public': '/'   
+      //     // } 
+      //   },      
     },
 
     // Various Dev Server settings

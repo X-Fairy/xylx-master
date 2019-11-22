@@ -50,7 +50,7 @@ export default {
 						iconUrl: JSON.parse(res).icon,
 						userid:JSON.parse(res).userid
 					}
-					this.user();
+					// this.user();
 				}
 			})
 		},

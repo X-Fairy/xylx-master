@@ -128,7 +128,8 @@ import domain from '@/components/visualization/domain'    // 区域数据可视�
 // 大区门店数据
 import areaData from '@/components/visualization/areaData'
 import storeData from '@/components/visualization/storeData'
-
+// 门店部门业绩
+import achievement from '@/components/visualization/achievement'
 import data from '@/components/data'
 
 Vue.use(Router)
@@ -537,6 +538,14 @@ export default new Router({
       path:'/storeData',
       name:'storeData',
       component:storeData,    // 门店可视化数据主页
+      meta: {
+          keepAlive: true // 需要缓存
+      }
+    },
+    {
+      path:'/achievement',
+      name:'achievement',
+      component:achievement,    // 部门业绩
       meta: {
           keepAlive: true // 需要缓存
       }

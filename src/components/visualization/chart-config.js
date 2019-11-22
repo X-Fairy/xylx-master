@@ -1718,6 +1718,327 @@ let goodsTrendOptions = function(vm) {
     }
 }
 
+// 水位图
+let liquidFillOptions=function(vm){
+    console.log(vm)
+    return {
+        title: {// 标题
+            text: '5000W完成率',
+            textStyle: {// 标题的样式
+                color: '#888', // 字体颜色
+                fontFamily: 'Microsoft YaHei', // 字体
+                fontSize: 14,
+                fontWeight: '400',
+                align: 'center', // 文字的水平方式
+                baseline: 'middle',
+                position: 'inside',
+                verticalAlign: 'middle'// 文字的垂直方式
+            },
+            left: 'center', // 定位
+            top: '20%'
+        },
+        series: [{
+            type: 'liquidFill',
+            radius: '95%',
+            waveAnimation: true,
+            data: [{
+                value: 0.5,
+                direction: 'left',
+                itemStyle: {
+                    normal: {
+                    color: '#1890ff'
+                    }
+                }
+            }],
+            outline: {
+                // show: true , //是否显示轮廓 布尔值
+                borderDistance: 1, // 外部轮廓与图表的距离 数字
+                itemStyle: {
+                    borderColor: '#1890ff', // 边框的颜色
+                    borderWidth: 3 // 边框的宽度
+                    // shadowBlur: 5 , //外部轮廓的阴影范围 一旦设置了内外都有阴影
+                    // shadowColor: '#000' //外部轮廓的阴影颜色
+                }
+            },
+            itemStyle: {
+                opacity: 0.9, // 波浪的透明度
+                shadowBlur: 0 // 波浪的阴影范围
+            },
+            backgroundStyle: {
+                color: '#fff' // 图表的背景颜色
+            },
+            label: { // 数据展示样式
+                show: true,
+                color: '#000',
+                insideColor: '#fff',
+                fontSize: 20,
+                fontWeight: 400,
+                align: 'center',
+                baseline: 'middle',
+                position: 'inside'
+            }
+        }]
+        
+    }
+}
+// 部门分布图
+let val1dataOptions=function(val1data,arr){
+    return {
+        title: {
+            top: '45%',
+            left: 'center',
+            text: '总目标5000万',
+            textStyle: {
+                color: '#000',
+                fontStyle: 'normal',
+                fontWeight: '600',
+                fontSize: 16
+            },
+            subtext: '完成'+arr[1]+'元,占总业绩的' + (arr[1]/50000000*100).toFixed(2)+'%',
+            subtextStyle: {
+                color: '#0d1d4d',
+                fontSize: 15,
+            }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: function(res) {
+                if (res.componentSubType == 'liquidFill') {
+                    return res.seriesName + ': ' + (res.value * 10000 / 100).toFixed(2) + '%';
+                } else {
+                    return '<span class="ii" style="background:' + res.color + ' "></span>' + res.name + ':<br/> ' + res.data.value+'元';
+                }
+            }
+        },
+        series: [{
+                type: 'liquidFill',
+                radius : '85%',
+                itemStyle: {
+                    normal: {
+                        opacity: 1,
+                        shadowBlur: 0,
+                        shadowColor: 'blue'
+                    }
+                },
+                name: arr[3],
+                data: [{
+                    value: arr[1]/50000000,
+                    itemStyle: {
+                        normal: {
+                            color: '#53d5ff',
+                            opacity: 1
+                        }
+                    }
+                }],
+           
+                color: ['#53d5ff'],
+                center: ['50%', '50%'],
+                label: {
+                    normal: {
+                        formatter: '',
+                        textStyle: {
+                            fontSize: 12
+                        }
+                    }
+                },
+                outline: {
+                    itemStyle: {
+                        borderColor: '#86c5ff',
+                        borderWidth: 0
+                    },
+                    borderDistance: 0
+                }
+            },
+            {
+                type: 'pie',
+                radius: ['85%', '90%'],
+                color: ['#0396FF', '#deb140','#49dff0', '#034079', '#6f81da', '#00ffb4'],
+                hoverAnimation: false, ////设置饼图默认的展开样式
+                label: {
+                    show: true,
+                    
+                    normal: {
+                        formatter: '{b}\n{d}%',
+                        show: true,
+                        position: ''
+                    },
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                itemStyle: { // 此配置
+                    normal: {
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                    },
+                    emphasis: {
+                        borderWidth: 0,
+                        shadowBlur: 2,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                data: arr[2]
+            }
+        ]
+        
+    }
+}
+// 部门员工柱状图
+let employmentOptions=function(dataAxis,data){
+    // console.log(dataAxis,data);
+    return{
+        color: ['#0bf9e5'],
+        // title: {
+        //     text: '客服部员工业绩',
+        // },
+        // grid: {
+        //     left:240,
+        //     top:45,
+        //     bottom:20,
+        //     right: 220
+        // },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        // toolbox: {
+        //     show : true,
+        //     feature : {
+        //         dataView : {show: true, readOnly: false},
+        //         magicType : {show: true, type: ['line', 'bar']},
+        //         restore : {show: true},
+        //         saveAsImage : {show: true}
+        //     }
+        // },
+        calculable : true,
+        xAxis: {
+            type : 'category',
+            name:'姓名',
+            data: dataAxis,
+            axisLabel: {
+                show: true,
+                textStyle: {
+                    color: '#87a0dc',                  // 更改坐标轴文字颜色
+                    fontSize : 10,                     // 更改坐标轴文字大小
+                },
+                interval: 0,
+                rotate:25,
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'#6076ad'                   // 更改坐标轴颜色
+                }
+            }
+        },
+        yAxis:{
+            name:'业绩',
+            type:'value',
+            splitLine: {
+                lineStyle: {
+                    color: ['#1a2a42']               // 使用深浅的间隔色
+                }
+            },
+            axisLabel: {
+                show: true,
+                textStyle: {
+                color: '#87a0dc',                    // 更改坐标轴文字颜色
+                fontSize : 12,                       // 更改坐标轴文字大小
+                }
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'#6076ad'                // 更改坐标轴颜色
+                }
+            }
+            // axisLabel: {
+            //     show: true,
+            //     textStyle: {
+            //         color: '#fff',                  // 更改坐标轴文字颜色
+            //         fontSize : 10,                     // 更改坐标轴文字大小
+            //     },
+            //     interval: 0,
+            //     rotate:25,
+            // },
+            // axisTick: {
+            //     show: false
+            // },
+            // axisLine:{
+            //     lineStyle:{
+            //         color:'#fff'                   // 更改坐标轴颜色
+            //     }
+            // }
+        },
+        series: [
+            {
+                type: 'bar',
+                data: data,
+                barWidth : 30,//柱图宽度
+                itemStyle: {
+                    normal: {
+        　　　　　　　　//这里是重点
+                        // color: function(params) {
+                        //     //注意，如果颜色太少的话，后面颜色不会自动循环，最好多定义几个颜色
+                        //     var colorList = [ '#ca8622','#249cf9', '#67e0e3','#fdb628','#30ace1','#2f646e','#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',];
+                        //     return colorList[params.dataIndex]
+                        // }
+                        //每个柱子的颜色即为colorList数组里的每一项,如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                  //每个柱子的颜色即为colorList数组里的每一项,如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                    color: function(params) {
+                        var index = params.dataIndex;
+                        var colorList = [
+                        // 渐变颜色的色值和透明度
+                        //透明度从0
+                        ['rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(0,139,139,0)','rgba(69, 139 ,116,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(13,94,208,0)','rgba(255,155,15,0)','rgba(253,103,96,0)','rgba(255 ,165, 79,0)','rgba(238 ,44 ,44,0)','rgba(0,139,139,0)','rgba(69, 139 ,116,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(15,235,255,0)','rgba(13,94,208,0)','rgba(255,155,15,0)','rgba(253,103,96,0)','rgba(255 ,165, 79,0)','rgba(238 ,44 ,44,0)'],
+                        //到透明度1 ,如果需要不同的颜色直接修改不同颜色即可
+                        ['rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(0,139,139,0.6)','rgba(69, 139 ,116,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(13,94,208,0.6)','rgba(255,155,15,0.6)','rgba(253,103,96,0.6)','rgba(255 ,165, 79,0.6)','rgba(238 ,44 ,44,0.6)','rgba(0,139,139,0.6)','rgba(69, 139 ,116,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(15,235,255,0.6)','rgba(13,94,208,0.6)','rgba(255,155,15,0.6)','rgba(253,103,96,0.6)','rgba(255 ,165, 79,0.6)','rgba(238 ,44 ,44,0.6)']
+                        ];
+                        return {
+                            colorStops: [
+                                {
+                                    offset: 0,   //颜色的开始位置
+                                    color: colorList[0][index] // 0% 处的颜色
+                                },
+                                {
+                                    offset:0.6,    //颜色的结束位置
+                                    color: colorList[1][index] // 100% 处的颜色
+                                }
+                            ]}
+                        }
+                    }
+                },
+                markPoint : {
+                    data : [
+                        {type : 'max', name: '最大值'},
+                        {type : 'min', name: '最小值'}
+                    ],
+                    label: {
+                        color: '#fe536c', // 最大值最小值的标注颜色
+                        fontWeight: 'bold',
+                    }
+                },
+                markLine : {
+                    data : [
+                        {type : 'average', name: '平均值'}
+                    ]
+                }
+               
+            }
+            
+        ]
+    }
+}
 export{
     unsalableOptions,         // 滞销
     bestOptions,              // 畅销
@@ -1734,4 +2055,7 @@ export{
     vsalesTrendOptions,        // 门店总销售额走势
     goodsTrendOptions,        // 畅销TOP 10单个商品销售额走势和总销售额走势
     kuncun,
+    liquidFillOptions,
+    val1dataOptions,
+    employmentOptions
 }

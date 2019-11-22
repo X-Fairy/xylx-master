@@ -25,10 +25,11 @@
                 <FormItem prop="describe" label="备注">
                     <Input v-model="formValidate.describe" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="Enter something..." />
                 </FormItem>
+                <!-- :format="['xlsx', 'pptx', 'docx', 'doc', 'xls', 'pdf','ppt']" :on-format-error ="formatError" -->
                 <FormItem class="upload_item">
                     <Upload action="/NewA/Workorder/getfile" :on-success="upLoadSuccess"
-                     :on-error="upLoadError"  :on-progress="uploadProess" :format="['xlsx', 'pdf', 'docx', 'doc', 'xls', 'pdf']" 
-                     :on-format-error ="formatError" class="upload_customer">
+                     :on-error="upLoadError"  :on-progress="uploadProess"  
+                      class="upload_customer">
                         <Button type="ghost" icon="ios-cloud-upload-outline" class="ghost">上传文件</Button> 
                     </Upload>
                 </FormItem>
@@ -257,6 +258,10 @@ export default {
                     name: '模板',
                 },
                 {
+                    id: 6,
+                    name: '音视频',
+                },
+                {
                     id: 3,
                     name: '其他',
                 },
@@ -273,6 +278,10 @@ export default {
                 {
                     id: 2,
                     name: '财务',
+                },
+                {
+                    id: 6,
+                    name: '音视频',
                 },
                 {
                     id: 4,
@@ -364,14 +373,14 @@ export default {
         uploadProess() {
             this.isSpinShow = true;
         },
-        formatError(res) {
-            this.isSpinShow = false;
-            this.$root.tip.isShow = true;
-            this.$root.tip.content = '上传文件格式不对!';
-            setTimeout(() => {
-                this.$root.tip.isShow = false;
-            }, 1500); 
-        },
+        // formatError(res) {
+        //     this.isSpinShow = false;
+        //     this.$root.tip.isShow = true;
+        //     this.$root.tip.content = '上传文件格式不对!';
+        //     setTimeout(() => {
+        //         this.$root.tip.isShow = false;
+        //     }, 1500); 
+        // },
         /**
          * 删除上传文件
          */

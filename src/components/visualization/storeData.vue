@@ -569,8 +569,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/Manage/data',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data: {
                         stime: this.stime ,          // 开始时间
                         etime: this.etime,          // 结束时间
@@ -648,8 +648,8 @@ let isFrist = true;
                     type: 'POST',
                     url: '/public/index.php?s=home/Manage/kucuns',
                     // async: false,
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     success:(res) => {
                         let result = JSON.parse(res);
                         this.stockData = result.kucun;
@@ -657,8 +657,8 @@ let isFrist = true;
                             type: 'POST',
                             url: '/public/index.php?s=home/Manage/kucunss',
                             // async: false,
-                            root: '',
-                            // root: 'http://bi.xmvogue.com/',
+                            // root: '',
+                            root: 'http://bi.xmvogue.com/',
                             success:(res) => {
                                 this.$nextTick(() => {
                                     this.isShowStock = false;
@@ -762,8 +762,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/Manage/goods_sale_trend',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data: {
                         stime: this.stime,
                         etime: this.etime,
@@ -946,8 +946,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/Manage/get_sale_date',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data,
                     success:(res) => {
                         this.isTotalTrend = true;
@@ -967,8 +967,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/Index/holiday',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data,
                     success:(res) => {
                         JSON.parse(res).forEach(ele=>{
@@ -1024,8 +1024,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/Manage/get_goods_list',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data: {
                         stime: this.stime,
                         etime: this.etime,
@@ -1095,8 +1095,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/Manage/get_cls',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data: {
                         stime: this.stime,          // 开始时间
                         etime: this.etime,          // 结束时间
@@ -1180,8 +1180,8 @@ let isFrist = true;
                 this.$resetAjax({
                     type: 'POST',
                     url: '/public/index.php?s=home/manage/get_kucun_list',
-                    root: '',
-                    // root: 'http://bi.xmvogue.com/',
+                    // root: '',
+                    root: 'http://bi.xmvogue.com/',
                     data,
                     success:(res) => {
                         this.isLoadingPop = false;

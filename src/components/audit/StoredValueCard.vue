@@ -71,7 +71,7 @@
                     未存现金
                 <span class="cash">￥{{weicun}}</span>
             </p>
-            <Button type="primary" @click="addcard" class="add">新增储值卡</Button>
+            <!-- <Button type="primary" @click="addcard" class="add">新增储值卡</Button> -->
         </div>
         <div class="table">
             <Table  :columns="columns" :data="tableData" border :height="tableHeight" v-if='tableShow'></Table>
@@ -113,7 +113,7 @@
                     <Input v-model="cardForm.actual" placeholder="请输入实存现金" disabled></Input>
                 </FormItem> -->
                 <FormItem label="销售日期" prop="date">
-                    <DatePicker type="date" v-model="cardForm.date"  placeholder="请选择销售日期" style="width: 390px"></DatePicker>
+                    <DatePicker type="date" v-model="cardForm.date"  placeholder="请选择销售日期" style="width: 390px" readonly></DatePicker>
                 </FormItem> 
                 <!-- <FormItem label="上传图片" prop="url" class="images"> 
                     <Upload v-model="cardForm.url" multiple action="/NewA/Audit/getimage" :on-success="uploadImage" :format="['jpg','jpeg','png']" :on-format-error="handleFormatError">
@@ -199,9 +199,9 @@
                 rechargeShow:false,
                 // 表单验证
                 ruleValidate: {
-                    date: [
-                        { required: true, type: 'date',message: '销售日期不能为空', trigger: 'blur' },
-                    ],
+                    // date: [
+                    //     { required: true, type: 'date',message: '销售日期不能为空', trigger: 'blur' },
+                    // ],
                     recharge: [
                         { required: true, message: '储值卡现金充值不能为空', trigger: 'blur' }
                     ],
@@ -317,8 +317,8 @@
                                             this.cardForm=row;
                                             this.deleteId=row.id;
                                             this.cardForm.store=this.store;
-                                            // this.cardForm.actual=row.cash_actual;
                                             this.cardForm.date=row.sale_date;
+                                            console.log(this.cardForm.date)
                                             this.cardForm.payable=row.cash_payable;
                                             this.getImage();
                                         }
@@ -581,8 +581,6 @@
                 this.cardForm={
                     store:this.store
                 }
-                // this.cardForm.store= this.store;
-                console.log(this.cardForm);
             },
             // 提交表单
             handleSubmit (name) {
@@ -602,18 +600,19 @@
                                     url:this.cardForm.url
                                 },
                                 success:(res)=>{
-                                    this.cardForm={};
-                                    this.addModal=false;
                                     if(res.msg=="success") {
+                                        this.addModal=false;
                                         this.$Message.success('新增成功');
+                                        this.cardForm={};
                                         this.tableShow=true;
                                         this.getCardlist();
-                                    } else{
-                                        this.$Message.error('新增失败')
+                                    } else if(res.msg=="日期重复"){
+                                        this.$Message.error('日期重复，不能重复添加！');
                                     }
                                 }
                             })
                         }else if(this.title=='修改'){
+
                             this.$resetAjax({
                                 url:'/NewA/Audit/editcard',
                                 type:'POST',
