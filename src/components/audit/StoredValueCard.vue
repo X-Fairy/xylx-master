@@ -318,7 +318,6 @@
                                             this.deleteId=row.id;
                                             this.cardForm.store=this.store;
                                             this.cardForm.date=row.sale_date;
-                                            console.log(this.cardForm.date)
                                             this.cardForm.payable=row.cash_payable;
                                             this.getImage();
                                         }
@@ -762,7 +761,7 @@
                         this.lookImgs=res.data;
                         if(this.lookImgs.length>0){
                             this.isShowImageButton=true;
-                            this.gloadCarouse=true;
+                            // this.gloadCarouse=true;
                             this.value=0;
                         }else{
                             this.isShowImageButton=false;
