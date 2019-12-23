@@ -1,0 +1,268 @@
+.directlyStores{
+    height: 100%;
+    background: #fff;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    // 左边内容
+    .directlyStores_left{
+        width: 36%;
+        height: 100%;
+        box-sizing: border-box;
+        border-right: 1px solid #ddd;
+        position: relative;
+        .top{
+            color:#000;
+            text-shadow: 2px 2px 2px #ccc;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            padding-left: 40px;
+            box-sizing: border-box;
+            border-bottom: 1px solid @bgColor;
+            .round{
+                display: inline-block;
+                background: @bgColor;
+                width:  10px;
+                height: 10px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+        }
+        // 表格
+        .table{
+            position: absolute;
+            top: 95px;
+            left: 40px;
+            right: 45px;
+            border: 0;
+            .ivu-table-cell {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
+                word-break: break-all;
+                box-sizing: border-box;
+                height: 48px;
+                line-height: 48px;
+            }
+            .td-click{
+                background: #1d8c9f;
+                color: #fff;
+                font-size: 18px;
+            }
+            .ivu-card-body{
+                padding: 0;
+            }
+        }
+        // 分页
+        .footer{
+            position: absolute;
+            background: #fff;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 50px;
+            padding-right: 45px;
+            border-top: 1px solid #ddd;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            .ivu-page-item-active {
+                background-color:@bgColor;
+                border-color: @bgColor;
+            }
+        }
+    }
+    // 右边详情
+    .directlyStores_right{
+        height: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        left: 36%;
+        width: 67%;
+        .top{
+            color:#000;
+            text-shadow: 2px 2px 2px #ccc;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            padding-left: 40px;
+            box-sizing: border-box;
+            border-bottom: 1px solid @bgColor;
+            .round{
+                display: inline-block;
+                background: @bgColor;
+                width:  10px;
+                height: 10px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            
+        }
+        .right_area{
+            position: absolute;
+            top: 95px;
+            bottom: 52px;
+            right: 70px;
+            left: 30px;
+            border: 1px solid #ddd;
+            overflow: auto;
+            .ivu-card-body{
+                padding: 0;
+            }
+            .area_top{
+                border-bottom: 1px solid #dddd;
+                box-sizing: border-box;
+                .area_select{
+                    height: 65px;
+                    align-items: center;
+                    line-height: 65px;
+                    padding-left: 26px;
+                    box-sizing: border-box;
+                    width: 254px;
+                    border-bottom: 2px solid @bgColor;
+                    .ivu-date-picker-focused input {
+                        box-shadow: none;
+                    }
+                    .area_item{
+                        color: @bgColor;
+                        margin-right: 5px;
+                        font-size: 14px;
+                    }
+                    .ivu-input{
+                        border: 1px solid #ccc;
+                        &:focus{
+                            box-shadow: none;
+                            border: 0;
+                        }
+                    }
+                    .ivu-picker-panel-sidebar{
+                        width: 99px;
+                    }
+                }
+            }
+            .area_middle{
+               padding-top: 40px;
+               padding-right: 60px;
+               padding-left: 20px;
+               .handle{
+                    display:flex; 
+                    justify-content: center;
+                    .submit{
+                        background: @bgColor;
+                        color: #fff;
+                        &:hover{
+                            box-shadow: none !important;
+                        }
+                    }
+                    .reset{
+                        &:hover{
+                            border: 1px solid @bgColor;
+                            color:#000;
+                        }
+                    }
+               }
+                .form_item{
+                    display: flex;
+                    .ivu-form-item-label {
+                        margin-top:0; 
+                    }
+                    .operator, .stock{
+                        padding-top: 3px;
+                        color:@bgColor;
+                        font-size: 16px;
+                        margin-left: 20px;
+                        font-weight: bold;
+                    }
+                    .operator{
+                        margin-left: -45px;
+                    }
+                    .stock{
+                        margin-left: -10px;
+                        margin-right: 20px;
+                    }
+                    .ivu-form-item{
+                        margin-bottom: 15px;
+                        width: 418px;
+                        margin-right: 50px;
+                        .ivu-input[disabled], fieldset[disabled] .ivu-input {
+                             opacity: 1;
+                             cursor: not-allowed;
+                             color: #000;
+                         }
+                        
+                         .ivu-input{
+                             &:hover, &:focus{
+                                border: 1px solid @bgColor;
+                                box-shadow: none;
+                             }
+                         }
+                    }
+                }
+                .storeInfo, .saleAddSum, .stock_amt, .mpeb, .memo{
+                    border-bottom: 1px dashed #ddd;
+                    margin-bottom: 20px;
+                    padding-bottom: 5px;
+                }
+                .saleAddSum {
+                    .ivu-form-item{
+                        margin-right: 0;
+                    }
+                }
+                .memo{
+                    .ivu-form-item{
+                        width: 418px;
+                    }
+                    textarea{
+                        resize: none;
+                        position: relative;
+                        height: 47px !important;
+                        width: 100%;
+                    }
+                    span{
+                        position: absolute;
+                        right: 5px;
+                        bottom: -5px;
+                        color: #ccc;
+                    }
+                    .ivu-input-wrapper{
+                        width: 100%;
+                    }
+                }
+                .ivu-input-number{
+                    border-radius: 0;
+                }
+                .ivu-input-number-input[disabled] {
+                    cursor: not-allowed;
+                    color: #000;
+                }
+                input:focus{
+                    outline: none !important;
+                }
+                .ivu-input-wrapper{
+                    width: 90px;
+                }
+                .storeInfo .ivu-input-wrapper{
+                    width: 198px;
+                }
+            }
+        }
+    }
+}
+
+.ivu-modal-confirm-footer button.ivu-btn-primary{
+    background: @bgColor;
+    color: #fff;
+}
+.ivu-modal-confirm-footer button.ivu-btn-text {
+    background: #fff;
+}
+.ivu-modal-confirm-footer button:hover{
+    background: #fff;
+    color: #000;
+    border: 1px solid @bgColor;
+}

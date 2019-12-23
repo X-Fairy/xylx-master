@@ -1,0 +1,38 @@
+.people{
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+    .top{
+        height: 60px;
+        background: #e7e9eb;
+        display: flex;
+        justify-content: left;
+        padding-left: 13px;
+        align-items: center;
+        box-sizing: border-box;
+        .part{
+            padding: 10px;
+            margin-right: 23px;
+            .item{
+                color: #1d8c9f;
+                margin-right: 5px;
+            }
+            .ivu-select-selection{
+                overflow: auto;
+                height: 34px;
+            }
+        }
+    }
+    .table{
+        position: absolute;
+        top: 76px;
+        left: 20px;
+        right: 20px;
+        bottom: 60px;
+        overflow: auto;
+        & th, & td{
+            text-align: center;
+        }
+    }
+}

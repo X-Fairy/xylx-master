@@ -169,8 +169,8 @@
                         <button class="checkMore" style="float: right;margin-right: 20px;" @click="handlePubseas">查看公海池客户列表</button>
                         <button class="checkMore" style="float: right;margin-right: 20px;" v-if="showList" @click="hasShow=true">查询</button>
                         
-                        <Table  ref="selection1" border :row-class-name="rowClassName" :columns="columns" :data="tableData" :height="tableHeight" @on-selection-change="getChangeSelect" v-if="tableShow"></Table>
-                        <Table ref="selection2" border :columns="column" :data="pubseaData" :height="tableHeight" @on-selection-change="getChangeSelect" v-else></Table>
+                        <Table   border :row-class-name="mydefineRow" :columns="columns" :data="tableData" :height="tableHeight" @on-selection-change="getChangeSelect" v-if="tableShow"></Table>
+                        <Table  border  :columns="column" :data="pubseaData" :height="tableHeight" @on-selection-change="getChangeSelect" v-else></Table>
                         <!-- <Button @click="handleSelectAll(true)" style="margin-top: 20px;">设置全选</Button>
                         <Button @click="handleSelectAll(false)" style="margin-top: 20px;">取消全选</Button> -->
                     </div>
@@ -279,7 +279,27 @@
                     <Button type="primary" @click="editIntentionQuery('formValidateIntention')" style="float: right;">确定</Button>
                 </FormItem>
             </Form>
-            
+        </Modal>
+        <!-- 修改地址 -->
+        <Modal title="修改客户地址" v-model="addressShow" :mask-closable="false" class="userModal">
+            <Form ref="addressData" :model="addressData"  :label-width="80">
+               <FormItem label="开店省份" prop="openProvice" class="pro"> 
+                    <Select v-model="addressData.openProvice"  @on-change="getNextProvice(addressData.openProvice)" filterable clearable>
+                        <Option v-for="item in openProviceList" :value="item.areaid" :key="item.areaid">{{item.areaname}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="开店城市" prop="openCity">
+                    <Select v-model="addressData.openCity"  @on-change="getOpenCity(addressData.openCity)" filterable clearable>
+                        <Option v-for="item in openCityList" :value="item.areaid" :key="item.areaid">{{item.areaname}}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="详细地址" prop="address">
+                    <Input v-model="addressData.address" placeholder="请输入客户的详细地址" style="width:410px;" />
+                </FormItem>
+            </Form>
+            <div class="modal_footer">
+                <Button @click="addressUpdate">提交</Button>
+            </div>
         </Modal>
     </div>
 </template>
@@ -295,6 +315,21 @@ export default {
 
     data() {
         return {
+            addressShow:false,
+            addressId:'',
+            // 修改客户地址
+            addressData:{
+                // 开店省份
+                openProvice: '',
+                // 开店城市
+                openCity: '',
+                // 客户的详细地址
+                address: '',
+            },
+            // 开店省份数据
+            openProviceList: [],
+            // 开店城市数据
+            openCityList: [],
             // 是否显示上传列表
             uploadmarksShow:false,
             uploadList:false,
@@ -390,7 +425,7 @@ export default {
             // 标记选定
             signmodel: '',
             // 标记数据
-            signList:[
+            signList:[                
                 {
                     value: '1',
                     label: '',
@@ -461,6 +496,7 @@ export default {
                         color: '#e9aaa0',
                     }
                 },
+                
             ],
             // 是否显示编辑推广弹框
             extend_modal:false,
@@ -626,47 +662,16 @@ export default {
                     width: 120,
                     key: 'phone',
                     fixed: 'left'
-                },
-                {
-                    title: '来源',
-                    width: 120,
-                    key: 'channels',
-                    fixed: 'left'
-                },
-                {
-                    title:'推广',
-                    width: 120,
-                    key:'marks',
-                    fixed:'left',
-                    render: (h, params) => {
-                        return h('div',{
-                            style:{
-                               cursor: 'pointer',
-                               width: '100%',
-                                height: '20px',
-                            },
-                            domProps: {
-                                title: '点击编辑客户推广'
-                            },
-                            on: {
-                                click: () => {
-                                    // 当前单元格客户的id
-                                    this.signId = params.row.id;
-                                    this.extend_modal = true;
-                                    
-                                }
-                            }
-                        },params.row.marks)
-                    }
-                },
+                },                
                 {
                     title: '城市',
                     key: 'areaname',
                     width: 150,
+                    fixed: 'left',
                     render: (h, params) => {
-                         let text = '';
+                        let text = '';
                         if (params.row.areaname !== null) {
-                            text = params.row.areaname;
+                            text = params.row.areaname+params.row.address;
                         } else if (params.row.address !== '') {
                             text = params.row.address;
                         }
@@ -676,40 +681,28 @@ export default {
                                     color: '#495060',
                                     fontSize: '12px',
                                 },
+                                domProps: {
+                                    title: '点击编辑客户地址'
+                                },
+                                on: {
+                                    click: () => {
+                                        if(params.row.provinceid!==null){
+                                            this.addressData.openProvice=params.row.provinceid;
+                                        };
+                                        this.getCitys(this.addressData.openProvice);  
+                                        if(params.row.cityid!==null){
+                                            this.addressData.openCity=params.row.cityid;
+                                        }                                                                            
+                                        this.addressData.address=params.row.address;
+                                        this.addressId = params.row.id;
+                                        this.addressShow=true;
+                                    }
+                                }
                             }, text),
                         ])
                     }
-                },
-                
-                // {
-                //     title:'跟进状态',
-                //     width: 90,
-                //     key:'clue',
-                //     render:(h, params) => {
-                //         return h('div', [
-                //             // 设置气泡式提醒
-                //             h('Tooltip',[
-                //                     // 设置icon
-                //                     h('div', 
-                //                         [
-                //                             h('icon', {
-                //                                 props: {
-                //                                 type: params.row.clue === '1' ? 'information-circled' : 'checkmark-round',
-                //                             },
-                //                             style: {
-                //                                 color: params.row.clue === '1' ? '#ed3f14' : '#1d8c9f',
-                //                                 fontSize: '20px'
-                //                             },
-                //                             domProps: {
-                //                                 title: params.row.clue === '1' ? '未跟进' :'已跟进'
-                //                             },
-                //                         })
-                //                     ])
-                //                 ]
-                //             )
-                //         ])
-                //     }
-                // },
+                },               
+               
                 {
                     title: '最新跟进摘要',
                     width: 530,
@@ -859,19 +852,52 @@ export default {
                     }
                 },
                 {
-                    title: '录入时间',
+                    title: '来源',
                     width: 120,
+                    key: 'channels',
+                    
+                },
+                {
+                    title: '录入时间',
+                    width: 130,
                     key: 'insert_time',
                 },
                 {
                     title: '跟进时间',
-                    width: 120,
+                    width: 130,
                     key: 'last_time',
                 },
                 {
                     title: '下次跟进时间',
-                    width: 120,
+                    width: 160,
                     key: 'follow_up_time',
+                },
+                
+                {
+                    title:'推广',
+                    width: 120,
+                    key:'marks',
+                    
+                    render: (h, params) => {
+                        return h('div',{
+                            style:{
+                               cursor: 'pointer',
+                               width: '100%',
+                                height: '20px',
+                            },
+                            domProps: {
+                                title: '点击编辑客户推广'
+                            },
+                            on: {
+                                click: () => {
+                                    // 当前单元格客户的id
+                                    this.signId = params.row.id;
+                                    this.extend_modal = true;
+                                    
+                                }
+                            }
+                        },params.row.marks)
+                    }
                 },
             ],
             searchParams: {
@@ -952,76 +978,55 @@ export default {
                 },
                 {
                     title: '姓名',
-                    width: 100,
+                    width: 120,
                     key: 'username',
                     fixed: 'left'
                 },
                 {
                     title: '电话',
-                    width: 120,
+                    width: 130,
                     fixed: 'left',
                     key: 'phone'
                 },
                 {
-                    title: '来源',
-                    width: 120,
-                    key: 'channels',
-                    fixed: 'left'
-                },
-                {
-                    title: '意向度',
-                    width:75,
-                    key: 'intention', 
+                    title: '城市',
+                    key: 'areaname',
+                    width: 150,
                     fixed: 'left',
                     render: (h, params) => {
+                        let text = '';
+                        if (params.row.areaname !== null) {
+                            text = params.row.areaname+params.row.address;
+                        } else if (params.row.address !== '') {
+                            text = params.row.address;
+                        }
                         return h('div', [
                             h('a', {
-                                class: 'handle',
                                 style: {
                                     color: '#495060',
                                     fontSize: '12px',
                                 },
                                 domProps: {
-                                    title: '点击修改意向度'
+                                    title: '点击编辑客户地址'
                                 },
                                 on: {
                                     click: () => {
-                                        this.intentionModal=true;
-                                        this.rowid = params.row.id;
-                                        this.titleName=params.row.username;
-                                        this.formValidateIntention.modelIntention=params.row.intention;
+                                        if(params.row.provinceid!==null){
+                                            this.addressData.openProvice=params.row.provinceid;
+                                        };
+                                        this.getCitys(this.addressData.openProvice);  
+                                        if(params.row.cityid!==null){
+                                            this.addressData.openCity=params.row.cityid;
+                                        }                                                                            
+                                        this.addressData.address=params.row.address;
+                                        this.addressId = params.row.id;
+                                        this.addressShow=true;
                                     }
                                 }
-                            }, params.row.intention),
+                            }, text),
                         ])
                     }
-                },
-                {
-                    title:'推广',
-                    width: 120,
-                    key:'marks',
-                    fixed:'left',
-                    render: (h, params) => {
-                        return h('div',{
-                            style:{
-                               cursor: 'pointer',
-                               width: '100%',
-                                height: '20px',
-                            },
-                            domProps: {
-                                title: '点击编辑客户推广'
-                            },
-                            on: {
-                                click: () => {
-                                    // 当前单元格客户的id
-                                    this.signId = params.row.id;
-                                    this.extend_modal = true;
-                                    // this.entrustUpdate(params.row.sign);
-                                }
-                            }
-                        },params.row.marks)
-                    }
-                },
+                },                               
                 {
                     title: '标记',
                     width: 80,
@@ -1147,32 +1152,10 @@ export default {
                         ]
                         )
                     }
-                },
-                {
-                    title: '城市',
-                    width: 150,
-                    key: 'areaname',
-                    render: (h, params) => {
-                         let text = '';
-                        if (params.row.areaname !== null) {
-                            text = params.row.areaname;
-                        } else if (params.row.address !== '') {
-                            text = params.row.address;
-                        }
-                        return h('div', [
-                            h('a', {
-                                style: {
-                                    color: '#495060',
-                                    fontSize: '12px',
-                                },
-                            }, text),
-                        ])
-                    }
-                },
-                
+                }, 
                 {
                     title:'跟进状态',
-                    width: 90,
+                    width: 100,
                     key:'clue',
                     render:(h, params) => {
                         return h('div', [
@@ -1365,9 +1348,43 @@ export default {
                     
                 },
                 {
+                    title: '来源',
+                    width: 120,
+                    key: 'channels',
+                    // fixed: 'left'
+                },
+                {
+                    title: '意向度',
+                    width:100,
+                    key: 'intention', 
+                    // fixed: 'left',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('a', {
+                                class: 'handle',
+                                style: {
+                                    color: '#495060',
+                                    fontSize: '12px',
+                                },
+                                domProps: {
+                                    title: '点击修改意向度'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.intentionModal=true;
+                                        this.rowid = params.row.id;
+                                        this.titleName=params.row.username;
+                                        this.formValidateIntention.modelIntention=params.row.intention;
+                                    }
+                                }
+                            }, params.row.intention),
+                        ])
+                    }
+                },
+                {
                     title: '录入时间',
                     key: 'insert_time',
-                    width: 120,
+                    width: 130,
                     renderHeader: (h,params)=>{
                         return h('div',[
                             h('strong','录入时间'),
@@ -1409,7 +1426,7 @@ export default {
                 },
                 {
                     title: '跟进时间',
-                    width: 120,
+                    width: 130,
                     key: 'last_time',
                     renderHeader: (h,params)=>{
                         return h('div',[
@@ -1452,7 +1469,7 @@ export default {
                 },
                 {
                     title: '下次跟进时间',
-                    width: 120,
+                    width: 160,
                     key: 'follow_up_time',
                     renderHeader: (h,params)=>{
                         return h('div',[
@@ -1491,6 +1508,33 @@ export default {
                                 }
                             })
                         ])
+                    }
+                },
+                
+                {
+                    title:'推广',
+                    width: 120,
+                    key:'marks',
+                    // fixed:'left',
+                    render: (h, params) => {
+                        return h('div',{
+                            style:{
+                               cursor: 'pointer',
+                               width: '100%',
+                                height: '20px',
+                            },
+                            domProps: {
+                                title: '点击编辑客户推广'
+                            },
+                            on: {
+                                click: () => {
+                                    // 当前单元格客户的id
+                                    this.signId = params.row.id;
+                                    this.extend_modal = true;
+                                    // this.entrustUpdate(params.row.sign);
+                                }
+                            }
+                        },params.row.marks)
                     }
                 },
             ];
@@ -1586,33 +1630,92 @@ export default {
         })
     },
 
-    methods: {
-       
-        /* 获取未回访的客户 */
-        // getCustomerNum(){
-        //     this.$resetAjax({
-        //         url:'/NewA/Customer/listinit',
-        //         type:'GET',
-        //         success:(res)=>{
-        //             let content=`您今天有【${JSON.parse(res).data}位】客户需要回访，有【${JSON.parse(res).count}位】客户还未回访过！`;
-        //             this.$Modal.warning({
-        //                 title:'注意查看',
-        //                 content: content,
-        //                 onOk:()=>{
-        //                     this.getCustomerList();
-        //                 }
-        //             });
-                    
-        //         }
-        //     })
-        // },
+    methods: { 
+         /**
+          * 得到哪个开店省份
+          */
+        getNextProvice(openProvice) {
+            this.addressData.openProvice = openProvice;
+            this.addressData.openCity='';
+            this.getCitys(this.addressData.openProvice);
+        },
+        /**
+          * 得到哪个开店城市
+          */
+        getOpenCity(openCity) {
+            this.addressData.openCity = openCity;
+        },
+        // 修改城市
+        addressUpdate() {
+            this.$resetAjax({
+                url: '/NewA/Customer/update',
+                type: 'POST',
+                data: {
+                    id: Number(this.addressId),                        
+                    // 开店省
+                    provinceid: this.addressData.openProvice,
+                    // 开店城市
+                    cityid: this.addressData.openCity,
+                    // 客户的详细地址
+                    address: this.addressData.address
+                },
+                success: (res) => {
+                    let result=JSON.parse(res);
+                    if(result.errorcode==0){
+                        this.addressShow=false;
+                        this.$Message.success('修改成功！');
+                        this.getCustomerList();                        
+                    }else if(result.errorcode==100){
+                        this.addressShow=false;
+                        this.$Message.error('修改失败,该客户不属于您');
+                    }
+                }
+            })
+        },
         /* 判断当前行的数据，添加样式 */
-        rowClassName(row, index) {
-            if(row.tips==1){
+        mydefineRow(row, index) { 
+            if(row.tips==1){                
                 return 'demo-table-info-row';
             }
+            let sign=row.sign[0];
+            console.log(sign);
+            switch(sign){
+                case '1':
+                    return 'demo-table-color1-row';
+                    break;
+                case '2':
+                    return 'demo-table-color2-row';
+                    break;
+                case '3':
+                    return 'demo-table-color3-row';
+                    break;
+                case '4':
+                    return 'demo-table-color4-row';
+                    break;
+                case '5':
+                    return 'demo-table-color5-row';
+                    break;
+                case '6':
+                    return 'demo-table-color6-row';
+                    break;
+                case '7':
+                    return 'demo-table-color7-row';
+                    break;
+                case '8':
+                    return 'demo-table-color8-row';
+                    break;
+                case '9':
+                    return 'demo-table-color9-row';
+                    break;
+                case '10':
+                    return 'demo-table-color10-row';
+                    break;
+                default:
+                    return '';
+            }            
             return '';
-        },
+            
+        },       
         /**
          * 上传客户信息成功
          */
@@ -1705,7 +1808,7 @@ export default {
 
                 },
                 success: (res) => {
-                    this.tableData = JSON.parse(res).data;
+                    this.tableData = JSON.parse(res).data;                   
                     this.total = Number(JSON.parse(res).count);
                     if(JSON.parse(res).uploadmarks===1){
                         this.uploadmarksShow=true
@@ -1891,6 +1994,7 @@ export default {
                 async: false,
                 success: (res) => {
                     this.provinceList = JSON.parse(res).data;
+                    this.openProviceList = JSON.parse(res).data;
                 }
             })
         },
@@ -2293,8 +2397,10 @@ export default {
                     areaId:provincemodel,
                 },
                 success: (res) => {
-                   this.openCityList = this.cityList = JSON.parse(res).data;
-                   this.searchParams.citymodel = this.cityList[0].areaId;
+                    this.addressData.openCity= JSON.parse(res).data[0].areaid;
+                    this.openCityList=this.cityList = JSON.parse(res).data;
+                    this.searchParams.citymodel = this.cityList[0].areaId;
+                    
                 }
             })
         },
@@ -2364,6 +2470,7 @@ export default {
             this.signmodel = sign;
         },
         getSignModel(signModel) {
+            
             this.searchParams.currentPage = 1;
             this.searchParams.signModel = signModel.sort();
             if(this.tableShow==true){
@@ -2666,181 +2773,7 @@ export default {
                     })
                 }
             })
-        },
-        /* 设置全选和全不选 */
-        // handleSelectAll (status) {
-        //     if(this.$refs.selection1){
-        //         this.$refs.selection1.selectAll(status);
-        //         if(status===true){
-        //             this.selectall=1
-        //         }else{
-        //             this.selectionData=[];
-        //         }
-        //     }else{
-        //         this.$refs.selection2.selectAll(status);
-        //         if(status===true){
-        //             this.selectionData=this.pubseaData;
-        //         }else{
-        //             this.selectionData=[];
-        //         }
-        //     }
-        // }
-        // 查看D类客户
-        // searchD(){
-        //     this.tableShow=true;
-        //     this.$resetAjax({
-        //         type: 'GET',
-        //         url: '/NewA/Customer/getlist',
-        //         data: {
-        //             // 姓名检索
-        //             username: this.searchParams.username,
-        //             // 号码检索
-        //             phone: this.searchParams.phone,
-        //             // 渠道备注检索
-        //             channel_notes: this.searchParams.channel_notes,
-        //             // 省份检索
-        //             proid: this.searchParams.provincemodel,
-        //             // 城市检索
-        //             city: this.searchParams.citymodel,
-        //             // 渠道筛选
-        //             channel: this.searchParams.sourcemodel,
-        //             // 意向度
-        //             intention: [4],
-        //             // 是否有门店
-        //             has_shop: this.searchParams.shopmodel,
-        //             // 客户标志
-        //             sign: this.searchParams.signModel,
-        //             // 推广
-        //             marks:this.searchParams.extendId,
-        //             // 录入时间
-        //             insert_time: this.searchParams.selectDate,
-        //             // 最近跟进时间:
-        //             last_time: this.searchParams.followdate,
-        //             // 预约回访时间:
-        //             follow_up_time : this.searchParams.visitdate,
-        //             // 第几页
-        //             p: this.searchParams.currentPage,
-        //             // 录入时间排序
-        //             order_ins: this.searchParams.order_ins,
-        //             // 跟进状态
-        //             clue: this.searchParams.clue,
-        //             // 跟进时间排序
-        //             order_las: this.searchParams.order_las,
-        //             // 预约回访时间排序
-        //             order_fol: this.searchParams.order_fol,
-        //             // 选择天数
-        //             recently: this.searchParams.recently,
-        //             // 联系时间
-        //             contime: this.searchParams.contime,
-        //             // 下级
-        //             uid: this.searchParams.lowlevel
-
-        //         },
-        //         success: (res) => {
-        //             this.tableData = JSON.parse(res).data;
-        //             this.total = Number(JSON.parse(res).count);
-        //             if(JSON.parse(res).show===1){
-        //                 this.showList=true
-        //             }else{
-        //                 this.showList=false
-        //             }
-        //             // 渠道管理权限设置
-        //             if (JSON.parse(res).ifshow == 2) {
-        //                 this.ifshow = false;
-        //             } else {
-        //                 this.ifshow = true;
-        //             }
-        //             // 得到意向并在表格里渲染出来
-        //             this.tableData.forEach(ele => {
-        //                 // 预约回访时间:follow_up_time
-        //                 switch(ele.follow_up_time) {
-        //                     case null:
-        //                         ele.follow_up_time = '';
-        //                         break;
-        //                     case '0': 
-        //                         ele.follow_up_time = '';
-        //                         break;
-        //                     default:
-        //                         ele.follow_up_time = this.changeday(Number(ele.follow_up_time)*1000);
-        //                 }
-        //                 // 录入时间
-        //                 switch(ele.insert_time) {
-        //                     case null:
-        //                         ele.insert_time = '';
-        //                         break;
-        //                     case '0': 
-        //                         ele.insert_time = '';
-        //                         break;
-        //                     default:
-        //                         ele.insert_time = this.changeday(Number(ele.insert_time)*1000);
-        //                 }
-        //                 // 最近跟进时间:last_time
-        //                 switch(ele.last_time) {
-        //                     case null:
-        //                         ele.last_time = '';
-        //                         break;
-        //                     case '0': 
-        //                         ele.last_time = '';
-        //                         break;
-        //                     default:
-        //                         ele.last_time = this.changeday(Number(ele.last_time)*1000);
-        //                 }
-        //                 // 意向分析
-        //                 switch(ele.intention) {
-        //                     case '1':
-        //                         ele.intention = 'A';
-        //                         break;
-        //                     case '2':
-        //                         ele.intention = 'B';
-        //                         break;
-        //                     case '3':
-        //                         ele.intention = 'C';
-        //                         break;
-        //                     case '4':
-        //                         ele.intention = 'D';
-        //                         break;
-        //                     default: 
-        //                         ele.intention = '待定';
-        //                 }
-        //                 // 门店分析 
-        //                 switch(ele.status) {
-        //                     case '1':
-        //                         ele.status = '有';
-        //                         break;
-        //                     case '2':
-        //                         ele.status = '有意向店面';
-        //                         break;
-        //                     default:
-        //                         ele.status = '无';
-        //                 }
-        //                 // 推广
-        //                 switch(ele.marks) {
-        //                     case '1':
-        //                         ele.marks = '百度';
-        //                         break;
-        //                     case '2':
-        //                         ele.marks = '搜狗';
-        //                         break;
-        //                     case '3':
-        //                         ele.marks = '好搜';
-        //                         break;
-        //                     case '4':
-        //                         ele.marks = '神马';
-        //                         break;
-        //                     case '5':
-        //                         ele.marks = '百度品专';
-        //                         break;
-        //                     case '6':
-        //                         ele.marks = 'seo';
-        //                         break;
-        //                     default:
-        //                         ele.marks = '';
-        //                 }
-        //             });
-                    
-        //         }
-        //     })
-        // },
+        },       
         searchVisit(){
             this.tableShow=true;
             this.$resetAjax({

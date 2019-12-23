@@ -1,0 +1,80 @@
+.storeStatement{
+        .demo-spin-icon-load{
+                animation: ani-demo-spin 1s linear infinite;
+        }
+        @keyframes ani-demo-spin {
+                from { transform: rotate(0deg);}
+                50%  { transform: rotate(180deg);}
+                to   { transform: rotate(360deg);}
+        }
+        .demo-spin-col{
+                height: 100px;
+                position: relative;
+                border: 1px solid #eee;
+        }
+        .containers{
+                width: 100%;
+                overflow: auto;
+                position: absolute;
+                bottom: 0;
+                top: 80px;
+                color: #21b1ca;
+                h3{
+                        text-align:center;
+                        color: #555555;
+                }
+                .test1{
+                        width: 100%;
+                }
+                .test2{
+                        width: 50%;
+                        overflow: auto;
+                }
+               .echarts1{
+                       width: 100%;
+                       height:100%;
+               }
+               .echarts2{
+                        width: 100%;
+                        height:100%;
+                        margin: 0 auto;
+                        canvas{
+                                position: absolute;
+                                left: 0px;
+                                top: 0px;
+                                width: 1257px;
+                                height: 600px;
+                                user-select: none;
+                                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+                                padding: 0px;
+                                margin: 0px;
+                                border-width: 0px;
+                        }
+                }
+               ul{      
+                       margin-left: 30px;
+                       list-style: none;
+                       display: flex;
+                       width: 200px;
+                       li{
+                               width: 45%;
+                               p{
+                                display: inline-block;
+                                text-align: center;
+                                vertical-align: middle;
+                                color: #555;
+                               }
+                                .color{
+                                        width: 23px;
+                                        height: 15px;
+                                        border-radius: 5px;
+                                        background: #4dc7c9;
+                                }
+                                .money{
+                                        background: #f4bc8e;  
+                                }
+                       }
+               }
+        }
+       
+}

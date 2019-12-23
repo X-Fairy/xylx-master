@@ -1,0 +1,201 @@
+.platoon{
+    height: 100%;
+    background: #fff;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    // 左边内容
+    .platoon_left{
+        width: 50%;
+        height: 100%;
+        box-sizing: border-box;
+        border-right: 1px solid #ddd;
+        position: relative;
+            .top{
+                display: flex;
+                align-items: center;
+                height: 55px;
+                border-bottom: 1px solid @bgColor;
+                padding: 0 20px;
+                box-sizing: border-box;
+                p{
+                    text-shadow: 3px 0 #ddd;
+                    font-size: 16px;
+                    color: #000;
+                    padding: 3px 10px;
+                    span{
+                        display: inline-block;
+                        background: #1596ad;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                        margin-right: 10px;
+                    }
+                }
+            }
+            .middle{
+                display: flex;
+                justify-content: space-between;
+                height: 60px;
+                align-items: center;
+                padding-left: 26px;
+                padding-right: 30px;
+                box-sizing: border-box;
+                .allList{
+                    color:@bgColor;
+                    background: #fff;
+                    border: 1px solid @bgColor;
+                    &:hover{
+                        background: @bgColor;
+                        color:#fff;
+                    }
+                }
+                .ivu-input,input{
+                    box-shadow: none !important;
+                    &:hover,&:focus{
+                        border: 1px solid @bgColor;
+                        outline: none !important;
+                    }
+                }
+                .append{
+                    box-shadow: none !important;
+                    background: @bgColor;
+                    color:#fff;
+                    &:hover {
+                        color: #000;
+                        background-color: #fff;
+                        border-color: @bgColor;
+                    }
+                }
+                
+            }
+            // 表格
+            .table{
+                position: absolute;
+                top: 117px;
+                left:25px;
+                right: 30px;
+                border: 0;
+                .ivu-table-cell {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: normal;
+                    word-break: break-all;
+                    box-sizing: border-box;
+                    height: 48px;
+                    line-height: 48px;
+                }
+                .td-click{
+                    background: #1d8c9f;
+                    color: #fff;
+                    font-size: 18px;
+                }
+                .ivu-card-body{
+                    padding: 0;
+                }
+            }
+            // 分页
+            .footer{
+                position: absolute;
+                background: #fff;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                height: 50px;
+                padding-right: 45px;
+                border-top: 1px solid #ddd;
+                box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .ivu-page-item-active {
+                    background-color:@bgColor;
+                    border-color: @bgColor;
+                }
+            }
+    }
+    // 右边详情
+    .platoon_right{
+        height: 100%;
+        box-sizing: border-box;
+        position: absolute;
+        left: 50%;
+        right: 0;
+        .top{
+            display: flex;
+            align-items: center;
+            height: 55px;
+            border-bottom: 1px solid @bgColor;
+            padding: 0 20px;
+            box-sizing: border-box;
+            p{
+                text-shadow: 3px 0 #ddd;
+                font-size: 16px;
+                color: #000;
+                padding: 3px 10px;
+                span{
+                    display: inline-block;
+                    background: #1596ad;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .print{
+            display: flex;
+            justify-content: flex-end;
+            height: 50px;
+            align-items: center;
+            padding-right: 21px;
+            padding-top: 5px;
+            box-sizing: border-box;
+            .driver{
+                margin-right: 15px;
+                span{
+                    color: @bgColor;
+                    margin-right: 5px;
+                    font-size: 12px;
+                    margin-top: 12px;
+                }
+                .ivu-input{
+                    text-align: center;
+                }
+            }
+            .ivu-btn{
+                background: @bgColor;
+                color: #fff;
+                &:hover{
+                    color:@bgColor;
+                    background: #fff;
+                    border: 1px solid  @bgColor;
+                }
+            }
+        }
+        .right_area{
+            position: absolute;
+            top: 116px;
+            right: 20px;
+            left: 30px;
+            .ivu-card-body{
+                padding: 0;
+            }
+            .ivu-table-cell {
+                padding-left:0 !important; 
+                padding-right:0 !important;
+            }
+            .handle{
+                color:@bgColor;
+                &:hover{
+                    color: #000;
+                    background: #fff;
+                }
+            }
+        }
+    }
+    .ivu-card-bordered {
+        border: 0 !important;
+    }
+}

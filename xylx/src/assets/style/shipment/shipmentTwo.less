@@ -1,0 +1,287 @@
+.shipmentTwo{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    .left{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 20px;
+        width: 50%;
+        .left_top{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 55px;
+            border-bottom: 1px solid #ddd;
+            padding:0 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            .top_title{
+                text-shadow: 3px 0px #ddd;
+                font-size: 16px;
+                color: #000;
+                padding: 3px 10px;
+                span{
+                    display: inline-block;
+                    background: #1596ad;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+            .ivu-select-selection {
+                padding: 0 24px 0 4px;
+                overflow: auto;
+                height: 32px;
+            }
+        }
+       
+        .table{
+            width: 100%;
+            padding: 8px 20px 15px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 63px;
+            bottom: 10px;
+            overflow: hidden;
+            .ivu-select-selection {
+                padding: 0 24px 0 4px;
+                overflow: auto;
+                height: 32px;
+            }
+            .allList{
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                .goPlat{
+                    background: #fff;
+                    border: 1px solid @bgColor;
+                    color:@bgColor;
+                    &:hover{
+                        background: @bgColor;
+                        color:#fff;
+                    }
+                }
+                .allList_right{
+                    display: flex;
+                    .waitPlat{
+                        display: flex;
+                        align-items: center;
+                        margin-right: 10px;
+                        font-size: 14px;
+                        span{
+                            color: #1596ad;
+                            font-size: 16px;
+                            margin: 0 5px;
+                        }
+                    }
+                    .all{
+                        background: @bgColor;
+                        color:#fff;
+                        &:hover{
+                            background: #fff;
+                            border: 1px solid @bgColor;
+                            color:@bgColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .right{
+        position: absolute;
+        right: 0;
+        width: 50%;
+        top: 0;
+        bottom: 0;
+        border-left: 1px dashed #1596ad;
+        .right_top{
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 55px;
+            border-bottom: 1px solid #ddd;
+            padding:0 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            p.arrangetable{
+                text-shadow: 3px 0px #ddd;
+                font-size: 16px;
+                color: #000;
+                padding: 3px 10px;
+                span{
+                    display: inline-block;
+                    background: #1596ad;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .content{
+            width: 100%;
+            padding: 8px 20px 15px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 63px;
+            bottom: 10px;
+            overflow: hidden;
+            .arrangeNum{
+                font-size: 14px;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                .arrangeLeft{
+                    background: #fff;
+                    color:@bgColor;
+                    border: 1px solid @bgColor;
+                    &:hover{
+                        background: @bgColor;
+                        color:#fff;
+                    }
+                }
+                .arrangeRight{
+                    display: flex;
+                    p{
+                        display: flex;
+                        align-items: center;
+                        margin-right: 10px;
+                        span{
+                            color:@bgColor;
+                            font-size: 16px;
+                            margin:0 5px;
+                        }
+                    }
+                    .driver{
+                        position: relative;
+                        span{
+                            color: @bgColor;
+                            margin-right: 5px;
+                            font-size: 12px;
+                        }
+                        .ivu-input{
+                            text-align: center;
+                        }
+                        .ivu-input:hover{
+                            border-color: @bgColor;
+                            box-shadow: none !important;
+                            outline: none !important;
+                        }
+                    }
+                    .platoon{
+                        background: @bgColor;
+                        color:#fff;
+                        &:hover{
+                            box-shadow: none !important;
+                            outline: none !important;
+                            background: #fff;
+                            border: 1px solid @bgColor !important;
+                            color:@bgColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ivu-table-cell .ivu-checkbox-checked .ivu-checkbox-inner {
+        border-color: #eee;
+        background-color: @bgColor;
+    }
+    .ivu-checkbox-checked .ivu-checkbox-inner {
+        border-color: @bgColor;
+        background-color: @bgColor;
+    }
+    .ivu-table-cell {
+        padding-left: 2px;
+        padding-right: 2px;
+        width: 100%;
+        height: 100%;
+        div{
+            width: 100%;
+            height: 100%;
+        }
+        .ivu-checkbox-wrapper {
+            margin-right: 3px;
+            margin-top: 13px;
+        }
+    }
+    .ivu-table-cell>span{
+        margin-top: 12px;
+        display: block;
+    }
+    td.ivu-table-expanded-cell {
+        padding: 19px 11px;
+        background: #f8f8f9;
+    }
+    .expand-key{
+        color:@bgColor;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+    }
+    .expand-value{
+        display: flex;
+        justify-content: center;
+    }
+    .ivu-btn:focus {
+        box-shadow: none !important;
+    }
+
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        left: 45%;
+        top: 40%;
+        padding-top: 10px;
+        .delete{
+            z-index: 1100;
+            position: fixed;
+            color: rgb(255, 255, 255);
+            width: 200px;
+            height: 100px;
+            background: rgb(21, 150, 173);
+            border-width: 3px;
+            border-style: solid;
+            border-color: rgb(21, 150, 173);
+            border-image: initial;
+            padding: 10px;
+            font: 16px 宋体;
+            p{
+                text-align: center;
+            }
+            .build{
+                background: #fff;
+                padding: 8px;
+                margin-top: 20px;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-pack: justify;
+                justify-content: space-between;
+                cursor: pointer;
+                .close{
+                    padding: 5px;
+                    font-size: 12px;
+                    background: #fff;
+                    border: 1px solid #ddd;
+                }
+                .checkmark{
+                    padding: 5px;
+                    font-size: 12px;
+                    background: #fff;
+                    border: 1px solid #ddd;
+                }
+            }
+        }
+    }
+    
+    
+}
+
+
+

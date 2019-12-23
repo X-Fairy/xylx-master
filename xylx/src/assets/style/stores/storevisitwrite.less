@@ -1,0 +1,121 @@
+
+.storevisitwritePage{
+    height: 100%;
+    width: 100%;
+    padding:20px 40px;
+    box-sizing: border-box;
+    color:#000;
+    background: #fff;
+    .write{
+        width: 100%;
+        height: 100%;
+        border:1px solid #ccc;
+        .title{
+            .ivu-input-large {
+                font-size: 16px;
+                padding: 6px 7px;
+                height: 55px;
+                border-radius: 0;
+                margin-bottom: 20px;
+                border-right: 0;
+                border-top: 0;
+                border-left: 0;
+            }
+            .ivu-input:focus, .ivu-input:hover{
+                border-color: @bgColor !important;
+                box-shadow: none !important;
+                outline:  none !important;
+            }
+        }
+        .submit{
+            width: 100%;
+            height: 55px;
+            padding: 0 40px;
+            box-sizing: border-box;
+            display: flex;
+            background: #f3f4f6;
+            justify-content: space-between;
+            align-items: center;
+            .left{
+                display: flex;
+                align-items: center;
+                .selectepart{
+                    font-size: 14px;
+                    color: #1d8c9f;
+                    font-family:微软雅黑;
+                    margin-right:10px
+                }
+                .two{
+                    margin-left:20px;
+                }
+            }
+            .right {
+                button{
+                    margin-left: 10px;
+                    border-radius: 2px;
+                    color: #fff;
+                    text-shadow: 0 2px 2px rgba(0,0,0,0.22);
+                    letter-spacing: 0.5px;
+                }
+                button.ivu-btn-warning{
+                    border: 1px solid #099fb8;
+                    background: #099fb8;
+                    &:hover{
+                        background: #fff;
+                        color:@bgColor;
+                        text-shadow: none;
+                        transition: color .2s linear;
+                    }
+                }
+                button.ivu-btn-info{
+                    border: 1px solid @bgColor;
+                    color: @bgColor;
+                    background: #fff;
+                    text-shadow: none;
+                    &:hover{
+                        background: @bgColor;
+                        color:#fff;
+                        text-shadow: none;
+                        transition: color .2s linear;
+                    }
+                }
+            }
+            .back{
+                margin: 0 10px;
+            }
+            .ivu-input:focus, .ivu-input:hover{
+                border-color: @bgColor !important;
+                box-shadow: none !important;
+                outline:  none !important;
+            }
+        }
+        .area{
+            position: absolute;
+            top: 151px;
+            bottom: 21px;
+            overflow: auto;
+            z-index: 100;
+            right: 41px;
+            left: 41px;
+            textarea.ivu-input{
+                height: 100%;
+                border:0;
+                resize: none;
+                padding: 15px;
+                font-size: 16px;
+                line-height: 34px;
+            }
+            .ivu-input-wrapper{
+                height: 100%;
+            }
+        }
+    }
+    .success{
+        z-index: 10000;
+        position: fixed;
+        left: 45%;
+        top: 50%;
+        margin: 0 auto;
+        font-size: 18px;
+    }
+}

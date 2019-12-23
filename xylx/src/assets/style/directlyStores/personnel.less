@@ -1,0 +1,204 @@
+.personnel{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    // 头部
+    .top{
+        display: flex;
+        background: #e7e9eb;
+        height: 60px;
+        position: relative;
+        line-height: 60px;
+        padding-left: 30px;
+        border-bottom: 1px solid #ddd;
+        justify-content: space-between;
+        .add {
+            background: #1596ad;
+            border-color: #1596ad;
+            cursor: pointer;
+            color: #fff;
+        }
+    }
+    // 列表区
+    .table{
+        position: absolute;
+        top: 80px;
+        left: 20px;
+        right: 20px;
+        bottom: 100px;
+        th,td{
+            text-align: center;
+            .ivu-table-cell{
+                position: relative;
+            }
+        }
+    }
+    // 分页
+    .footer{
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+        align-items: center;
+        padding-right: 41px;
+        box-sizing: border-box;
+        bottom: 0;
+        border-top: 1px solid #ccc;
+        z-index: 99;
+        .ivu-page-item-active {
+            background-color: #1596ad;
+            border-color: #1596ad;
+        }
+    }
+   // 查看图片区
+   .carouselcontent{
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 100000;
+        position: fixed;
+        background: rgba(0,0,0,.3);
+        .close_icon{
+            font-size: 39px;
+            position: absolute;
+            z-index: 999;
+            cursor: pointer;
+            top: 80px;
+            color: #000;
+            left: 50%;
+            margin-left: 350px;
+            &:hover{
+                color:#A4D3EE;
+            }
+        }
+        .ivu-carousel{
+            width: 800px;
+            background: #fff;
+            z-index: 100;
+            border-radius: 6px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            .ivu-carousel-dots-inside{
+                bottom: 0 !important;
+                left: 50%;
+                margin-left: -50px;
+                li{
+                    float: left;
+                }
+            }
+            .demo-carousel{
+                width: 760px;
+                height: 623px;
+                background: #fff;
+                margin: 0 auto;
+                margin-top: 59px;
+                overflow: hidden;
+                img{
+                    width: 760px;
+                    height: 623px;
+                }
+            }
+            
+            .bottom{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 20px;
+                padding: 50px 20px;
+                p{
+                    text-align: center;
+                    font-size: 14px;
+                    color:#000;
+                    span{
+                        color:@bgColor;
+                        margin-left: 5px;
+                    }
+                }
+                button{
+                    background: @bgColor;
+                    color: #fff;
+                    span{
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+.upload_pop {
+    .upload_item .ivu-form-item-content{
+        display: flex;
+    }
+    .form_footer .ivu-form-item-content{
+        float: right;
+        button{
+            background: @bgColor;
+            color: #fff;
+            border:none;
+        }
+    }
+    .ivu-modal-footer{
+        display: none;
+    }
+}
+
+.useraddModal .ivu-modal{
+    width: 780px !important;
+    .sexName,.storeClass{
+        .ivu-form-item-content{
+            margin-top: 8px;
+            margin-left: 115px !important;
+        }
+    }
+    .ivu-modal-footer{
+        display: none;
+    }
+     // 弹出框
+     .signForm{
+        width: 100%;
+        margin: auto;
+        display: flex;
+        padding: 10px 20px 0 20px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        .ivu-form-item {
+            width: 50%;
+            .ivu-form-item-label{
+                padding: 20px 12px 0 0 !important;
+            }
+            .ivu-date-picker .ivu-input-wrapper {
+                width: 100% !important;
+            }
+        }
+        .double{
+            width: 100% !important;
+            .ivu-form-item-content .ivu-row{
+                display: flex;
+                justify-content: space-between;
+                .ivu-col{
+                    width: 33.3% ;
+                    .ivu-form-item{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        .upload .ivu-form-item-content{
+            display: flex;
+            margin-top: 10px;
+            margin-left: 20px !important;
+        }
+        .submit{
+            width: 100px;
+            margin-left: 40%;
+            background: @bgColor;
+            color: #fff;
+            border-color: @bgColor;
+        }
+    }
+}

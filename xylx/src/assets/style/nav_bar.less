@@ -1,0 +1,83 @@
+.nav{
+    margin-top: 60px;
+    position: absolute;
+    width: 200px;
+    background: #fff;
+    line-height: 44px;
+    font-size: 14px;
+    color: #5a5c5c;
+    box-sizing: border-box;
+    font-weight: 700;
+    height: 92%;
+    cursor: pointer;
+    overflow-y: auto;
+    transition: width .5s linear;
+    word-break: keep-all;
+    white-space: nowrap;
+    bottom: 0;
+    top: 0;
+    border-right: 1px solid #ddd;
+    overflow: auto;
+    li{
+        font-family: "Cerebri Sans,sans-serif";
+        font-size: .85rem;
+        color:#6e768e;
+        display: flex;
+        padding-left: 25px;
+        div{
+            margin-top: 4px;
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .ivu-menu{
+            z-index: auto;
+        }
+        ul{
+            
+            li.ivu-menu-submenu{
+                display: block !important;
+                padding-left: 0 !important;
+                .ivu-menu-submenu-title{
+                    padding: 0 24px !important;
+                    .ivu-menu-submenu-title-icon{
+                        float: none !important;
+                        top: 0 !important;
+                        left: 30px !important;
+                    }
+                }
+            ul.ivu-menu{
+                background: #fff;
+                .ivu-menu-item{
+                    padding: 0;
+                }
+                .ivu-menu-light ,.ivu-menu-vertical ,.ivu-menu-item-active:not(.ivu-menu-submenu) {
+                    color: #555;
+                    border-right: 2px solid #1596ad;
+                    z-index: 2;
+                    background: #f5f5f5;
+                }
+                
+            }
+        
+        }
+        }
+        
+    }
+    
+    li.selected,li:hover{
+        color:#1d8c9f;
+        background: #eee;
+    }
+    path{
+        fill: #1d8c9f;
+    }
+    
+}
+
+.actived{
+    width: 55px;
+    transition: all 0.5s linear;
+}
+.ivu-modal-wrap .ivu-modal {
+    top: 100px !important; 
+}

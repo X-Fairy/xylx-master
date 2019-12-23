@@ -1,0 +1,186 @@
+.afterSales,.storeStatement{
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+    .top{
+        background: #e7e9eb;
+        justify-content: space-between;
+        padding-right:18px;
+        height: 60px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .top_left{
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            .item{
+                color: #1d8c9f;
+                margin-right: 5px;
+            }
+        }
+        .top_right{
+            display: flex;
+            align-items: center;
+            .check{
+                background: #fff;
+                border: 1px solid @bgColor;
+                color:@bgColor;
+                &:hover{
+                    background: @bgColor;
+                    color:#ffff;
+                }
+            }
+            .load{
+                border: 1px solid @bgColor;
+                background: #fff;
+                color:@bgColor;
+                margin-left: 5px;
+                &:hover{
+                    background: @bgColor;
+                    color:#ffff; 
+                }
+            }
+            .part{
+                .item{
+                    color:@bgColor;
+                }
+                .ivu-input[disabled]{
+                    color:#000;
+                    text-align: center;
+                }
+            }
+        }
+        .ivu-input,input{
+            box-shadow: none !important;
+            border: none !important;
+        }
+    }
+    .table{
+        position: absolute;
+        top: 76px;
+        left: 20px;
+        right: 20px;
+        bottom: 60px;
+        overflow: auto;
+        & th, & td{
+            text-align: center;
+        }
+    }
+    .footer{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+        align-items: center;
+        padding-right: 41px;
+        box-sizing: border-box;
+        bottom: 0;
+        border-top: 1px solid #ccc;
+        z-index: 99;
+        .ivu-page-item-active {
+            background-color: #1596ad;
+            border-color: #1596ad;
+        }
+        p{
+            font-size: 14px;
+            color:#000;
+            span{
+                color:@bgColor;
+                margin: 0 5px;
+            }
+        }
+    }
+    .ivu-modal-wrap .ivu-input[disabled] {
+        color: #000;
+    }
+    // 查看图片区
+    .carouselcontent{
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1000;
+        position: fixed;
+        .close_icon{
+            font-size: 39px;
+            position: absolute;
+            z-index: 999;
+            cursor: pointer;
+            top: 88px;
+            color: #000;
+            left: 50%;
+            margin-left: 350px;
+            &:hover{
+                color:@bgColor;
+            }
+        }
+        .ivu-carousel{
+            width: 484px;
+            background: #fff;
+            z-index: 100;
+            border-radius: 6px;
+            top: 60%;
+            left: 51%;
+            transform: translate(-50%,-50%);
+            padding: 0 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0px 0px 20px 0px #ccc;
+            .ivu-carousel-arrow{
+                top: 40%;
+            }
+            .ivu-carousel-dots-inside{
+                left: 50%;
+                margin-left: -50px;
+                li{
+                    float: left;
+                }
+            }
+            .demo-carousel{
+                width: 471px;
+                height: 448px;
+                background: #fff;
+                margin-top: 23px;
+                img{
+                    width: 440px;
+                    height: 440px;
+                }
+            }
+            .bottom{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 20px;
+                padding: 30px 62px 45px 2px;
+                box-sizing: border-box;
+                p{
+                    text-align: center;
+                    font-size: 14px;
+                    color:@bgColor;
+                    span{
+                        color: #000;
+                        margin-left: 5px;
+                        font-size: 15px;
+                    }
+                }
+                button{
+                    background: @bgColor;
+                    color: #fff;
+                    span{
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+.modal{
+    .ivu-modal-mask{
+        z-index: 100000;
+    }
+    .ivu-modal-wrap{
+        z-index: 100001;
+    }
+}

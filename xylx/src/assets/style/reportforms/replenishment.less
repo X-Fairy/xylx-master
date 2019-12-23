@@ -1,0 +1,156 @@
+.replenishment{
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+    .top{
+        height: 60px;
+        background: #e7e9eb;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 13px;
+        align-items: center;
+        box-sizing: border-box;
+        .ivu-input,input{
+            box-shadow: none !important;
+            border: none !important;
+        }
+        .left{
+            display: flex;
+            .part{
+                padding: 10px;
+                margin-right: 23px;
+            }
+            .search_code{
+                display: flex;
+                align-items: center;
+                div{
+                    display: flex;
+                }
+            }
+            .item{
+                color: #1d8c9f;
+                margin-right: 5px;
+            }
+            .ivu-select-multiple .ivu-select-selection {
+                padding: 0 24px 0 4px;
+                overflow: auto;
+                height: 35px;
+            }
+            .area .ivu-select-input:focus{
+                outline: 1px solid #fff !important;
+            }
+            .ivu-select-placeholder{
+                color: #bbbec4;
+            }
+            .search{
+                padding: 5px 10px;
+                background: #fff;
+                border: 1px solid @bgColor;
+                cursor: pointer;
+                &:hover{
+                    background: @bgColor;
+                    color:#fff;
+                }
+            }
+            .load{
+                background: @bgColor;
+                color:#fff;
+                border: 1px solid @bgColor;
+                padding: 5px 10px;
+                cursor: pointer;
+                &:hover{
+                    background: #fff;
+                    color: @bgColor;
+                }
+            }
+        }
+        .right{
+            padding-right: 50px;
+            .go_search{
+                background: @bgColor;
+                color:#FFF;
+                &:hover{
+                    border: 1px solid @bgColor;
+                    color: @bgColor;
+                    background: #fff;
+                }
+            }
+        }
+    }
+    .table{
+        position: absolute;
+        top: 76px;
+        left: 20px;
+        right: 20px;
+        bottom: 60px;
+        overflow: auto;
+        & th, & td{
+            text-align: center;
+        }
+        .ivu-icon-arrow-up-a {
+            cursor: pointer;
+            position: absolute;
+            top: 6px;
+            &:hover{
+                color: @bgColor;
+            }
+        }
+        .ivu-icon-arrow-down-a {
+            position: absolute;
+            top: 19px;
+            cursor: pointer;
+            &:hover{
+                color: @bgColor;
+            }
+        }
+        .replenishment{
+            border-bottom: 1px solid @bgColor;
+            display: inline-block;
+            font-size:'12px';
+            cursor: pointer;
+            &:hover{
+                display: inline-block;
+                border-bottom: 0;
+                color: @bgColor;
+                cursor: pointer;
+            }
+        }
+        
+    }
+    .footer{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+        align-items: center;
+        padding-right: 41px;
+        box-sizing: border-box;
+        bottom: 0;
+        border-top: 1px solid #ccc;
+        z-index: 99;
+        .ivu-page-item-active {
+            background-color: #1596ad;
+            border-color: #1596ad;
+        }
+    }
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    .ivu-spin-fix {
+        position: absolute;
+        top: 80px;
+        left: 0;
+        z-index: 8;
+        width: 100%;
+        height: 88%;
+        background-color: rgba(255,255,255,.9);
+        .ivu-spin-main {
+            position: absolute;
+            top: 35%;
+            left: 43%;
+            transform: translate(-50%,-50%);
+        }
+    }
+}

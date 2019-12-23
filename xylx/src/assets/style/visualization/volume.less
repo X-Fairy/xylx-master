@@ -1,0 +1,73 @@
+.volume{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .top{
+        height: 8%;
+        width: 100%;
+        border-bottom: 1px solid #6b717c;
+        .top_inner{
+            width: 1500px;
+            height: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // 时间弹窗
+            .ivu-select-dropdown{
+                background: #13266b url(../../images/view/pop_back.png) center center no-repeat; 
+                background-size: 100% 100%;
+                color:#fff;
+                .ivu-date-picker-cells-cell:hover em{
+                    background: #7efafc;
+                    color:#000;
+                }
+                span.ivu-date-picker-cells-cell-disabled{
+                    background: #0d183c;
+                    &:hover em{
+                        background: #0d183c;
+                        color:#bbbec4;
+                    }
+                }
+            }
+            .check{
+                width: 60px;
+                height: 30px;
+                margin-top: 1px;
+                cursor: pointer;
+                display: flex;
+                position: relative;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+                span{
+                    position: absolute;
+                    color:#fff;
+                    left: 18px;
+                    top:5px;
+                    font-size: 14px;
+                    &:hover{
+                        color:#40c3c4;
+                    }
+                }
+            }
+            .inner_left{
+                font-size: 18px;
+                color:#fff;
+            }
+            .inner_right{
+                display: flex;
+                justify-content: space-around;
+                .area{
+                    margin: 0 25px;
+                }
+                .ivu-input-icon-normal + .ivu-input, .ivu-input {
+                    background: #162e48;
+                    border-color: #2d8cf0;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}

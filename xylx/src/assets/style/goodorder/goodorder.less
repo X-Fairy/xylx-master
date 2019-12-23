@@ -1,0 +1,84 @@
+
+.goodorder{
+    height: 100%;
+    background: #fff;
+    .top{
+        background: #e7e9eb;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding-left: 20px;
+        padding-right: 100px;
+        height: 70px;
+        justify-content: space-between;
+        border: 1px solid #ddd;
+        h2{
+            border-top: 2px solid @bgColor;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            font-weight: normal;
+            font-size: 15px;
+            padding: 10px;
+            margin-right: 10px;
+            margin-top: 22px;
+            background: #f4f4f4;
+            span{
+                color: @bgColor;
+            }
+        }
+        .top_right{
+            display: flex;
+            // margin-top: 18px;
+            .search_code{
+                display: flex;
+                align-items: center;
+                margin-right:30px;
+                .item{
+                    color:@bgColor;
+                    margin-right:8px;
+                    font-size: 14px;
+                }
+                div{
+                    display: flex;
+                }
+            }
+            .operational{
+                background: @bgColor;
+                color:#fff;
+                &:hover{
+                    background: #fff;
+                    border: 1px solid @bgColor;
+                    color: @bgColor;
+                }
+            }
+        }
+        .ivu-input,input{
+            box-shadow: none !important;
+            border: none !important;
+        }
+    }
+    // 内容区
+    .table{
+        padding: 10px;
+        background: #fff;
+        position: absolute;
+        top: 90px;
+        bottom: 20px;
+        right: 10px;
+        left: 10px;
+        th,td{
+            text-align: center;
+        }
+        .cancel{
+            margin-right: 10px;
+            cursor: pointer;
+            padding: 5px;
+            color: rgb(21, 150, 173);
+            border-bottom: 1px solid rgb(21, 150, 173);
+            &:hover{
+                border:0;
+                background: #fff;
+            }
+        }
+    }
+}

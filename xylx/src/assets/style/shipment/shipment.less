@@ -1,0 +1,322 @@
+
+.shipment{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    .left{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 22%;
+        border-right: 1px dashed #1596ad;
+        padding-top: 8px;
+        padding-bottom: 15px;
+        box-sizing: border-box;
+        .left_top{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            p{
+                border: 1px solid #fff;
+                border-top: 2px solid #1596ad;
+                box-shadow: 2px 2px 2px #ccc;
+                font-size: 14px;
+                color: #000;
+                padding: 3px 10px;
+                span{
+                    display: inline-block;
+                    background: #1596ad;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+        }
+       
+        .table{
+            padding: 10px;
+            padding-top: 15px;
+            padding-bottom: 0;
+            box-sizing: border-box;
+        }
+        .table_left{
+            display: flex;
+            margin-bottom: 10px;
+            .boxing{
+                background: @bgColor;
+                color: #fff;
+                border: none;
+                border-radius: 0;
+                &:hover{
+                    box-shadow: none;
+                }
+            }
+            .sub{
+                background: #fff;
+                color: @bgColor;
+                border-radius: 0;
+                border: 1px solid @bgColor;
+                margin-left: 15px;
+                &:hover{
+                    box-shadow: none;
+                }
+            }
+        }
+        .allList{
+            display: flex;
+            justify-content: space-between;
+            margin-top: -5px;
+            margin-bottom: 5px;
+            .goPlat{
+                background: #fff;
+                border: 1px solid @bgColor;
+                color:@bgColor;
+                &:hover{
+                    background: @bgColor;
+                    color:#fff;
+                }
+            }
+            .allList_right{
+                display: flex;
+                .waitPlat{
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px;
+                    font-size: 14px;
+                    span{
+                        color: #1596ad;
+                        font-size: 16px;
+                        margin: 0 5px;
+                    }
+                }
+                .all{
+                    background: @bgColor;
+                    color:#fff;
+                    &:hover{
+                        background: #fff;
+                        border: 1px solid @bgColor;
+                        color:@bgColor;
+                    }
+                }
+            }
+        }
+    }
+
+    .middle{
+        position: absolute;
+        left: 22%;
+        top: 0;
+        bottom: 10px;
+        right: 21.5%;
+        padding-top: 8px;
+        padding-bottom: 15px;
+        box-sizing: border-box;
+        .middle_top{
+            display: flex;
+            justify-content: center;
+            // background: #e9eaec;
+            height: 40px;
+            align-items: center;
+            p.title{
+                border: 1px solid #fff;
+                border-top: 2px solid #1596ad;
+                box-shadow: 2px 2px 2px #ccc;
+                font-size: 14px;
+                color: #000;
+                padding: 3px 10px;
+                span{
+                    display: inline-block;
+                    background: #1596ad;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .citylist_popup_main{
+            background: #fff;
+            .citylist_ctr_title {
+                background: #fff;
+                border-bottom: 1px solid #dadada;
+                height: 29px;
+                line-height: 29px;
+                font-size: 12px;
+                color: #4c4c4c;
+                padding-left: 8px;
+                font-weight: bold;
+            }
+            .city_content_top{
+                padding: 15px 10px 26px 10px;
+            }
+            #city_ctrl_form{
+                top: 10px;
+                #selCityWd{
+                    height: 23px;
+                    line-height: 23px;
+                }
+            }
+            .city_names_wrap a{
+                color:#000;
+                &:hover{
+                    color:@bgColor;
+                }
+            }
+        }
+        .map_content{
+            position: absolute;
+            top: 95px;
+            width: 100%;
+            bottom: 0;
+        }
+        .BMap_omCtrl{
+            bottom: 65px !important;
+            right: 12px !important
+        }
+        .BMap_bubble_content{
+            margin-top: 5px;
+        }
+        .button_control{
+            margin-top: 10px;
+            margin-left: 9px;
+            & button{
+                background: @bgColor;
+                color:#fff;
+                cursor: pointer;
+                &:hover{
+                    background: #fff;
+                    color:@bgColor;
+                    border: 1px solid @bgColor;
+                }
+            }
+        }
+        .markerlng{
+            cursor: pointer;
+        }
+    }
+    
+    .right{
+        position: absolute;
+        right: 0;
+        width: 21.5%;
+        top: 0;
+        bottom: 0;
+        border-left: 1px dashed #1596ad;
+        padding-top: 8px;
+        padding-bottom: 15px;
+        box-sizing: border-box;
+        .right_top{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            p.arrangetable{
+                border: 1px solid #fff;
+                border-top: 2px solid #1596ad;
+                box-shadow: 2px 2px 2px #ccc;
+                font-size: 14px;
+                color: #000;
+                padding: 3px 10px;
+                span{
+                    display: inline-block;
+                    background: #1596ad;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-right: 10px;
+                }
+            }
+        }
+        .content{
+            padding: 11px 10px 0;
+            box-sizing: border-box;
+            .arrangeNum{
+                font-size: 14px;
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: space-between;
+                .arrangeLeft{
+                    background: #fff;
+                    color:@bgColor;
+                    border: 1px solid @bgColor;
+                    &:hover{
+                        background: @bgColor;
+                        color:#fff;
+                    }
+                }
+                .arrangeRight{
+                    display: flex;
+                    p{
+                        display: flex;
+                        align-items: center;
+                        margin-right: 10px;
+                        span{
+                            color:@bgColor;
+                            font-size: 16px;
+                            margin:0 5px;
+                        }
+                    }
+                    .platoon{
+                        background: @bgColor;
+                        color:#fff;
+                        &:hover{
+                            box-shadow: none !important;
+                            outline: none !important;
+                            background: #fff;
+                            border: 1px solid @bgColor !important;
+                            color:@bgColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .ivu-table-cell .ivu-checkbox-checked .ivu-checkbox-inner {
+        border-color: #eee;
+        background-color: @bgColor;
+    }
+    .ivu-checkbox-checked .ivu-checkbox-inner {
+        border-color: @bgColor;
+        background-color: @bgColor;
+    }
+    .ivu-table-cell {
+        padding-left: 2px;
+        padding-right: 2px;
+        width: 100%;
+        height: 100%;
+        div{
+            width: 100%;
+            height: 100%;
+        }
+        .ivu-checkbox-wrapper {
+            margin-right: 3px;
+            margin-top: 13px;
+        }
+    }
+    .ivu-table-cell>span{
+        margin-top: 12px;
+        display: block;
+    }
+    td.ivu-table-expanded-cell {
+        padding: 19px 11px;
+        background: #f8f8f9;
+    }
+    .expand-key{
+        color:@bgColor;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+    }
+    .expand-value{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+
+

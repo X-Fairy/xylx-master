@@ -1,0 +1,83 @@
+.contract,.refund,.fullList{
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+    .top{
+        height: 60px;
+        background: #e7e9eb;
+        display: flex;
+        justify-content: space-between;
+        padding:0 50px;
+        align-items: center;
+        box-sizing: border-box;
+        .addclass{
+            background: @bgColor;
+            color: #fff;
+            margin-left: 20px;
+        }
+        .right{
+            display: flex;
+            justify-content: right;
+            div.part{
+                display: flex;
+                justify-content:left;
+                margin-right: 20px;
+                align-items: center;
+            }
+            .searchclass{
+                background: @bgColor;
+                color: #fff;
+                
+            }
+        }
+        span.item{
+            color: @bgColor;
+            font-size: 14px;
+        }
+    }
+    .table{
+        position: absolute;
+        top: 76px;
+        left: 20px;
+        right: 20px;
+        bottom: 60px;
+        overflow: auto;
+        & th, & td{
+            text-align: center;
+        }
+    }
+     // 分页
+     .footer{
+        position: absolute;
+        background: #fff;
+        height: 50px;
+        bottom: 0;
+        right: 0px;
+        left: 0px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+        padding: 0 40px;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        z-index: 1000;
+        border-top: 1px solid #ddd;
+        .ivu-page-item-active {
+            background-color:@bgColor;
+            border-color: @bgColor;
+        }
+    }
+}
+.refundModal {
+    .sub .ivu-form-item-content{
+        float: right;
+    }
+    .ivu-modal-footer{
+        display: none;
+    }
+}

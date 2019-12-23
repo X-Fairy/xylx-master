@@ -1,0 +1,162 @@
+.storeVisitPage{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #fff;
+    // 头部
+    .top{
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        align-items: center;
+        padding: 0 40px;
+        background: #e7e9eb;
+        .store_name{
+            font-size: 16px;
+            color: #333;
+            padding: 5px 20px;
+            border: 1px solid #ccc;
+            border-top: 2px solid #1d8c9f;
+            background: #fff;
+            span{
+                color: #1596ad;
+                font-weight: bold;
+            }
+        }
+        button{
+            padding: 5px 8px ;
+            border-radius: 0;
+        }
+        .add_visit {
+            margin-right: 10px;
+            background: #1596ad;
+            border-color: #1596ad;
+            &:hover{
+                background: #fff;
+                color: #000;
+                transition: all 0.5s linear;
+            }
+        }
+        .ivu-btn-warning {
+            background: #fff;
+            border-color: #ddd;
+            color: #555;
+            &:hover{
+                background: #1596ad;
+                color: #fff;
+            }
+        }
+    }
+    // 回访区
+    .visit_list{
+        position: absolute;
+        left: 0px;
+        right: 0;
+        bottom: 0;
+        top: 60px;
+        overflow: auto;
+        padding:20px;
+        box-sizing: border-box;
+        background: white;/*修改*/
+        border-top: 1px solid #ddd;/*修改*/
+        h2{
+            color: #3b87b1;
+            float: left;
+            font-size: 14px;
+            line-height: 20px;
+            font-family: 微软雅黑;
+        }
+        .ivu-timeline-item-head-blue {/*修改*/
+            border-color: #099fb8;
+            color: #099fb8;
+        }
+        p{
+            float: left;
+            color: #1596ad;/*修改*/
+        }
+        li{
+            .recode{
+                font-size: 16px;
+                line-height: 32px;
+                margin-top: 24px;
+                padding: 10px;/*修改*/
+                h4{
+                    margin-top:-6px;
+                    .flag{
+                        margin-left: 15px;
+                    }
+                }
+            }
+            .content{
+                display: flex;
+                justify-content: space-around;
+                .point{
+                    font-size:14px;
+                    line-height: 26px;
+                    color: #000;
+                    background: #fff;
+                    text-indent: 2rem;
+                     width:90%;
+                }
+            }            
+        }        
+    }   
+    .no-comment{
+        position: absolute;
+        top: 50%;
+        left: 44%;
+        transform: translate(-44%,-50%);
+        p{
+            text-align: center;
+            margin-top: 11px;
+            a{
+                color:@bgColor;
+            }
+        }
+    } 
+    // 删除提示
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width:100%;
+        height:100%;
+        left: 45%;
+        top: 40%;        
+        padding-top:10px;
+        .delete{
+            z-index: 1100;
+            position: fixed;
+            background:#1596ad;
+            border:3px solid #1596ad;
+            color:white;
+            padding:10px;
+            width: 200px;
+            height:100px;
+            // border-radius: 4px;
+            
+            font: 16px 宋体;
+            p{
+                text-align: center;
+            }
+            .build{
+                background: #ffffff;
+                padding:8px;
+                margin-top:20px;
+                display: flex;
+                justify-content: space-between;
+                cursor: pointer;
+                button{
+                    padding: 5px;
+                    font-size:12px;
+                    background: white;
+                    border:1px solid #ddd;
+                }
+                button:hover{
+                    border-color: @bgColor;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,172 @@
+.initialzation{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #fff;
+    // 头部
+    .top{
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        align-items: center;
+        padding: 0 40px;
+        background: #e7e9eb;
+        .top_left{
+            display: flex;
+            align-items: center;
+            .store_name{
+                font-size: 16px;
+                color: #000;
+                border: 1px solid #ccc;
+                padding: 5px 15px;
+                border-top: 2px solid #1596ad;
+                background: #f4f4f4;
+                span{
+                    color: #1596ad;
+                }
+            }
+            
+        }
+        .top_right{
+            display: flex;
+            align-items: center;
+            .go_capital,.payInit, .payment{
+                background: @bgColor;
+                color:#fff;
+                margin-right: 15px;
+                &:hover{
+                    background: #fff;
+                    border-color: @bgColor;
+                    color: #555;
+                }
+            }
+            .go_back {
+                background: #fff;
+                border-color: @bgColor;
+                color: #555;
+                &:hover{
+                    background: #1596ad;
+                    color: #fff;
+                }
+            }
+        }
+        
+        .ivu-btn-small {
+            padding: none;
+        }
+    }
+    // 列表区
+    .table{
+        position: absolute;
+        top: 80px;
+        left: 20px;
+        right: 20px;
+        bottom: 100px;
+        th,td{
+            text-align: center;
+        }
+    }
+    // 分页
+    .footer{
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+        align-items: center;
+        padding-right: 41px;
+        box-sizing: border-box;
+        bottom: 0;
+        border-top: 1px solid #ccc;
+        z-index: 99;
+        .ivu-page-item-active {
+            background-color: #1596ad;
+            border-color: #1596ad;
+        }
+    }
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width:100%;
+        height:100%;
+        left: 45%;
+        top: 40%;        
+        padding-top:10px;
+        .delete{
+            z-index: 1100;
+            position: fixed;
+            background:#1596ad;
+            border:3px solid #1596ad;
+            color:white;
+            padding:10px;
+            width: 200px;
+            height:100px;
+            font: 16px 宋体;
+            p{
+                text-align: center;
+            }
+            .build{
+                background: #ffffff;
+                padding:8px;
+                margin-top:20px;
+                display: flex;
+                justify-content: space-between;
+                cursor: pointer;
+                button{
+                    padding: 5px;
+                    font-size:12px;
+                    background: white;
+                    border:1px solid #ddd;
+                }
+                button:hover{
+                    border-color: @bgColor;
+                }
+            }
+        }
+    }
+    
+}
+.ivu-modal-body{
+    font-size: 14px;
+    .initialValue{
+        margin-top: 14px;
+    }
+    .error{
+        color: red;font-size:12px;display: none;
+    }
+    .fincls{
+        color:@bgColor;
+        margin-right: 10px;
+    }
+    .ivu-input-number{
+        width: 180px;
+    }
+    .ivu-radio-wrapper{
+        margin-right: 60px;
+    }
+    .ivu-input-number:hover{
+        border-color: @bgColor;
+        outline: none;
+    }
+    .ivu-input-number-focused{
+        box-shadow: none;
+    }
+    input:focus {
+        outline: none !important;
+        transition: none;
+    }
+    .ivu-input-number-input{
+        padding: 0 15px;
+    }
+}
+// .ivu-modal-footer{
+//     button{
+//         background: @bgColor;
+//         padding:5px 8px;
+//         color: white;
+//         border:1px solid @bgColor
+//     }
+// }

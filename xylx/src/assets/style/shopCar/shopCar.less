@@ -1,0 +1,141 @@
+.shopCar{
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  box-sizing: border-box;
+  .shopCar_left{
+      width: 16%;
+      background: #fff;
+      overflow: auto;
+      position: relative;
+      border: 1px solid #ddd;
+      border-right: none;
+      box-sizing: border-box;
+      overflow: hidden;
+      .search{
+        position: absolute;
+        width: 100%;
+        padding: 10px 0 0 30px;
+        align-items: center;
+        box-sizing: border-box;
+        
+          .input_search{
+              width: 80%;
+              display: flex;
+              align-items: center;
+              .ivu-input{
+                  width: 167px;
+                  height: 30px;
+                  background: #fff;
+                  outline: none;
+                  &:hover,&:focus{
+                      box-shadow: none;
+                      border: 1px solid @bgColor;
+                  }
+              }
+              button{
+                  border: 1px solid #ddd;
+                  box-shadow: none;
+                  border-radius: 0;
+                  background: @bgColor;
+                  color: #fff;
+                  font-size: 15px;
+                  width: 38px;
+                  height: 30px;
+              }
+              input:focus {
+                  outline: none !important;
+              }
+          }
+          .ivu-select-selection{
+              box-shadow: none;
+              &:focus,&:hover{
+                  border: 1px solid @bgColor;
+              }
+          }
+      }
+      // 在线列表
+      ul.on_line{
+          position: absolute;
+          top: 90px;
+          bottom: 20px;
+          right: 0;
+          left: 0;
+          overflow: auto;
+          background: #fff;
+          border-top: 1px solid #ddd;
+          border-bottom: 1px solid #ddd;
+          // 滚动条设置
+          &::-webkit-scrollbar {
+              width: 3px; 
+              height: 0px;
+          }
+          &::-webkit-scrollbar-track{
+              border-radius: 10px;
+          }
+          &::-webkit-scrollbar-thumb{
+              border-radius: 5px;
+              background-color: @bgColor;
+          }
+          li{
+              height: 40px;
+              display: flex;
+              padding: 10px;
+              box-sizing: border-box;
+              position: relative;
+              cursor: default;
+              align-items: center;
+              &:hover,&.selected{
+                  background: @bgColor;
+                  color: #fff;
+                  font-size: 16px;
+              }
+              span{
+                  width: 100%;
+                  display: block;
+                  text-align: center;
+              }
+          }
+      }
+  }
+  .shopCar_right{
+      width: 84%;
+      background: #fff;
+      position: relative;
+      border: 1px solid #ddd;
+      // 联系人信息窗
+      .contact_info{
+          width: 100%;
+          height: 100%;
+          position: relative;
+          .info_top{
+              height: 73px;
+              display: flex;
+              padding: 10px 60px;
+              box-sizing: border-box;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid @bgColor;
+              p{
+                  color: #000;
+                  font-size: 16px;
+                  span{
+                      color:@bgColor;
+                      margin-left: 5px;
+                      display: inline-block;
+                      font-weight: bold;
+                  }
+              }
+          }
+          .info_table{
+              position: absolute;
+              top: 90px;
+              left: 20px;
+              right: 20px;
+              bottom: 20px;
+          }
+      }
+  }
+}

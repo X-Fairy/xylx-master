@@ -1,0 +1,83 @@
+.daily{
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .top{
+        height: 60px;
+        background: #e7e9eb;
+        padding: 0 40px;
+        line-height: 60px;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        overflow: hidden;
+        .left .item {
+            color: #1d8c9f;
+            margin-right: 5px;
+        }
+        button{
+            margin-right: 10px;
+            background: #1596ad;
+            color:#fff;
+            padding: 5px 10px;
+            border: 0;
+            margin-top: 15px;
+            height: 30px;
+            box-sizing: border-box;
+            line-height: 20px;
+            &:hover{
+                background: #fff;
+                color:#1596ad;
+                border: 1px solid #1596ad;
+                transition: all 0.3s linear;
+                cursor: pointer;
+            }
+        }
+    }
+    .table{
+        position: absolute;
+        top: 80px;
+        left: 20px;
+        right: 20px;
+        bottom: 60px;
+        & th, & td{
+            text-align: center;
+        }
+    }
+    .footer{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+        align-items: center;
+        padding-right: 100px;
+        box-sizing: border-box;
+        bottom: 0;
+        border-top: 1px solid #ccc;
+        z-index: 99;
+        .ivu-page-item-active {
+            background-color: #1596ad;
+            border-color: #1596ad;
+        }
+        .ivu-page-disabled {
+            cursor: pointer;
+        }
+        .ivu-icon{
+            cursor: pointer;
+        }
+        a{
+            color:#000;
+            margin-right: 15px;
+            border-bottom: 1px solid #2d8cf0;
+            &.selected, &:hover{
+                border: 1px solid #1d8c9f;
+                color: #fff;
+                padding: 2px 5px;
+                background: #1d8c9f;
+                
+            }
+        }
+    }
+}

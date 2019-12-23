@@ -1,0 +1,138 @@
+.commodity{
+    box-sizing: border-box;
+    background: #e7e9eb;
+    height: 100%;
+    position: relative;
+    .header_left{
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        .left{
+            display: flex;
+            .search{
+                display: flex;
+                .ivu-btn{
+                    background: @bgColor;
+                    color:#fff;
+                    &:hover {
+                        color: @bgColor;
+                        background-color: #fff;
+                        border-color: @bgColor;
+                    }
+                }
+            }
+            .ivu-input,input{
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+        button.update{
+            position: relative;
+            margin-right:20px;
+            padding:5px 10px;
+            border:1px solid #ddd;
+            background: @bgColor;
+            color: white;
+            border: 1px solid @bgColor;
+            cursor: pointer;
+            &:hover{
+                background:white;
+                border-color: @bgColor;
+                color: @bgColor;
+            }
+        }
+        button.rank{
+            position: relative;
+            margin-right:50px;
+            padding:5px 10px;
+            border:1px solid #ddd;
+            background: white;
+            color: @bgColor;
+            border: 1px solid @bgColor;
+            cursor: pointer;
+            &:hover{
+                background:@bgColor;
+                border-color: @bgColor;
+                color: white;
+            }
+        }
+        
+    }
+    .contanier{
+        position: absolute;
+        padding: 20px 50px;
+        width: 100%;
+        bottom: 0;
+        top:60px;
+        background: #f8f8f9;
+        box-sizing: border-box;
+        overflow:auto;
+        border-top: 1px solid #ccc;
+        .table{
+            position: absolute;
+            top: 14px;
+            left: 20px;
+            right: 20px;
+            bottom: 60px;
+            overflow:auto;
+            th,td{
+                text-align: center;
+            }
+            .ivu-table-cell {
+                padding-top: 5px;
+                button{
+                    margin-right: 10px; cursor: pointer;background:white;border:0;color:#1596ad;
+                }
+            }
+        }
+        .footer{
+            position: absolute;
+            background: #fff;
+            height: 50px;
+            bottom: 0;
+            right: 0px;
+            left: 0px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            padding: 0 40px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid #ddd;
+            .ivu-page-item-active {
+                background-color:@bgColor;
+                border-color: @bgColor;
+            }
+        }
+    }
+    .img{
+        width: 440px;
+        height: 440px;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    
+}
+.ivu-modal-footer{
+    button:nth-child(1){
+        display: none;
+    }
+    .ivu-btn-primary {
+        background-color: @bgColor;
+        border-color:@bgColor;
+        &:hover{
+            background-color:#158599;
+            border-color: #158599;
+        }
+    }
+}
+.ivu-modal {
+    top: 200px !important;
+}

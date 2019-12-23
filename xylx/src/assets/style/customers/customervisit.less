@@ -1,0 +1,208 @@
+@name:#5D478B;
+.customervisit{
+    height: 100%;
+    box-sizing: border-box;
+    color:#000;
+    position: relative;
+    .contanier{
+        width:100%;
+        height: 100%;
+        // 回访列表
+        .visit_content{
+            width: 100%;
+            position: absolute;
+            top:0;
+            bottom: 0;
+            overflow: auto;
+            box-sizing: border-box;
+            background: #fff;
+
+            .visit_top{
+                border-bottom: 1px solid #CCC;
+                color: #000;
+                font-size: 12px;
+                display: flex;
+                height: 58px;
+                align-items: flex-end;
+                padding-left: 40px;
+                justify-content: space-between;
+                background: #e7e9eb;
+                h3{
+                    padding: 5px 10px;
+                    border: 1px solid #ccc;
+                    border-top: 2px solid #1d8c9f;
+                    border-bottom: 0;
+                    background: #fff;
+                    span{
+                        color: @bgColor;
+                        margin-left: 5px;
+                        margin-right: 10px;
+                    }
+                    .editIntention{
+                        cursor: pointer;
+                    }
+                }
+                .edit{
+                    height: 55px;
+                    line-height: 55px;
+                    display: flex;
+                    align-items: center;
+                    button{
+                        background: #fff;
+                        color: #000;
+                        border-color: @bgColor;
+                    }
+                }
+                .visit_right{
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-right: 80px;
+                    height: 55px;
+                    align-items: center;
+                    button{
+                        margin-left:20px;
+                        border-radius: 0;
+                        letter-spacing: 1px;
+                    }
+                    button.ivu-btn-info{
+                        border:0;
+                        background: @bgColor;
+                        span{
+                            color:#fff;
+                            font-size: 12px;
+                        }
+                    }
+                    button.ivu-btn-warning{
+                        border:1px solid #ddd;
+                        background: white;
+                        color: #555555;
+                    }
+                }
+            }
+            
+            .writeContent{
+                
+                .addwrite{
+                    width: 50% !important;
+                 }
+                .visit_list{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    left: 0;
+                    top: 57px;
+                    overflow: auto;
+                    padding:20px;
+                    box-sizing: border-box;
+                    background: white;
+                    border-top: 1px solid #ddd;
+                    
+                    h2{
+                        color: #3b87b1;
+                        float: left;
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-family: 微软雅黑;
+                    }
+                    .ivu-timeline-item-head-blue {/*修改*/
+                        border-color: #099fb8;
+                        color: #099fb8;
+                    }
+                    p{
+                        float: left;
+                        color: #1596ad;
+                    }
+                    li{
+                        .recode{
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 16px;
+                            line-height: 32px;
+                            margin-top: 24px;
+                            background: #F8F8F9;
+                            padding: 10px;
+                            h4{
+                                margin-top:-6px;
+                            }
+                        }
+                        .visit_detail{
+                            font-size: 10px;
+                            height: 34px;
+                            line-height: 100%;
+                            box-sizing: border-box;
+                            display: flex;
+                            justify-content: flex-end;
+                            align-items: center;
+                        }
+                        .point{
+                            font-size: 14px;
+                            line-height: 26px;
+                            color: #000;
+                            background: #fff;
+                            text-indent: 2rem;
+                            padding-right: 2rem;
+                        }
+                    }
+                }
+                
+            }
+            
+        }
+        .no-comment{
+            position: absolute;
+            top: 50%;
+            left: 40%;
+            margin-left: -230px;
+            transform: translate(-44%,-50%);
+            p{
+                text-align: center;
+                margin-top: 11px;
+                a{
+                    color:@bgColor;
+                }
+            }
+        } 
+    }
+    .outside{
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.3);
+        .delete{
+            z-index: 1003;
+            position: fixed;
+            background: #2db7f5;
+            color: #fff;
+            padding: 5px 10px;
+            width: 161px;
+            height: 73px;
+            border-radius: 4px;
+            left: 45%;
+            top: 40%;
+            font-size: 18px;
+            p{
+                text-align: center;
+            }
+            .build{
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+                cursor: pointer;
+            }
+        }
+    }
+    .ivu-timeline {
+        list-style: none;
+        margin: 0;
+        padding: 12px 0 10px 28px;
+    }
+    .ivu-timeline-item {
+        margin: 0!important;
+        padding: 0 95px 12px 0;
+        list-style: none;
+        position: relative;
+    }
+}

@@ -1,0 +1,144 @@
+.shopManage{
+    height: 100%;
+    background: #fff;
+    .top{
+        height: 80px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 45px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #ddd;
+        .item{
+            display: flex;
+            align-items: center;
+            p{
+                margin-right: 15px;
+                font-size: 14px;
+                color:@bgColor;
+            }
+            span{
+                width: 42px;
+                height: 34px;
+                text-align: center;
+                line-height: 34px;
+                border: 1px solid #eee;
+                background: #1596ad;
+                cursor: pointer;
+                color:#fff;
+                font-size: 16px;
+                margin-left: -1px;
+                transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+                &:hover{
+                    color:#000;
+                    border: 1px solid transparent;
+            
+                }
+            }
+            .ivu-input{
+                &:hover{
+                    border-color:@bgColor;
+                    box-shadow: none !important;
+                }
+            }
+        }
+    }
+    .add_btn{
+        background: @bgColor;
+        width: 50px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        margin: 10px 45px 0;
+        font-size: 14px;
+        color:#fff;
+        cursor: pointer;
+        &:hover{
+            background: #ffff;
+            border: 1px solid @bgColor;
+            color:@bgColor;
+            transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+        }
+    }
+    .table{
+        position: absolute;
+        bottom: 60px;
+        top: 130px;
+        width: 100%;
+        padding: 0 45px;
+        box-sizing: border-box;
+    }
+    // 分页
+    .footer{
+        position: absolute;
+        background: #fff;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 50px;
+        padding-right: 45px;
+        border-top: 1px solid #ddd;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .ivu-page-item-active {
+            background-color:@bgColor;
+            border-color: @bgColor;
+        }
+    }
+    
+}
+.shopManagePop {
+    .ivu-form .ivu-form-item{
+        margin-bottom: 10px !important;
+    }
+    .ivu-form-item.cityClass{
+        .ivu-cascader-label{
+            line-height: 52px !important;
+            left: 15px !important;
+        }
+        .ivu-cascader-arrow {
+            margin-top: 0 !important;
+            // margin-left: -20px !important;
+            right: 80px !important;
+        }
+    }
+    .ivu-form-item-label{
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    .ivu-modal-footer{
+        display: none;
+    }
+    .ivu-modal-body{
+        padding: 5px 0 15px;
+    }
+    .submit{
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 35px;
+        border-top: 1px solid #ddd;
+        height:70px;
+        align-items: center;
+        margin-top: 25px;
+        span{
+            width: 50px;
+            height: 30px;
+            background: @bgColor;
+            color:#fff;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            line-height: 30px;
+            display: inline-block;
+            user-select: none;
+            transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+            &:hover{
+                background: #fff;
+                color:@bgColor;
+                border: 1px solid @bgColor;
+            }
+        }
+    }
+}
