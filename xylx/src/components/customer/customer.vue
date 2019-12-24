@@ -988,7 +988,7 @@ export default {
                     fixed: 'left',
                     key: 'phone'
                 },
-                 {
+                {
                     title: '城市',
                     key: 'areaname',
                     width: 150,
