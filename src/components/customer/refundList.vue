@@ -61,6 +61,7 @@
                     {value: '1',label: '是'},
                     {value: '2',label: '否'}
                 ],
+                fid:'',
                 //表格的高度
                 tableHeight:900,
                 //表格头部
@@ -142,6 +143,21 @@
                                         }
                                     }
                                 }, '详情'),
+                                h('a', {
+                                    class: 'handle',
+                                    style: {
+                                        marginRight: '10px',
+                                        cursor: 'pointer',
+                                        color:'#1d8c9f'
+                                    },
+                                    on: {
+                                        click: () => {
+                                           this.fid=params.row.id;
+                                           this.status=4;
+                                           this.getconfinish();
+                                        }
+                                    }
+                                }, '完成退款'),
                             
                             ]);
                         }
@@ -208,13 +224,26 @@
                     success:(res) => {
                         this.tableData = JSON.parse(res).data;
                         this.total = Number(JSON.parse(res).count);
-                        // this.tableData.forEach(ele=>{
-                        //    if(ele.residual_refund>0){
-                        //        ele.residual_refund='是'
-                        //    }else if(ele.residual_refund==0){
-                        //        ele.residual_refund='否'
-                        //    }
-                        // })
+                        
+                    }
+                })
+            },
+            //// 完结退款
+            getconfinish(){
+                this.$resetAjax({
+                    url: '/NewA/Customer/confinish',
+                    type: 'POST',
+                    data:{
+                        fid:this.fid,
+                        status:this.status
+                    },
+                    success:(res) => {
+                        if(JSON.parse(res).errorcode==0){
+                            this.$Message.success('结单成功');
+                            this.getconlist();
+                        }else if(JSON.parse(res).errorcode==1){
+                            this.$Message.success('结单失败')
+                        }
                     }
                 })
             },

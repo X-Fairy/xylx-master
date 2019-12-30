@@ -1,6 +1,7 @@
 <template>
+   
     <div class="customervisit">
-         <div class="contanier">
+        <div class="contanier">
             <!-- 回访列表 -->
             <div class="visit_content">
                 <div class="visit_top">
@@ -13,7 +14,7 @@
                         意向度: <span @click="editIntention(customer.intention)" class="editIntention" title="点击修改意向度">{{customer.intention}}</span>
                     </h3>
                     <!-- <div v-show="show" class="edit">
-                       
+                    
                         <DatePicker  type="date" :options="options" placeholder="选择跟进时间" :value="orderDate" style="width:200px" @on-change="getOrderTime" format="yyyy-MM-dd"></DatePicker>  
                         <Button type="info" class="add_visit" @click="editVisit" v-show="show">修改跟进时间</Button>
                         
@@ -49,7 +50,7 @@
                         </div>
                     <customervisit-Write v-show="show"></customervisit-Write>
                 </div>
-               
+            
                 
             </div>
         </div>
@@ -89,7 +90,7 @@
             </div>
         </Modal>
         <!-- 修改客户地址 -->
-         <Modal title="修改客户地址" v-model="addressModal" :mask-closable="false" class="userModal">
+        <Modal title="修改客户地址" v-model="addressModal" :mask-closable="false" class="userModal">
             <Form ref="addressData" :model="addressData" :rules="ruleValidateAddress" :label-width="80">
                 <FormItem label="客户地址" prop="newAddress">
                     <Input v-model="addressData.newAddress" /> 
@@ -100,6 +101,7 @@
             </div>
         </Modal>
     </div>
+    
 </template>
 
 
@@ -112,9 +114,11 @@ export default {
         tipModal,
         customervisitWrite
     },
-
+    props: [        
+        'hasShow',
+    ],
     data() {
-        return {
+        return {           
             // 标记选定
             sign: [],
             // 标记数据
@@ -280,6 +284,10 @@ export default {
     },
 
     methods:{
+        // 关闭弹窗
+        closeModal(){
+            this.$emit('updateHasShow', false);
+        },
         /**
          * 得到渠道来源数据
          */

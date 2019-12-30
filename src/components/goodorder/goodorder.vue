@@ -60,6 +60,7 @@ export default {
                     title: '尾数',
                     key: 'WEISHU',
                     render: (h, params) => {
+                        
                         return h('Input', {
                             props: {
                                 type: 'text',

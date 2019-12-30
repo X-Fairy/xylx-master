@@ -337,8 +337,8 @@
                         background-color: #e9aaa0;
                        
                     }
-                    .demo-table-info-row td:nth-child(2){
-                        color: red;
+                    
+                    .demo-table-info-row td:nth-child(2){                       
                         font-weight: 700;
                     }
                     th,td{
@@ -607,4 +607,155 @@
 .userModal .ivu-modal-body .ivu-input-wrapper {
     margin-top: 0 !important;
     margin-left: 0 !important;
+}
+.visitModal .ivu-modal{
+    width: 80% !important;
+    height: 650px;
+    .ivu-modal-footer{
+        display: none;
+    }
+    .ivu-modal-content{
+        height: 100%;
+    }
+    .ivu-modal-body{
+        display: flex;
+        justify-content: space-between;        
+        height: 90%;
+        .writeContent{
+            width: 50%;
+            height: 100%;
+            padding: 0 10px;
+            border-right: 1px solid #eee;
+            .visit_list{
+                height: 100%;
+                overflow: auto;
+                padding:20px;
+                box-sizing: border-box;
+                background: white;
+                
+                h2{
+                    color: #3b87b1;
+                    float: left;
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-family: 微软雅黑;
+                }
+                .ivu-timeline-item-head-blue {/*修改*/
+                    border-color: #099fb8;
+                    color: #099fb8;
+                }
+                p{
+                    float: left;
+                    color: #1596ad;
+                }
+                li{
+                    .recode{
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 16px;
+                        line-height: 32px;
+                        margin-top: 24px;
+                        background: #F8F8F9;
+                        padding: 10px;
+                        h4{
+                            margin-top:-6px;
+                        }
+                    }
+                    .visit_detail{
+                        font-size: 10px;
+                        height: 34px;
+                        line-height: 100%;
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: flex-end;
+                        align-items: center;
+                    }
+                    .point{
+                        font-size: 14px;
+                        line-height: 26px;
+                        color: #000;
+                        // background: #fff;
+                        text-indent: 2rem;
+                        padding-right: 2rem;
+                    }
+                }
+            }
+            .no-comment{
+                position: absolute;
+                top: 50%;
+                left: 45%;
+                margin-left: -230px;
+                transform: translate(-44%,-50%);
+                p{
+                    text-align: center;
+                    margin-top: 11px;
+                    a{
+                        color:@bgColor;
+                    }
+                }
+            } 
+        }
+        .addvisit{
+            width: 50%;
+            height: 100%;
+            padding: 0 20px;
+            position: relative;
+            
+            .ivu-btn-info{
+                position: absolute;
+                right: 20px;
+                background-color: @bgColor;
+                border-color: @bgColor;
+                bottom: 0;
+            }
+            .center{
+                // margin-top: 40px;
+                padding:0 10px 20px;
+                background: #ddd;             
+                .item{
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 0;
+                    // border-bottom: 1px solid #eee;
+                    p{
+                        color: @bgColor;
+                        padding-right: 5px;
+                        
+                    }
+                    .selectepart{
+                        padding-right: 10px;
+                        color: @bgColor;
+                    }
+                }
+                .ivu-input-wrapper{
+                    width: 150px !important;
+                    margin-top: 0 !important;
+                    margin-left: 0 !important;
+                }
+            }
+        }
+        .area{
+            position: absolute;
+            top: 160px;
+            bottom: 50px;
+            overflow: auto;
+            z-index: 100;
+            right: 20px;
+            left: 20px;
+            border: 1px solid #ddd;
+            textarea.ivu-input{
+                height: 100%;
+                border:0;
+                resize: none;
+                padding: 15px;
+                font-size: 16px;
+                line-height: 34px;
+            }
+            .ivu-input-wrapper{
+                height: 100%;
+                width: 100%;
+                margin: 0;
+            }
+        }
+    }
 }

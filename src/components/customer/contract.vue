@@ -167,6 +167,7 @@
                                     on: {
                                         click: () => {
                                            this.fid=params.row.id;
+                                           this.status=2;
                                            this.getconfinish();
                                         }
                                     }
@@ -180,12 +181,29 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.rid=params.row.id
-                                            this.formValidate.money=''
-                                            this.hasShow=true;
+                                            this.rid=params.row.id;
+                                            this.$resetAjax({
+                                                url: '/NewA/Customer/consta',
+                                                type: 'POST',
+                                                data:{
+                                                    id:this.rid,
+                                                },
+                                                success:(res) => {
+                                                    let result=JSON.parse(res);
+                                                    if(result.errorcode==0){
+                                                        this.$Message.success('退款成功');
+                                                        this.getconlist();
+                                                    }else{
+                                                        this.$Message.success('退款失败');
+                                                    }
+                                                }
+                                            })
+                                            // this.formValidate.money=''
+                                            // this.hasShow=true;
                                         }
                                     }
                                 }, '退款'),
+                                
                             ]);
                         }
                     },
@@ -204,6 +222,8 @@
                 pageSize:20,
                 currentPage:1,
                 total:0,
+                // 订单状态
+                status:''
             }
         },
         created(){
@@ -274,13 +294,14 @@
                 let routeData = this.$router.resolve({ name: 'signing'});
                 window.open(routeData.href, '_self');
             },
-            // 全款接单
+            // 全款结单
             getconfinish(){
                 this.$resetAjax({
                     url: '/NewA/Customer/confinish',
                     type: 'POST',
                     data:{
-                        fid:this.fid
+                        fid:this.fid,
+                        status:this.status
                     },
                     success:(res) => {
                         if(JSON.parse(res).errorcode==0){
@@ -301,16 +322,16 @@
                             type: 'POST',
                             data:{
                                 id:this.rid,
-                                refund:this.formValidate.money
+                                // refund:this.formValidate.money
                             },
                             success:(res) => {
                                let result=JSON.parse(res);
                                if(result.errorcode==0){
                                     this.$Message.success('退款成功');
                                     this.getconlist();
-                                    this.hasShow=false;
-                                    let routeData = this.$router.resolve({ name: 'refund', query: {isShow:1,id:params.row.id}});
-                                    window.open(routeData.href, '_self');
+                                    // this.hasShow=false;
+                                    // let routeData = this.$router.resolve({ name: 'refund', query: {isShow:1,id:params.row.id}});
+                                    // window.open(routeData.href, '_self');
                                     // this.$router.push({ name: 'refund', query: {isShow:1,id:params.row.id}});
                                }else{
                                    this.$Message.success('退款失败');

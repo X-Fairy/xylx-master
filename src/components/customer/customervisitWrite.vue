@@ -2,26 +2,30 @@
     <div class="customervisitWrite">
         <div class="write">
             <div class="submit">
-                <div class="left">
-                    <!-- <p class="selectepart">请选择回访时间</p> -->
+                <div class="one">
+                    <p class="selectepart">回访时间</p>
                     <Row>
                         <DatePicker type="date" :options="options3" placeholder="请选择回访时间" :value="selectDate" style="width: 140px" @on-change="getTime" format="yyyy-MM-dd"></DatePicker>
                     </Row>
-                    <p class="selectepart" style="margin-left:20px;">是否要预约回访</p>
-                    <Select v-model="orderModel" style="width:80px" @on-change="getOrder(orderModel)">
-                        <Option v-for="item in orderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                    <div style="display:flex;align-items:center;" v-show="orderModel == 1">
-                    <p class="selectepart order">选择预约回访时间</p>
-                        <Row>
-                            <DatePicker type="date" :options="options4" placeholder="Select date" :value="orderDate" style="width: 140px" @on-change="getOrderTime" format="yyyy-MM-dd"></DatePicker>
-                        </Row>
-                    </div>
                 </div>
-                <div class="right">
-                    <!-- <Button type="success" @click="$router.push({path: 'customer'})">返回客户列表</Button>
-                    <Button type="primary" @click="goVisitList()">返回回访列表</Button> -->
-                    <Button type="info" @click="publishQuery">新增跟进</Button>
+                <div class="two">
+                    <div class="left">
+                        <p class="selectepart">是否要预约回访</p>
+                        <Select v-model="orderModel" style="width:80px" @on-change="getOrder(orderModel)">
+                            <Option v-for="item in orderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <div style="display:flex;align-items:center;" v-show="orderModel == 1">
+                        <p class="selectepart order">选择预约回访时间</p>
+                            <Row>
+                                <DatePicker type="date" :options="options4" placeholder="Select date" :value="orderDate" style="width: 140px" @on-change="getOrderTime" format="yyyy-MM-dd"></DatePicker>
+                            </Row>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <!-- <Button type="success" @click="$router.push({path: 'customer'})">返回客户列表</Button>
+                        <Button type="primary" @click="goVisitList()">返回回访列表</Button> -->
+                        <Button type="info" @click="publishQuery">新增跟进</Button>
+                    </div>
                 </div>
             </div>
             <div class="area">
@@ -80,7 +84,7 @@ export default {
                 }
             },
             // 是否要预约回访
-            orderModel: 2,
+            orderModel: 1,
             // 是否要预约回访数据
             orderList: [
                 {

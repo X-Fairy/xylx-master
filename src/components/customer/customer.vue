@@ -160,21 +160,26 @@
                         <button class="checkMore" style="margin-left: 20px;background: rgb(243, 90, 89);color: #fff;border-color: rgb(243, 90, 89);" @click="handleIntention" v-if="tableShow">批量修改意向度</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubsea" v-if="tableShow">放入公海池</button>
                         <button class="checkMore" style="margin-left: 20px;" @click="handlePubclaim" v-else>批量认领</button>
-                        <!-- <button class="checkMore searchD" style="margin-left: 20px;" @click="searchD">查看D类客户</button> -->
+                        
                         <button class="checkMore searchD" style="margin-left: 20px;" @click="searchVisit">已来访列表</button>
                         <Upload action="/NewA/Public/uploadmarks" :on-success="uploadmarks" v-show="uploadmarksShow" style="width: 100px;display:inline-block;margin-left: 20px;">
                             <Button type="ghost" icon="ios-cloud-upload-outline" class="ghost">上传信息</Button> 
                         </Upload>
+                        <button class="checkMore searchD" style="margin-left: 20px;background:#FB9100;border-color:#FB9100;" @click="getinit" v-show="pubShow">公海池</button>
                         <button class="checkMore" style="float: right;background: #1596ad;color: #fff;" @click="handleAll">返回客户列表</button>
                         <button class="checkMore" style="float: right;margin-right: 20px;" @click="handlePubseas">查看公海池客户列表</button>
                         <button class="checkMore" style="float: right;margin-right: 20px;" v-if="showList" @click="hasShow=true">查询</button>
                         
-                        <Table   border :row-class-name="mydefineRow" :columns="columns" :data="tableData" :height="tableHeight" @on-selection-change="getChangeSelect" v-if="tableShow"></Table>
-                        <Table  border  :columns="column" :data="pubseaData" :height="tableHeight" @on-selection-change="getChangeSelect" v-else></Table>
-                        <!-- <Button @click="handleSelectAll(true)" style="margin-top: 20px;">设置全选</Button>
-                        <Button @click="handleSelectAll(false)" style="margin-top: 20px;">取消全选</Button> -->
+                        <Table  border :row-class-name="mydefineRow" :columns="columns" :data="tableData" :height="tableHeight" @on-selection-change="getChangeSelect" v-if="tableShow"></Table>
+                        <Table  border :columns="column" :data="pubseaData" :height="tableHeight" @on-selection-change="getChangeSelect" v-else></Table>
+                        
                     </div>
-                    <div class="footer">
+                    <div class="footer" v-if="initShow">
+                        <!-- 分页 -->
+                        <Page :total="total" :page-size="pageSize" @on-change="initchangePage" :current="searchParams.currentPage" show-elevator show-total v-if="tableShow"></Page>
+                       
+                    </div>
+                    <div class="footer" v-else>
                         <!-- 分页 -->
                         <Page :total="total" :page-size="pageSize" @on-change="changePage" :current="searchParams.currentPage" show-elevator show-total v-if="tableShow"></Page>
                         <Page :total="total" :page-size="pageSize" @on-change="pubseaChangePage" :current="searchParams.currentPage" show-elevator show-total v-else></Page>
@@ -267,8 +272,8 @@
                 <Button @click="userSearch(userDate)">查询</Button>
             </div>
         </Modal>
-       <!-- 修改意向度弹窗 -->
-       <Modal v-model="intentionModal"  @on-ok="editIntentionQuery" @on-cancel="intentionModal = false" :title="titleName" class="addModal">
+        <!-- 修改意向度弹窗 -->
+        <Modal v-model="intentionModal"  @on-ok="editIntentionQuery" @on-cancel="intentionModal = false" :title="titleName" class="addModal">
             <Form ref="formValidateIntention" :model="formValidateIntention" :rules="ruleValidateIntention" :label-width="90">
                 <FormItem label="修改意向度" prop="modelIntention">
                     <Select v-model="formValidate.modelIntention" style="width:470px" placeholder="请选择意向度" @on-change="getIntention">
@@ -300,6 +305,49 @@
             <div class="modal_footer">
                 <Button @click="addressUpdate">提交</Button>
             </div>
+        </Modal> 
+        <!-- 客户跟进弹出框 -->
+        <Modal class="visitModal" v-model="visitShow" :title="visitName" @on-cancel="closeVisit">
+            <div class="writeContent">
+                <Timeline class="visit_list" v-show="isShowList">
+                    <TimelineItem v-for="(item,index) in visitDatas" :key="index">
+                        <span style="float: left">{{item.user_name}}</span>
+                        <p class="time">&nbsp;&nbsp;&nbsp;{{changeday(Number(item.last_time)*1000)}}</p>
+                        <li>
+                            <div class="recode">
+                                <p class="point" :title="item.notes">{{item.notes}}</p>
+                            </div>
+                        </li>
+                    </TimelineItem>
+                </Timeline>
+                <div class="no-comment" v-show="!isShowList">
+                    <img src="@/assets/images/icon_comment.png" alt="">
+                    <p>暂无客户跟进</p>
+                </div>
+                
+            </div>
+            <div class="addvisit">
+                <Button type="info" @click="publishQuery" >新增跟进</Button>
+                <div class="center">
+                    <div class="item">
+                        <p class="selectepart">回访时间</p> 
+                        <DatePicker type="date" :options="options3" placeholder="Select date" :value="selectDate" style="width: 140px" @on-change="getTime" format="yyyy-MM-dd"></DatePicker>
+                    </div>                    
+                    <div class="item" >
+                        <p>是否要预约回访</p>
+                        <Select v-model="orderModel" style="width:80px" @on-change="getOrder(orderModel)">
+                            <Option v-for="item in orderList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <div class="item"  v-show="orderModel === 1" style="padding-left:10px;">
+                            <p>预约回访时间</p>                      
+                            <DatePicker type="date" :options="options4" placeholder="Select date" :value="orderDate" style="width: 140px;" @on-change="getOrderTime" format="yyyy-MM-dd"></DatePicker>
+                        </div>
+                    </div>
+                </div> 
+                <div class="area">
+                    <Input v-model="notes" type="textarea" placeholder="请在此输入回访内容..." focus />
+                </div>
+            </div>
         </Modal>
     </div>
 </template>
@@ -315,6 +363,70 @@ export default {
 
     data() {
         return {
+            // 是否显示公海池
+            pubShow:false,
+            // 是否显示客户跟进弹框
+            visitShow:false,
+            // 跟进ID
+            vid:'',
+            isShowList:false,
+            // 跟进客户姓名
+            visitName:'',
+            // 客户跟进表格头部
+            visitcolumns: [
+                {
+                    title: '跟进人',
+                    key: 'user_name',
+                },
+                {
+                    title: '跟进时间',
+                    key: 'last_time'
+                },                    
+                {
+                    title: '跟进内容',
+                    key: 'notes'
+                }
+            ],
+            // 跟进数据记录
+            visitDatas:[
+                // {
+                  
+                //     last_time: '',
+                //     notes: '',
+                //     user_name: ''
+                // }
+            ],
+            // 回访内容
+            notes: '',
+            // 回访选中的时间
+            selectDate: '',
+            // 预约回访时间
+            orderDate: '',
+            // 对时间进行限制,选择大于今天的时间
+            options4: {
+                disabledDate (date) {
+                    return date && date.valueOf() < Date.now();
+                }
+            },
+            // 对时间进行限制,选择不到大于今天的时间
+            options3: {
+                disabledDate (date) {
+                    return date && date.valueOf() > Date.now();
+                }
+            },
+            // 是否要预约回访
+            orderModel: 1,
+            // 是否要预约回访数据
+            orderList: [
+                {
+                    value: 1,
+                    label: '是'
+                },
+                {
+                    value: 2,
+                    label: '否'
+                }
+            ],
             addressShow:false,
             addressId:'',
             // 修改客户地址
@@ -781,8 +893,10 @@ export default {
                                 on: {
                                     click: () => {
                                         let routeData3= this.$router.resolve({ name: 'customervisit', query: {isaim: 1, name: params.row.username, id:params.row.id, phone: params.row.phone, channels: params.row.channels, has_store: params.row.status, intention: params.row.intention,isShow:1} });
-                                        
                                         window.open(routeData3.href, '_blank');
+                                        // this.visitName=params.row.username;
+                                        // this.vid=params.row.id;
+                                        // this.getVisitList();
                                     }
                                 }
                             }, '跟进'),
@@ -963,7 +1077,9 @@ export default {
                 ],
             },
             // 客户姓名
-            titleName:''
+            titleName:'',
+            // 是否显示公海池底部
+            initShow:false
         }
     },
     // 灵活性表头
@@ -1307,8 +1423,10 @@ export default {
                                     click: () => {
                                         let routeData3= this.$router.resolve({ name: 'customervisit', query: {isShow:2,isaim: 1, name: params.row.username, id:params.row.id, phone: params.row.phone, channels: params.row.channels, has_store: params.row.status, intention: params.row.intention} });
                                         window.open(routeData3.href, '_blank');
-                                        // window.open(`http://oa.xmvogue.com/index.php/NewA/Index/main#/customervisit?isaim=1&name=${params.row.username}&id=${params.row.id}`,'_blank')
-                                        //this.$router.push({path: 'customervisit', query:{isaim: 1, name: params.row.username, id:params.row.id, phone: params.row.phone, channels: params.row.channels, has_store: params.row.status, intention: params.row.intention}})
+                                        // this.visitName=params.row.username;
+                                        // this.vid=params.row.id;
+                                        // this.getVisitList();
+                                        
                                     }
                                 }
                             }, '跟进'),
@@ -1597,9 +1715,6 @@ export default {
             return arr;
         }
     },
-
-
-
     created() {
         // this.styleObject.top = '260px';
         // 得到客户列表数据
@@ -1610,6 +1725,7 @@ export default {
         this.getProvinces();
         // 得到下级数据
         this.getlowlevelList();
+        this.getname();
     },
      // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
     mounted() {
@@ -1629,8 +1745,113 @@ export default {
             this.getCustomerList();
         })
     },
-
-    methods: { 
+    methods: {
+        // 获取用户
+        getname(){
+            this.$resetAjax({
+				type: 'POST',
+				url: '/NewA/Public/get_u',
+				success: (res) => {
+                    console.log(JSON.parse(res).username);
+                    let username=JSON.parse(res).username;
+                    if(JSON.parse(res).username=='刘翔' || JSON.parse(res).username=='项萍萍'  || JSON.parse(res).username=='张鹏' ){
+                        this.pubShow=true;
+                    }else{
+                        this.pubShow=false;
+                    }
+				}
+			})
+        },
+        /**
+         * 得到选择的时间
+         */
+        getTime(date) {
+            this.selectDate = date;
+        },
+        /**
+         * 得到预约回访时间
+         */
+        getOrderTime(date) {
+            this.orderDate = date;
+        },
+        /**
+         * 得到是否要预约
+         */
+        getOrder(orderModel) {
+            this.orderModel = orderModel;
+            
+        },
+        // 关闭弹出框
+        closeVisit(){            
+            this.visitShow=false;
+            this.orderModel=1;
+            this.orderDate='';
+            this.visitDatas=[];
+            this.notes='';
+            if(this.tableShow==true){
+                this.getCustomerList();
+            }else{
+                this.getPubseas();
+            }
+            console.log(this.visitDatas);
+        },
+        /**
+         * 得到回访列表
+         */
+        getVisitList() {            
+            this.$resetAjax({
+                type: 'POST',
+                url: '/NewA/Customer/visitlist',
+                data: {
+                    id: this.vid
+                },
+                success: (res) =>{
+                    this.visitShow=true;     
+                    this.visitDatas = JSON.parse(res).data;
+                    if(this.visitDatas.length!==0){
+                        this.isShowList=true;
+                    }else{
+                        this.isShowList = false;
+                    }
+                    console.log(this.visitDatas);
+                }
+            })
+        },
+        publishQuery(){
+            if(this.notes == ''){                
+                this.$Message.error('跟进内容不能为空')
+            } else {
+                this.$resetAjax({
+                    type: 'POST',
+                    url: '/NewA/Customer/visitadd',
+                    data: {
+                        rid: this.vid,
+                        notes: this.notes,
+                        time: this.selectDate,
+                        visit: this.orderModel,
+                        follow_up_time: this.orderDate,
+                    },
+                    success: (res) =>{
+                        // debugger
+                        if(JSON.parse(res).errorcode===100){
+                            this.$Modal.info({
+                                title: '提示',
+                                content: '新增跟进失败,该客户不属于您,请刷新列表!'
+                            });
+                        }else if(JSON.parse(res).errorcode===1){
+                            this.$Message.error('请选择预约回访时间!')
+                        }else{                                
+                            this.$Message.success('新增跟进成功')
+                            // this.visitShow=false;
+                            // this.isShowList=false;
+                            this.notes='';
+                            this.getVisitList();
+                        }
+                            
+                    }
+                })
+            }
+        },
          /**
           * 得到哪个开店省份
           */
@@ -1664,7 +1885,7 @@ export default {
                     if(result.errorcode==0){
                         this.addressShow=false;
                         this.$Message.success('修改成功！');
-                        this.getCustomerList();                        
+                        this.getCustomerList();            
                     }else if(result.errorcode==100){
                         this.addressShow=false;
                         this.$Message.error('修改失败,该客户不属于您');
@@ -1676,9 +1897,8 @@ export default {
         mydefineRow(row, index) { 
             if(row.tips==1){                
                 return 'demo-table-info-row';
-            }
+            }              
             let sign=row.sign[0];
-            console.log(sign);
             switch(sign){
                 case '1':
                     return 'demo-table-color1-row';
@@ -1712,8 +1932,9 @@ export default {
                     break;
                 default:
                     return '';
-            }            
-            return '';
+            }
+                    
+            
             
         },       
         /**
@@ -1753,8 +1974,7 @@ export default {
                 this.errorNum = res.enum;
                 this.data=res.data;
             }
-        },
-        
+        },        
         /**
          * 得到客户数据列表
          */
@@ -1962,7 +2182,11 @@ export default {
             }
             this.indeterminate = false;
             if (this.checkAll) {
-                this.getCustomerList();
+                if(this.initShow==true){
+                    this.getinitList();
+                }else{
+                    this.getCustomerList();
+                }                
                 this.searchParams.sourcemodel =  this.sourceList.map(item => item.cid);
             } else {
                 this.searchParams.sourcemodel = [];
@@ -1976,10 +2200,13 @@ export default {
                 this.purposeCheckAll = !this.purposeCheckAll;
             }
             this.purposIindeterminate = false;
-            if (this.purposeCheckAll) {
-                
+            if (this.purposeCheckAll) {                
                 this.searchParams.purposemodel =  this.purposeList.map(item => item.value);
-                this.getCustomerList();
+                if(this.initShow==true){
+                    this.getinitList();
+                }else{
+                    this.getCustomerList();
+                }
             } else {
                 this.searchParams.purposemodel = [];
             }
@@ -2004,11 +2231,16 @@ export default {
         getrecently(recently) {
             this.searchParams.currentPage = 1;
             this.searchParams.recently = recently;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
+            
         },
         /**
          * 单行选择时选择时所属弹窗里招商详情
@@ -2058,7 +2290,12 @@ export default {
                             },
                             success:(res)=>{
                                 if(JSON.parse(res).msg=="success"){
-                                    this.getCustomerList();
+                                    console.log(this.initShow);
+                                    if(this.initShow==true){
+                                       this.getinitList();
+                                    }else{
+                                        this.getCustomerList();
+                                    }                                    
                                     this.$root.tip.isShow = true;
                                     this.$root.tip.content = '加入成功';
                                     setTimeout(() => {
@@ -2120,6 +2357,7 @@ export default {
         /* 显示公海池客户列表 */
         handlePubseas(){
             this.tableShow=false;
+            this.initShow=false;
             this.searchParams.currentPage;
             this.getPubseas();
             
@@ -2273,6 +2511,7 @@ export default {
         /* 返回所有客户列表 */
         handleAll(){
             this.tableShow=true;
+            this.initShow=false;
             this.searchParams.currentPage = 1;
             this.getCustomerList();
         },
@@ -2333,8 +2572,10 @@ export default {
                         success: (res) => {
                             this.isAttract = false;
                             if(this.tableShow==true){
+                                this.initShow=false;
                                 this.getCustomerList();
                             }else{
+                                this.initShow=false;
                                 this.getPubseas();
                             }
                             this.lowerLeaderId = [];
@@ -2371,7 +2612,11 @@ export default {
             } else {
                 this.searchParams.lowlevel = lowlevel;
             }
-            this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
+            }else{
+               this.getCustomerList();
+            }            
         },
         /**
          * 筛选时间得到选择的天数
@@ -2379,10 +2624,14 @@ export default {
         getcontime(contime) {
             this.searchParams.currentPage = 1;
             this.searchParams.contime = contime;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
         /**
@@ -2410,20 +2659,24 @@ export default {
         getsource(data) {
             this.currentPage = 1;
             if (data.length === this.sourceList.length) {
-                    this.indeterminate = false;
-                    this.checkAll = true;
-                } else if (data.length > 0) {
-                    this.indeterminate = true;
-                    this.checkAll = false;
-                } else {
-                    this.indeterminate = false;
-                    this.checkAll = false;
-                }
+                this.indeterminate = false;
+                this.checkAll = true;
+            } else if (data.length > 0) {
+                this.indeterminate = true;
+                this.checkAll = false;
+            } else {
+                this.indeterminate = false;
+                this.checkAll = false;
+            }
+            if(this.initShow==true){
+                this.getinitList();
+            }else{
                 if(this.tableShow==true){
                     this.getCustomerList();
                 }else{
                     this.getPubseas();
                 }
+            }
         },
         /**
          * 选择得到默认意向
@@ -2432,20 +2685,24 @@ export default {
             this.searchParams.currentPage = 1;
             this.searchParams.purposemodel = purposemodel;
             if (purposemodel.length === this.purposeList.length) {
-                    this.purposIindeterminate = false;
-                    this.purposeCheckAll = true;
-                } else if (purposemodel.length > 0) {
-                    this.purposIindeterminate = true;
-                    this.purposeCheckAll = false;
-                } else {
-                    this.purposIindeterminate = false;
-                    this.purposeCheckAll = false;
-                }
+                this.purposIindeterminate = false;
+                this.purposeCheckAll = true;
+            } else if (purposemodel.length > 0) {
+                this.purposIindeterminate = true;
+                this.purposeCheckAll = false;
+            } else {
+                this.purposIindeterminate = false;
+                this.purposeCheckAll = false;
+            }
+            if(this.initShow==true){
+                this.getinitList();
+            }else{
                 if(this.tableShow==true){
                     this.getCustomerList();
                 }else{
                     this.getPubseas();
                 }
+            }
         },
         /**
          * 搜索请求
@@ -2453,12 +2710,15 @@ export default {
         searchQuery() {
             this.searchParams.currentPage = 1;
             this.searchParams.provincemodel = '';
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
-            }
-            
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
+            }            
         },
         /**
          * 得到客户标志详情
@@ -2469,24 +2729,31 @@ export default {
             }
             this.signmodel = sign;
         },
-        getSignModel(signModel) {
-            
+        getSignModel(signModel) {            
             this.searchParams.currentPage = 1;
             this.searchParams.signModel = signModel.sort();
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
         // 得到推广
         getExtendModel(extend){
             this.searchParams.extendId=extend;
             this.searchParams.currentPage = 1;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
             
         },
@@ -2546,10 +2813,14 @@ export default {
                 },
                 success:(res)=>{
                     this.extend_modal = false;
-                    if(this.tableShow==true){
-                        this.getCustomerList();
+                    if(this.initShow==true){
+                        this.getinitList();
                     }else{
-                        this.getPubseas();
+                        if(this.tableShow==true){
+                            this.getCustomerList();
+                        }else{
+                            this.getPubseas();
+                        }
                     }
                     let errorcode=JSON.parse(res).errorcode;
                     switch (errorcode) {
@@ -2593,6 +2864,10 @@ export default {
             this.getPubseas();
 
         },
+        initchangePage(index){
+            this.searchParams.currentPage = index;
+            this.getinitList();
+        },
         /**
          * 选择得到选中省份的id
          */
@@ -2601,17 +2876,25 @@ export default {
             this.searchParams.currentPage = 1;
            
             if (this.searchParams.purposemodel == '') {
-                if(this.tableShow==true){
-                    this.getCustomerList();
+                if(this.initShow==true){
+                    this.getinitList();
                 }else{
-                    this.getPubseas();
+                    if(this.tableShow==true){
+                        this.getCustomerList();
+                    }else{
+                        this.getPubseas();
+                    }
                 }
             } else {
                 this.getCitys(this.searchParams.provincemodel);
-                if(this.tableShow==true){
-                    this.getCustomerList();
+                if(this.initShow==true){
+                    this.getinitList();
                 }else{
-                    this.getPubseas();
+                    if(this.tableShow==true){
+                        this.getCustomerList();
+                    }else{
+                        this.getPubseas();
+                    }
                 }
             }
              this.getCitys(this.searchParams.provincemodel);
@@ -2622,10 +2905,14 @@ export default {
         getcity(citymodel) {
             this.searchParams.citymodel = citymodel;
             this.searchParams.currentPage = 1;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
         /**
@@ -2634,10 +2921,14 @@ export default {
         getshop(shopmodel) {
             this.searchParams.shopmodel = shopmodel;
             this.searchParams.currentPage = 1;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
             
         },
@@ -2648,10 +2939,14 @@ export default {
         getSelectDate(selectDate, value2) {
             this.searchParams.currentPage = 1;
             this.searchParams.selectDate = selectDate;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
          /**
@@ -2660,10 +2955,14 @@ export default {
         getClue(clue) {
             this.searchParams.currentPage = 1;
             this.searchParams.clue = clue;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
         /**
@@ -2672,10 +2971,14 @@ export default {
         getfollowdate(followdate, value2) {
             this.searchParams.currentPage = 1;
             this.searchParams.followdate = followdate;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
         /**
@@ -2684,10 +2987,14 @@ export default {
         getvisitdate(visitdate, value2) {
             this.searchParams.currentPage = 1;
             this.searchParams.visitdate = visitdate;
-            if(this.tableShow==true){
-                this.getCustomerList();
+            if(this.initShow==true){
+                this.getinitList();
             }else{
-                this.getPubseas();
+                if(this.tableShow==true){
+                    this.getCustomerList();
+                }else{
+                    this.getPubseas();
+                }
             }
         },
         /**
@@ -2981,7 +3288,157 @@ export default {
                     this.$root.tip.isShow = false;
                 }, 3000);
             }
+        }, 
+        // 筛选需要加入公海池的数据
+        getinit(){
+            this.tableShow=true;
+            this.initShow=true;
+            this.searchParams.currentPage=1;
+            this.getinitList();
+            
         },
+        getinitList(){
+            this.$resetAjax({
+                type: 'GET',
+                url: '/NewA/Customer/getlist',
+                data:{
+                    expire:'1',
+                    // 姓名检索
+                    username: this.searchParams.username,
+                    // 号码检索
+                    phone: this.searchParams.phone,
+                    // 渠道备注检索
+                    channel_notes: this.searchParams.channel_notes,
+                    // 省份检索
+                    proid: this.searchParams.provincemodel,
+                    // 城市检索
+                    city: this.searchParams.citymodel,
+                    // 渠道筛选
+                    channel: this.searchParams.sourcemodel,
+                    // 意向度
+                    intention: this.searchParams.purposemodel,
+                    // 是否有门店
+                    has_shop: this.searchParams.shopmodel,
+                    // 客户标志
+                    sign: this.searchParams.signModel,
+                    // 推广
+                    marks:this.searchParams.extendId,
+                    // 录入时间
+                    insert_time: this.searchParams.selectDate,
+                    // 最近跟进时间:
+                    last_time: this.searchParams.followdate,
+                    // 预约回访时间:
+                    follow_up_time : this.searchParams.visitdate,
+                    // 第几页
+                    p: this.searchParams.currentPage,
+                    // 录入时间排序
+                    order_ins: this.searchParams.order_ins,
+                    // 跟进状态
+                    clue: this.searchParams.clue,
+                    // 跟进时间排序
+                    order_las: this.searchParams.order_las,
+                    // 预约回访时间排序
+                    order_fol: this.searchParams.order_fol,
+                    // 选择天数
+                    recently: this.searchParams.recently,
+                    // 联系时间
+                    contime: this.searchParams.contime,
+                    // 下级
+                    uid: this.searchParams.lowlevel,
+                },
+                success:(res)=>{                    
+                    this.tableData = JSON.parse(res).data;                   
+                    this.total = Number(JSON.parse(res).count);
+                    // 得到意向并在表格里渲染出来
+                    this.tableData.forEach(ele => {
+                        // 预约回访时间:follow_up_time
+                        switch(ele.follow_up_time) {
+                            case null:
+                                ele.follow_up_time = '';
+                                break;
+                            case '0': 
+                                ele.follow_up_time = '';
+                                break;
+                            default:
+                                ele.follow_up_time = this.changeday(Number(ele.follow_up_time)*1000);
+                        }
+                        // 录入时间
+                        switch(ele.insert_time) {
+                            case null:
+                                ele.insert_time = '';
+                                break;
+                            case '0': 
+                                ele.insert_time = '';
+                                break;
+                            default:
+                                ele.insert_time = this.changeday(Number(ele.insert_time)*1000);
+                        }
+                        // 最近跟进时间:last_time
+                        switch(ele.last_time) {
+                            case null:
+                                ele.last_time = '';
+                                break;
+                            case '0': 
+                                ele.last_time = '';
+                                break;
+                            default:
+                                ele.last_time = this.changeday(Number(ele.last_time)*1000);
+                        }
+                        // 意向分析
+                        switch(ele.intention) {
+                            case '1':
+                                ele.intention = 'A';
+                                break;
+                            case '2':
+                                ele.intention = 'B';
+                                break;
+                            case '3':
+                                ele.intention = 'C';
+                                break;
+                            case '4':
+                                ele.intention = 'D';
+                                break;
+                            default: 
+                                ele.intention = '待定';
+                        }
+                        // 门店分析 
+                        switch(ele.status) {
+                            case '1':
+                                ele.status = '有';
+                                break;
+                            case '2':
+                                ele.status = '有意向店面';
+                                break;
+                            default:
+                                ele.status = '无';
+                        }
+                        // 推广
+                        switch(ele.marks) {
+                            case '1':
+                                ele.marks = '百度';
+                                break;
+                            case '2':
+                                ele.marks = '搜狗';
+                                break;
+                            case '3':
+                                ele.marks = '好搜';
+                                break;
+                            case '4':
+                                ele.marks = '神马';
+                                break;
+                            case '5':
+                                ele.marks = '百度品专';
+                                break;
+                            case '6':
+                                ele.marks = 'seo';
+                                break;
+                            default:
+                                ele.marks = '';
+                        }
+                    });
+                }
+            })
+        }
     }
 }
 </script>
