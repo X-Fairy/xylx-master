@@ -1,5 +1,10 @@
 .apply{
     height: 100%;
+    .view{
+        &:hover{
+            color:@bgColor;
+        }
+    }
     .contanier{
         background: #f5f7f9;
         box-sizing: border-box;
@@ -128,9 +133,6 @@
             margin-left: 109px
         }
     }
-    .positive{
-        margin-right: 40px;
-    }
     .bankname{
         color:#000;
     }
@@ -168,10 +170,7 @@
             display: inline-block;
             margin-left: 15px;
             z-index: 100;
-            &:hover{
-                transform:scale(3.5);
-                z-index: 101;
-            }
+            cursor: pointer;
         }
         
     }

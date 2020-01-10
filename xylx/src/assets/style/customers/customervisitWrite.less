@@ -32,62 +32,80 @@
         }
         .submit{
             width: 100%;
-            height: 55px;
-            padding: 0 40px 0 32px;
+            height: 110px;
+            padding: 0 20px 0 32px;
             box-sizing: border-box;
-            display: flex;
+            // display: flex;
             background: #ddd;
-            justify-content: space-between;
-            align-items: center;
-            .left{
+            // justify-content: space-between;
+            // align-items: center;
+            .selectepart{
+                font-size: 14px;
+                color:#1d8c9f;
+                font-family:微软雅黑;
+                margin-right:10px;
+            }
+            .one{ 
                 display: flex;
+                justify-content: left;
                 align-items: center;
-                .selectepart{
-                    font-size: 14px;
-                    color:#1d8c9f;
-                    font-family:微软雅黑;
-                    margin-right:10px;
+                padding: 10px 0;
+                border-bottom: 1px dashed #afaeae;
+            }
+            
+            .two{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0 ;
+                .left{
+                    display: flex;
+                    align-items: center;    
+                    .selectepart{
+                    //    width: 100px;
+                    }
+                    .order{
+                        margin-left: 20px;
+                        background: 0;
+                    }
+                    .two{
+                        margin-left:50px;
+                    }
                 }
-                .order{
-                    margin-left: 20px;
-                    background: 0;
+                .right {
+                    button{
+                        margin-left: 10px;
+                        border-radius: 2px;
+                        color: #fff;
+                        letter-spacing: 0.5px;
+                    }
+                    .ivu-btn:hover{
+                        border: 1px solid @bgColor;
+                        background:@bgColor;
+                        transition: all 0.3s linear;
+                        color: white;
+    
+                    }
+                    button:not(:last-child){                    
+                        border: 1px solid #ddd;
+                        background:white;
+                        color: #555555;
+                        
+                    }
+                    button:last-child{
+                        border: 1px solid #099fb8;
+                        background: #099fb8;
+                    }
                 }
-                .two{
-                    margin-left:50px;
+                .back{
+                    margin: 0 10px;
                 }
             }
-            .right {
-                button{
-                    margin-left: 10px;
-                    border-radius: 2px;
-                    color: #fff;
-                    letter-spacing: 0.5px;
-                }
-                .ivu-btn:hover{
-                    border: 1px solid @bgColor;
-                    background:@bgColor;
-                    transition: all 0.3s linear;
-                    color: white;
-
-                }
-                button:not(:last-child){                    
-                    border: 1px solid #ddd;
-                    background:white;
-                    color: #555555;
-                    
-                }
-                button:last-child{
-                    border: 1px solid #099fb8;
-                    background: #099fb8;
-                }
-            }
-            .back{
-                margin: 0 10px;
-            }
+            
         }
         .area{
             position: absolute;
-            top: 57px;
+            top: 110px;
             bottom: 0;
             overflow: auto;
             z-index: 100;

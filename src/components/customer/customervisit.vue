@@ -74,9 +74,10 @@
             </div>
             <div style="display: flex;align-items: center;margin-bottom: 20px;">
                 <span style="font-size: 13px;color: #1296ad;">修改标记：</span>
-                <CheckboxGroup v-model="sign" @on-change="getsign(sign)" style="padding-left: 25px;">
+                <CheckboxGroup v-model="signmodel" @on-change="getsign(signmodel)" style="padding-left: 25px;">
                     <Checkbox :label="item.value" v-for="item in signList" :key="item.value"><Icon type="ios-pricetags" :style="item.objectClass"></Icon></Checkbox>
                 </CheckboxGroup>
+                
             </div>
         </Modal>
         <Modal title="修改客户姓名" v-model="nameModal" :mask-closable="false" class="userModal">
@@ -120,7 +121,7 @@ export default {
     data() {
         return {           
             // 标记选定
-            sign: [],
+            signmodel: [],
             // 标记数据
             signList:[
                 {
@@ -374,7 +375,11 @@ export default {
         /**
          * 选择得到哪个标志详情
          */
-         getsign(sign) {            
+         getsign(signmodel) {
+            if (signmodel.length !==0) {
+                signmodel = signmodel[signmodel.length - 1]
+            }
+            this.signmodel = [signmodel];     
             this.signHandle();
             
         },
@@ -387,7 +392,7 @@ export default {
                 url: '/NewA/Public/updatesign',
                 data: {
                     id: this.customer.custormer_id,
-                    sign: this.sign
+                    sign: this.signmodel
                 },
                 success: (res) =>{
                     this.modal1 = false;

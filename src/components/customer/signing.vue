@@ -46,7 +46,7 @@
                     </ul>
                 </FormItem>
                 <FormItem label="联系时间" prop="contactdate">
-                    <DatePicker type="date" placeholder="请选择签单时间" v-model="formValidate.contactdate" @on-change="getRange" :options="options"></DatePicker>
+                    <DatePicker type="date" placeholder="请选择联系时间" v-model="formValidate.contactdate" @on-change="getRange" :options="options"></DatePicker>
                 </FormItem>
                <FormItem label="换货时间（天）：" prop="exchange">
                     <Input v-model="formValidate.exchange" type="number" @mousewheel.native.prevent></Input>
@@ -58,12 +58,10 @@
                 <FormItem label="成交周期" prop="range">
                     <Input v-model="formValidate.range" readonly ></Input>
                 </FormItem>
-                <FormItem label="是否需要拓展找店面：" prop="expand" label-width="150">
-                    <RadioGroup v-model="formValidate.expand">
-                        <Radio label="是">是</Radio>
-                        <Radio label="否">否</Radio>
-                    </RadioGroup>
+                <FormItem label="门店数量" prop="store_num">
+                    <Input v-model="formValidate.store_num" placeholder="请输入门店数量"></Input>
                 </FormItem>
+               
                 <FormItem label="搜索关键词" prop="keyword" >
                     <Input v-model="formValidate.keyword" placeholder="请输入关键词"></Input>
                 </FormItem>                
@@ -73,18 +71,25 @@
                         <Radio label="自选货">自选货</Radio>
                     </RadioGroup>
                 </FormItem> -->
+                 <FormItem label="是否需要拓展找店面：" prop="expand" label-width="150">
+                    <RadioGroup v-model="formValidate.expand">
+                        <Radio label="是">是</Radio>
+                        <Radio label="否">否</Radio>
+                    </RadioGroup>
+                </FormItem>
                 <FormItem label="合同分类：" prop="contract_cate" style="width:100%;">
                     <RadioGroup v-model="formValidate.contract_cate" @on-change="getCate">
                         <Radio label="意向金">意向金</Radio>
                         <Radio label="合同">合同</Radio>
+                        <Radio label="全款">全款</Radio>
+                        <Radio label="退款">退款</Radio>
                     </RadioGroup>
-                    <Upload multiple  action="/NewA/Workorder/getimage" style="position: absolute;top: 0;left: 140px;"
+                    <Upload multiple  action="/NewA/Workorder/getimage" style="position: absolute;top: 0;left: 240px;"
                         :on-success="handleSuccess"
                         :format="['jpg','jpeg','png']"
                         :on-format-error="handleFormatError">
                         <Button icon="ios-cloud-upload-outline">上传意向金/合同图片</Button>
-                    </Upload>
-                    
+                    </Upload>                    
                 </FormItem>
                 <FormItem class="up" label="上传图片：">
                     <Upload multiple  action="/NewA/Workorder/getimage" 
@@ -101,15 +106,15 @@
                     </Upload>                    
                    <Button v-show="uploadImages.length>0" @click="carouse=true">查看图片</Button>
                 </FormItem>
-                <p style="width:100%">账目信息&gt;&gt;</p>
-                <FormItem label="年房租" prop="rent_year">
-                    <Input v-model="formValidate.rent_year" placeholder="请输入年房租" type="number" @mousewheel.native.prevent></Input>
-                </FormItem>
-                 <FormItem label="履约金" prop="performance_bond">
+                <p style="width:100%">账目信息&gt;&gt;</p>                
+                <FormItem label="履约金" prop="performance_bond">
                     <Input v-model="formValidate.performance_bond" placeholder="请输入履约金" type="number" @mousewheel.native.prevent></Input>
                 </FormItem>
-                 <FormItem label="加盟费/管理费" prop="manage_expense">
-                    <Input v-model="formValidate.manage_expense" placeholder="请输入加盟费/管理费"></Input>
+                <FormItem label="加盟费/管理费" prop="manage_expense">
+                    <Input v-model="formValidate.manage_expense" placeholder="请输入加盟费/管理费" type="number" @mousewheel.native.prevent></Input>
+                </FormItem>
+                <FormItem label="督导预付款" prop="prepayment">
+                    <Input v-model="formValidate.prepayment" placeholder="请输入督导预付款" type="number" @mousewheel.native.prevent></Input>
                 </FormItem>
                 <FormItem label="货柜单价（元）" prop="unitPrice">
                     <Input v-model="formValidate.unitPrice" placeholder="请输入货柜单价" type="number" @mousewheel.native.prevent @on-change="getcontainerPayment"></Input>
@@ -142,7 +147,9 @@
                         </Col>
                     </Row>
                 </FormItem>
-               
+               <FormItem label="年房租" prop="rent_year">
+                    <Input v-model="formValidate.rent_year" placeholder="请输入年房租" type="number" @mousewheel.native.prevent></Input>
+                </FormItem>
                 <FormItem label="本月总业绩" prop="curmonth">
                     <Input v-model="formValidate.curmonth" placeholder="请输入本月总业绩" readonly type="number" @mousewheel.native.prevent></Input>
                 </FormItem>
@@ -220,6 +227,8 @@
         },
         data(){
             return{
+                // 签单类型
+                catetype:'',
                 // 头部
                 title:'新增签单',
                 id:'', //客户id
@@ -266,11 +275,13 @@
                     decoration_deposit:'',   //装修押金
                     performance_bond:'',   //履约金
                     manage_expense:'',  //管理费/加盟费
+                    prepayment:'',  //督导预付款
                     distribution:'',   //公司配货/自选货
                     exchange:'',  //换不换货  (60天/不换货)
                     give:'',     //政策赠送
                     remark:'',    //备注
-                    range:'',
+                    range:'', //成交周期
+                    store_num:'', //客户第几个门店
                     totalMoney:0, //总到款
                     curmonth:0,
                     expand:''  //是否需要拓展找店面
@@ -351,7 +362,7 @@
                     
                 ],
                 // 表格高度
-                tableHeight: 900,
+                tableHeight: 1000,
                 // 账目明细列表数据
                 data1:[],
                 cid:''
@@ -466,13 +477,16 @@
                 }else{                    
                     this.uploadImages.push({name:data.name,imgs:data.url,cate:this.cate});
                     this.need1=1;
+                    this.$Message.success('图片上传成功')
                 }
             },
             // 上传政策表成功
             handleSuccess1 (res, file) {                
                 this.cate='政策表'
                 let data=res.data;
+                this.$Message.success('图片上传成功')
                 this.uploadImages.push({name:data.name,imgs:data.url,cate:this.cate});
+                this.$Message.success('图片上传成功')
                 this.need2=1;
             },
             // 上传补充协议成功
@@ -480,6 +494,7 @@
                 this.cate='补充协议'
                 let data=res.data;
                 this.uploadImages.push({name:data.name,imgs:data.url,cate:this.cate});
+                this.$Message.success('图片上传成功')
             },
             /**
             * 删除图片工作准备
@@ -527,7 +542,8 @@
                 }else{
                     this.title='签单编辑';
                     this.getinfos();
-                }                
+                }
+                this.catetype=this.urlParams.cate;        
             },
             /**
             * 得到渠道来源数据
@@ -555,6 +571,7 @@
                         this.formValidate.phone = result.phone;
                         this.formValidate.address=result.address;
                         this.formValidate.name=result.username;
+                        this.formValidate.store_num=result.store_num;
                         if(result.last_time!==null){
                             this.formValidate.contactdate=changeday(result.last_time*1000);
                             let date=result.sign_time*1000-result.last_time*1000
@@ -603,6 +620,7 @@
                         }else{
                             this.formValidate.contactdate='';
                         }
+                        this.formValidate.store_num=result.store_num;  //客户第几个门店
                         this.formValidate.actual_payment=result.actual_payment;  //实到货款
                         this.formValidate.area=result.area;     //面积大小
                         this.formValidate.container_payment=result.container_payment;  //货柜款
@@ -616,6 +634,7 @@
                         this.formValidate.give=result.give;    //政策赠送
                         this.formValidate.keyword=result.keyword;   //关键词
                         this.formValidate.manage_expense=result.manage_expense;   //管理费/加盟费
+                        this.formValidate.prepayment=result.prepayment;  //督导预付款
                         this.formValidate.performance_bond=result.performance_bond;   //履约金
                         this.formValidate.remark=result.remark;     //备注
                         this.formValidate.rent_year=result.rent_year;    //年房租
@@ -627,6 +646,10 @@
                         this.formValidate.totalMoney=Number(result.totalMoney); //总到款
                         this.formValidate.curmonth=result.curmonth; //本月总收款
                         this.uploadImages=result.imgs;
+                        if(this.uploadImages.length>0){
+                            this.need1=1;
+                            this.need2=1;
+                        }
                         this.formValidate.unitPrice=this.formValidate.container_payment/this.formValidate.area; //货柜单价
                     }
                 })
@@ -646,43 +669,47 @@
                 if(this.formValidate.phone.length>1){
                     this.formValidate.phone.splice(-1);
                 }
-                
+                                
             },
             handleSubmit (name) {
-                if(this.errorcode==2){
-                    this.$Message.error('数据异常！')
+                if(this.catetype=='全款'){
+                    this.$Message.warning('已全款结单，不能修改')
                 }else{
-                    this.$refs[name].validate((valid) => {
-                        if (valid) {                            
-                            var length = this.formValidate.phone.length - 1;
-                            if(this.title=='新增签单'){
-                                if(this.formValidate.phone[length].tel==''){
-                                    this.$Message.error('手机号不能为空！')
-                                }else if(this.need1!==1){
-                                    this.$Message.error('请上传意向金/合同图片')
-                                }else if(this.need2!==1){  
-                                    this.$Message.error('请上传政策表照片')                                
-                                    
-                                }else{
-                                    this.coninfo();
-                                }
-                            }else if(this.title=='签单编辑'){
-                                if(this.formValidate.phone[length].tel==''){
-                                    this.$Message.error('手机号不能为空！')
-                                }else{
-                                    if(this.need1!==1){
+                    if(this.errorcode==2){
+                    this.$Message.error('数据异常！')
+                    }else{
+                        this.$refs[name].validate((valid) => {
+                            if (valid) {                            
+                                var length = this.formValidate.phone.length - 1;
+                                if(this.title=='新增签单'){
+                                    if(this.formValidate.phone[length].tel==''){
+                                        this.$Message.error('手机号不能为空！')
+                                    }else if(this.need1!==1){
                                         this.$Message.error('请上传意向金/合同图片')
                                     }else if(this.need2!==1){  
-                                        this.$Message.error('请上传政策表照片')
+                                        this.$Message.error('请上传政策表照片')                                
+                                        
                                     }else{
-                                        this.conedit();
-                                    }                                    
+                                        this.coninfo();
+                                    }
+                                }else if(this.title=='签单编辑'){
+                                    if(this.formValidate.phone[length].tel==''){
+                                        this.$Message.error('手机号不能为空！')
+                                    }else{
+                                        if(this.need1!==1){
+                                            this.$Message.error('请上传意向金/合同图片')
+                                        }else if(this.need2!==1){  
+                                            this.$Message.error('请上传政策表照片')
+                                        }else{
+                                            this.conedit();
+                                        }                                    
+                                    }
                                 }
+                            } else {
+                                this.$Message.error('信息不完整！');
                             }
-                        } else {
-                            this.$Message.error('信息不完整！');
-                        }
-                    })
+                        })
+                    }
                 }
                 
             },
@@ -710,12 +737,15 @@
                         decoration_deposit:this.formValidate.decoration_deposit,   //装修押金
                         performance_bond:this.formValidate.performance_bond,   //履约金
                         manage_expense:this.formValidate.manage_expense,   //管理费/加盟费
+                        prepayment:this.formValidate.prepayment,  //督导预付款
                         distribution:this.formValidate.distribution,    //公司配货/自选货
                         exchange:this.formValidate.exchange,    //换不换货  (60天/不换货)
                         give:this.formValidate.give,     //政策赠送
                         remark:this.formValidate.remark,     //备注
                         expand:this.formValidate.expand,
-                        imgs:this.uploadImages
+                        imgs:this.uploadImages,
+                        store_num:this.store_num, //客户第几个门店
+                        range:this.range //签单周期
                     },
                     success:(res) => {
                         this.$Message.success(JSON.parse(res).msg);                        
@@ -744,6 +774,7 @@
                         decoration_deposit:this.formValidate.decoration_deposit,   //装修押金
                         performance_bond:this.formValidate.performance_bond,   //履约金
                         manage_expense:this.formValidate.manage_expense,   //管理费/加盟费
+                        prepayment:this.formValidate.prepayment,  //督导预付款
                         distribution:this.formValidate.distribution,    //公司配货/自选货
                         exchange:this.formValidate.exchange,    //换不换货  (60天/不换货)
                         give:this.formValidate.give,     //政策赠送
@@ -752,7 +783,9 @@
                         totalMoney:this.formValidate.totalMoney, //总到款
                         unitPrice:this.formValidate.unitPrice,  //货柜单价
                         expand:this.formValidate.expand,
-                        imgs:this.uploadImages
+                        imgs:this.uploadImages,
+                        store_num:this.store_num, //客户第几个门店
+                        range:this.range //成交周期
                     },
                     success:(res) => {
                         if(JSON.parse(res).errorcode==0){

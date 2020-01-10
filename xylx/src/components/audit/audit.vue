@@ -132,7 +132,7 @@ export default {
             // 直营门店数据
             storeList: [],
             // 选中哪个直营门店
-            store: '11373',
+            store: '',
             // 时间范围选择
             dateRange: [],
             // 是否显示缴款弹窗   父组件定义模态框状态变量,默认为不显示
@@ -416,7 +416,11 @@ export default {
          * @param {String} store 门店CODE
          */
         getAudit() {
-            this.$resetAjax({
+            console.log(this.store);
+            if(this.store==''){
+                this.$Message.warning('门店不能为空')
+            }else{
+                this.$resetAjax({
                 type: 'GET',
                 url: '/NewA/Audit/index',
                 data: {
@@ -428,9 +432,9 @@ export default {
                     this.tableData = res.data;
                     this.total = Number(res.count);
                     // 如果是程序员，就显示导入数据
-                    if(res.position == '程序员') {
+                    if(res.position == '程序员' || res.position == '直营财务') {
                         this.daoruShow=true;
-                    }
+                    }                
                     this.position = res.position;
                     this.total_pay = res.total_pay;
                     this.total_jk = res.total_jk;
@@ -439,6 +443,8 @@ export default {
                     this.total_sale=res.total_sale;
                 }
             })
+            }
+            
         },
         /**
          *  切换页码

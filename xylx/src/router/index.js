@@ -72,6 +72,7 @@ import fullList from '@/components/customer/fullList'
 import refundList from '@/components/customer/refundList'
 import signing from '@/components/customer/signing'
 import refund from '@/components/customer/refund'
+import businessReport from '@/components/customer/businessReport'
 
 // 商品管理 commodity
 import commodity from '@/components/commodity/commodity' 
@@ -252,6 +253,11 @@ export default new Router({
           path: 'refund',
           name: 'refund',
           component: refund 
+        },
+        {
+          path: 'businessReport',
+          name: 'businessReport',
+          component: businessReport 
         },
         {
           path: 'fullList',

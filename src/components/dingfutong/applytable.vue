@@ -151,7 +151,8 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({path: 'apply', query: {data: params.row}})
+                                        let _data = JSON.stringify(params.row);
+                                        this.$router.push({path: 'apply', query: {data: _data}})
                                     }
                                 }
                             }, '编辑'),

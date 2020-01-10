@@ -241,14 +241,14 @@
                     <p title="客户列表" style="margin-left:13px;" :class="{selected: currentPath=='customer'}" @click="goCRM">客户列表</p>
                 </MenuItem>
                 <MenuItem name="1-2">
-                    <p title="合同跟进列表" style="margin-left:13px;" :class="{selected: currentPath=='contract'}" @click="$router.push({path: 'contract'})">合同列表</p>
+                    <p title="合同跟进列表" style="margin-left:13px;" :class="{selected: currentPath=='contract'}" @click="$router.push({path: 'contract'})">合同跟进列表</p>
                 </MenuItem>
-                <MenuItem name="1-3">
+                <!-- <MenuItem name="1-3">
                     <p title="全款开店列表" style="margin-left:13px;" :class="{selected: currentPath=='fullList'}" @click="$router.push({path: 'fullList'})">全款合同列表</p>
                 </MenuItem>
                 <MenuItem name="1-4">
                     <p title="退款列表" style="margin-left:13px;" :class="{selected: currentPath=='refundList'}" @click="$router.push({path: 'refundList'})">退款列表</p>
-                </MenuItem>
+                </MenuItem> -->
             </Submenu>
         </Menu>
     </li>
