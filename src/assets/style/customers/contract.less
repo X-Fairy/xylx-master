@@ -102,17 +102,19 @@
     }
     .table{
         position: absolute;
-        // top: 136px;
         left: 20px;
         right: 20px;
-        // padding: 0 20px;
         padding-top: 10px;
-        // bottom: 30px;
-        
         overflow: auto;
         & th, & td{
             text-align: center;
         }
+        .ivu-table .demo-table-info-row td:first-child .ivu-table-cell div a:nth-child(2){
+           display: none;
+        } 
+        .ivu-table .demo-table-error-row td:first-child .ivu-table-cell div a:nth-child(3){
+            display: none;
+         }   
     }
      // 分页
      .footer{
@@ -141,6 +143,14 @@
     }
 }
 .refundModal {
+    .ivu-modal-body{
+        padding: 0 16px;
+        padding-bottom: 10px;
+        .ivu-input-wrapper {
+            margin-top: 0 !important;
+            margin-left: 0 !important;
+        }
+    }
     .sub .ivu-form-item-content{
         float: right;
     }

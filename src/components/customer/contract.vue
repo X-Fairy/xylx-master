@@ -62,15 +62,16 @@
             <li v-for="(item,index) in typeList" :key="index" @click="changeItem(item.contract_cate,item.id)" :class="liIndex==item.id?'active':''">{{item.contract_cate}}</li>
         </ul>
         <div class="table">
-            <Table border :height="tableHeight" :columns="columns" :data="tableData"></Table>
+            <Table :row-class-name="rowClassName" border :height="tableHeight" :columns="columns" :data="tableData"></Table>
         </div>
         <div class="footer">
             <Page :total="total" :page-size="pageSize" @on-change="changePage" :current="currentPage" show-elevator show-total></Page>
         </div>
-        <Modal title="填写应退款金额" v-model="hasShow"  :mask-closable="false" class="refundModal">
+        <!-- 全款结单弹出框 -->
+        <Modal title="全款结单" v-model="hasShow"  :mask-closable="false" class="refundModal">
             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100" style="padding-top:20px;">
-                <FormItem prop="money" label="金额">
-                    <Input v-model="formValidate.money" type="number" placeholder="请输入金额..." style="width:200px;margin-top:0;" /> 
+                <FormItem prop="time" label="选择时间">
+                   <DatePicker v-model="formValidate.time" type="datetime" placeholder="选择全款结单时间" style="width:200px;"></DatePicker> 
                 </FormItem>
                 <FormItem class="sub">
                     <Button type="primary" @click="submit('formValidate')">确定</Button>
@@ -78,11 +79,26 @@
                 </FormItem>
             </Form>
         </Modal>
+        <!-- 退款弹出框 -->
+        <Modal title="退款" v-model="refundShow"  :mask-closable="false" class="refundModal">
+            <Form ref="refundformValidate" :model="refundformValidate" :rules="refundruleValidate" :label-width="100" style="padding-top:20px;">
+                <FormItem prop="time" label="选择时间">
+                   <DatePicker v-model="refundformValidate.time" type="datetime" placeholder="选择全款结单时间" style="width:200px;"></DatePicker> 
+                </FormItem>
+                <FormItem label="备注" prop="remark">
+                    <Input v-model="refundformValidate.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+                </FormItem>
+                <FormItem class="sub">
+                    <Button type="primary" @click="refundsubmit('refundformValidate')">确定</Button>
+                    <Button type="ghost" @click="refundShow=false" style="margin-left: 8px">取消</Button>
+                </FormItem>
+            </Form>
+        </Modal>
     </div>
 </template>
 <script>
     import {getUrlParams} from  '@/assets/js/tool.js'
-    import {changeday} from "@/assets/js/tool.js"//时间戳
+    import {changeday,changeTime} from "@/assets/js/tool.js"//时间戳
     export default{
         components:{
             changeday
@@ -129,29 +145,35 @@
                 user_name:'',
                 // 部门选择
                 department:'',
+                // 全款结单
                 formValidate:{
-                    money:''
+                    time:''
                 },
                 ruleValidate: {
-                    money:[
-                        {required: true, message: '请输入退款金额', trigger: 'blur'}
+                    time:[
+                        {required: true, type: 'date', message: '请输入全款结单时间', trigger: 'blur'}
+                    ],
+                },
+                // 退款
+                refundShow:false,
+                refundformValidate:{
+                    time:'',
+                    remark:''
+                },
+                refundruleValidate: {
+                    time:[
+                        {required: true, type: 'date', message: '请输入退款时间', trigger: 'blur'}
                     ],
                 },
                 // 客户id
                 id:'',
-                fid:'',
-                rid:'',
+                fid:'',//全款结单id
+                rid:'',//退款结单id
                 // showButton:true,
                 //表格的高度
                 tableHeight:800,
                 //表格头部
-                columns:[
-                    // {
-                    //     title: '交易编号',
-                    //     key: 'dealcode',
-                    //     align: 'center',
-                    // },
-                    
+                columns:[                    
                     {
                         title: "客户姓名",
                         key: 'username',
@@ -278,27 +300,7 @@
                         key: 'totalMoney',
                         align: 'center',
                         width:100,
-                    },
-                    // {
-                    //     title: "本月收款",
-                    //     key: 'curmonth',
-                    //     align: 'center',
-                    // },
-                    // {
-                    //     title: "是否需要拓展找店面",
-                    //     key: 'expand',
-                    //     align: 'center',
-                    // },
-                    // {
-                    //     title: "备注",
-                    //     key: 'remark',
-                    //     align: 'center',
-                    // },
-                    // {
-                    //     title: "标签",
-                    //     key: 'intention',
-                    //     align: 'center',
-                    // },
+                    },                  
                     {
                         title: '操作',
                         key: 'action',
@@ -322,72 +324,41 @@
                                     },
                                     on: {
                                         click: () => {                                                                                       
-                                            this.$router.push({ name: 'signing', query: {id:params.row.id,cate:this.contract_cate} });
+                                            this.$router.push({ name: 'signing', query: {id:params.row.id,cate:this.contract_cate}});
                                             
                                         }
                                     }
                                 }, text),
-                                h('a', [
-                                    h('Poptip', {
-                                        class: 'handle',
-                                        props: {
-                                            confirm: true,
-                                            transfer: true,
-                                            placement: 'top',
-                                            title: '确定要全款结单吗 ?',
-                                            type: 'error',
-                                            size: 'small',
-                                            width: '150',
-                                            vModel: true
-                                        },                                    
-                                        on: {
-                                            'on-ok': ()=>{
-                                                this.fid=params.row.id;
-                                                this.newcontract_cate='全款';                                                
-                                                this.getconfinish();
-                                            },
-                                            'on-cancel': ()=>{
-                                                // 取消认领
-                                            }
-                                        },
-                                        style: {
-                                            marginRight: '10px',
-                                            cursor: 'pointer',
-                                            color:'#1d8c9f'
-                                        },                                    
-                                    }, '全款结单'),
-                                ]),
-                                h('a', [
-                                    h('Poptip', {
-                                        class: 'handle',
-                                        props: {
-                                            confirm: true,
-                                            transfer: true,
-                                            placement: 'top',
-                                            title: '确定要删除吗 ?',
-                                            type: 'error',
-                                            size: 'small',
-                                            width: '150',
-                                            vModel: true
-                                        },                                    
-                                        on: {
-                                            'on-ok': ()=>{
-                                                // 确定删除;
-                                                this.fid=params.row.id;
-                                                this.newcontract_cate='退款';
-                                                this.getconfinish();
-                                            },
-                                            'on-cancel': ()=>{
-                                                // 取消认领
-                                            }
-                                        },
-                                        style: {
-                                            marginRight: '10px',
-                                            cursor: 'pointer',
-                                            color:'#1d8c9f'
-                                        },                                    
-                                    }, '退款'),
-                                ]) 
+                                h('a', {
+                                    class: 'handle',
+                                    style: {
+                                        marginRight: '10px',
+                                        cursor: 'pointer',
+                                        color:'#1d8c9f'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.fid=params.row.id;
+                                            this.newcontract_cate='全款';  
+                                            this.hasShow=true; 
+                                        }
+                                    }
+                                }, '全款结单'),
+                                h('a', {
+                                    class: 'handle',
+                                    style: {
+                                        marginRight: '10px',
+                                        cursor: 'pointer',
+                                        color:'#1d8c9f'
+                                    },
+                                    on: {
+                                        click: () => {                                          
+                                            this.fid=params.row.id;
+                                            this.newcontract_cate='退款';
+                                            this.refundShow=true; 
+                                        }
+                                    }
+                                }, '退款'),                                
                             ]);
                         }
                     },
@@ -434,6 +405,23 @@
         
         },
         methods:{
+            rowClassName (row) {
+                if(this.liIndex==='0'){
+                    if(row.contract_cate=='全款'){
+                        return 'demo-table-info-row';
+                    } else if(row.contract_cate=='退款'){
+                        return 'demo-table-error-row';
+                    }
+                    return '';
+                }
+                if(this.liIndex==='4'){
+                    return 'demo-table-error-row';
+                }
+                if(this.liIndex==='3'){
+                    return 'demo-table-info-row';
+                }
+                
+            },
             // 分类切换
             changeItem(key,index){  
                 this.currentPage=1;
@@ -532,26 +520,7 @@
                 let routeData = this.$router.resolve({ name: 'signing'});
                 window.open(routeData.href, '_self');
             },
-            // 全款结单//退款
-            getconfinish(){
-                this.$resetAjax({
-                    url: '/NewA/Customer/confinish',
-                    type: 'POST',
-                    data:{
-                        fid:this.fid,
-                        contract_cate:this.newcontract_cate
-                    },
-                    success:(res) => {
-                        if(JSON.parse(res).errorcode==0){
-                            this.$Message.success('结单成功');
-                            this.getconlist();
-                        }else if(JSON.parse(res).errorcode==1){
-                            this.$Message.success('结单失败')
-                        }
-                    }
-                })
-            },
-            // 退款
+            // 全款结单
             submit(name){
                 this.$refs[name].validate((valid) => {
                     if (valid) {
@@ -559,22 +528,55 @@
                             url: '/NewA/Customer/confinish',
                             type: 'POST',
                             data:{
-                                id:this.rid,
-                                contract_cate:this.newcontract_cate
+                                fid:this.fid,
+                                contract_cate:this.newcontract_cate,
+                                time:changeTime(this.formValidate.time)
                             },
                             success:(res) => {
                                let result=JSON.parse(res);
                                if(result.errorcode==0){
-                                    this.$Message.success('退款成功');
+                                    this.$Message.success('全款结单成功');
+                                    this.hasShow=false;
                                     this.getconlist();
                                    
                                }else{
-                                   this.$Message.success('退款失败');
+                                   this.$Message.success('全款结单失败');
+                                   this.hasShow=true;
                                }
                                
                             }
                         })
                        
+                    }else{
+                    }
+                })
+            },
+            // 退款
+            refundsubmit(name){
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        this.$resetAjax({
+                            url: '/NewA/Customer/confinish',
+                            type: 'POST',
+                            data:{
+                                fid:this.fid,
+                                contract_cate:this.newcontract_cate,
+                                time:changeTime(this.refundformValidate.time),
+                                remark:this.refundformValidate.remark
+                            },
+                            success:(res) => {
+                               let result=JSON.parse(res);
+                               if(result.errorcode==0){
+                                    this.$Message.success('退款成功');
+                                    this.refundShow=false;
+                                    this.getconlist();                                   
+                               }else{
+                                   this.$Message.success('退款失败');
+                                   this.refundShow=true;
+                               }
+                               
+                            }
+                        })                       
                     }else{
                     }
                 })

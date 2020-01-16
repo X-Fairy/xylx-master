@@ -17,9 +17,9 @@
             .num{
                 display: flex;
                 align-items: center;
-                span{
+                span.item{
                     width: 160px;
-                    margin-left: 100px;
+                    
                     color: @bgColor;
                     font-size: 15px;
                 }
@@ -89,10 +89,27 @@
             .double .ivu-form-item-label{
                 width: 80px !important;
             }
-            .part{
-                width: 100%;
-                padding-right: 10px;
+            .double {
+                .ivu-form-item-content:first-child{
+                    margin-left: 30px !important;
+                    .ivu-row{
+                        display: flex;
+                        align-items: center;
+                        .ivu-col{
+                            width: 33%;
+                            padding-right: 20px;
+                            .part{
+                                width: 100%;
+                                // padding-right: 10px;
+                            }
+                        }
+                        .ivu-col:last-child{
+                            padding-right: 0;
+                        }
+                    }
+                }
             }
+            
             .check{
                 // margin-top: 20px;
                 .ivu-form-item-content{

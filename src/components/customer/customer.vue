@@ -1160,10 +1160,19 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    // 当前单元格客户的id
-                                    this.signId = params.row.id;
+                                    // 当前单元格客户的id                                
+                                    if(this.selectionData.length>0){
+                                        var str='';
+                                        this.selectionData.forEach(ele=>{
+                                            str+=ele.id+','
+                                        })                                                                  
+                                        this.signId=str.substr(0,str.length-1);
+                                    }else{
+                                        this.signId = params.row.id
+                                    }
                                     this.isSign_modal = true;
                                     this.entrustUpdate(params.row.sign);
+                                    this.selectionData=[];
                                 }
                             }
                         },[
