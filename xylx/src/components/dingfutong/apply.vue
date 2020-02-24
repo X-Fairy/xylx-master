@@ -27,14 +27,15 @@
                         <p class="title">门店照片</p>
                         <div>
                             <div class="upload" id="J_uploadstore">
-                                <img id="store" :src="storeUrl" v-if="isShow"/>
+                                <img id="store" :src="storeUrl" v-if="isShow" />
                                 <p class="aboutImage">点击上传门店照片,图片不能少哦</p>
                                 <input type="file" name="file" id="upstore"/>
                             </div>
                         </div>
+                        <div class="view" v-if="storeUrl" style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(storeUrl, '门店照片')">查看大图</div>
                         <div class="model">
-                            <p>照片示范:</p>
-                            <img src="@/assets/images/storeUrl.jpg" alt="">
+                            <p>照片示范：</p>
+                            <img src="@/assets/images/storeUrl.jpg" alt="" title="点击查看大图" @click="lookUpImage($event, '门店照片示范')">
                         </div>
                     </div>
                     <!-- 上传收银台照片 -->
@@ -47,9 +48,10 @@
                                 <input type="file" name="file" id="upcash"/>
                             </div>
                         </div>
+                        <div class="view" v-if="cashUrl"  style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(cashUrl, '收银台照片')">查看大图</div>
                         <div class="model">
-                            <p>照片示范:</p>
-                            <img src="@/assets/images/cash.jpg" alt="">
+                            <p>照片示范：</p>
+                            <img src="@/assets/images/cash.jpg" alt="" title="点击查看大图" @click="lookUpImage($event,'收银台照片示范')">
                         </div>
                     </div>
                      <!-- 上传TIM照片 -->
@@ -62,12 +64,13 @@
                                 <input type="file" name="file" id="uptim" />
                             </div>
                         </div>
+                        <div class="view" v-if="timUrl" style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(timUrl,'工商局网站截图')">查看大图</div>
                         <div class="right">
                             <a class="go-gov" href="http://www.gsxt.gov.cn" target="_blank">点击跳转到工商局进行截图</a>
                         </div>
                         <div class="model">
-                            <p>截图示范:</p>
-                            <img src="@/assets/images/timUrl.jpg" alt="">
+                            <p>截图示范：</p>
+                            <img src="@/assets/images/timUrl.jpg" alt="" title="点击查看大图" @click="lookUpImage($event,'工商局网站截图示范')">
                         </div>
                     </div>
                     <!-- 注册号 -->
@@ -84,9 +87,10 @@
                                 <input type="file" name="file" id="license"/>
                             </div>
                         </div>
+                        <div class="view" v-if="licenseUrl"  style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(licenseUrl,'营业执照照片')">查看大图</div>
                         <div class="model">
-                            <p>照片示范:</p>
-                            <img src="@/assets/images/license.jpg" alt="">
+                            <p>照片示范：</p>
+                            <img src="@/assets/images/license.jpg" alt="" title="点击查看大图" @click="lookUpImage($event,'营业执照照片示范')">
                         </div>
                     </div>
                     <!-- 业务联络人 -->
@@ -118,15 +122,16 @@
                             <p class="title">身份证正面照片</p>
                             <div>
                                 <div class="upload" id="J_uploadpositive">
-                                    <img id="positiveImage" :src="positiveUrl" v-if="isShow"/>
+                                    <img id="positiveImage" :src="positiveUrl" v-if="isShow" title="点击查看大图" @click="lookUpImage($event,'身份证正面照片')" />
                                     <p class="aboutImage">点击上传身份证正面照片,图片不能少哦</p>
                                     <input type="file" name="file" id="positive"/>
                                 </div>
                             </div>
                         </div>
+                        <div class="view" v-if="positiveUrl"  style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(positiveUrl,'身份证正面照片')">查看大图</div>
                         <div class="model">
-                            <p>照片示范:</p>
-                            <img src="@/assets/images/positive.jpg" alt="">
+                            <p>照片示范：</p>
+                            <img src="@/assets/images/positive.jpg" alt="" title="点击查看大图" @click="lookUpImage($event,'身份证正面照片示范')">
                         </div>
                     </div>
                     <!-- 上传身份反面照片 -->
@@ -139,9 +144,10 @@
                                 <input type="file" name="file" id="reverse"/>
                             </div>
                         </div>
+                        <div class="view" v-if="reverseUrl" style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(reverseUrl,'身份证反面照片')">查看大图</div>
                         <div class="model">
-                            <p>照片示范:</p>
-                            <img src="@/assets/images/reverse.jpg" alt="">
+                            <p>照片示范：</p>
+                            <img src="@/assets/images/reverse.jpg" alt="" title="点击查看大图" @click="lookUpImage($event,'身份证反面照片示范')">
                         </div>
                     </div>
                     <!-- 银行账户名称 -->
@@ -168,9 +174,10 @@
                                 <input type="file" name="file" id="upbankCard"/>
                             </div>
                         </div>
+                        <div class="view" v-if="bankcardUrl"  style="display: flex;align-items: center;margin-left: 5px;cursor: pointer;" @click="lookView(bankcardUrl,'银行卡照片')">查看大图</div>
                         <div class="model">
-                            <p>照片示范:</p>
-                            <img src="@/assets/images/bankcardUrl.jpg" alt="">
+                            <p>照片示范：</p>
+                            <img src="@/assets/images/bankcardUrl.jpg" alt="" title="点击查看大图" @click="lookUpImage($event,'银行卡照片示范')">
                         </div>
                     </div>
                     <!-- 银联号链接 -->
@@ -220,29 +227,27 @@
                     </FormItem>
                 </Form>
             </div>
-            <!-- 提示框 -->
-            <tip v-if="istip" :tipContent="tip"></tip> 
         </div>
+        <Modal v-model="isView" :title="viewTitle" @on-ok="isView=false;" @on-cancel="isView=false;" id="view_modal">
+            <p><img :src="viewSrc" alt="" style="width:100%;"></p>
+        </Modal>
     </div>
 </template>
 
 <script>
 // 引入图片上传js插件
 import '@/assets/js/ajaxfileupload'
-import tip from '../tip.vue'
-
+import {getUrlParams} from '@/assets/js/tool.js'
 export default {
-    components: {
-        tip,
-    }, 
-
     data() {
         return {
+            // 是否显示查看图片
+            isView:false,
+            viewTitle:'',
+            viewSrc: '',
             applytable: false,
             visitpage: false,
             backstage: false,
-            // 是否显示提示框
-            istip: false,
             // 提示框文本
             tip: '修改成功 !',
             // 用户名字
@@ -441,9 +446,11 @@ export default {
             // 判断是编辑还是新增
             this.judgeIsAdd();
         });
+        console.log(this.$root.applyInfo)
     },
 
     mounted() {
+        $('#view_modal .ivu-btn-primary').text('关闭')
         let that = this;
         /**
          * TIM照片上传
@@ -460,7 +467,6 @@ export default {
         $('#applyPage').on('change', '#license', () => {
             this.fileChange('license', 'licenseUrl');
         });
-        
         /**
          * 上传门店照片
          */
@@ -488,6 +494,16 @@ export default {
     },
 
     methods: {
+        lookView(src,title) {
+            this.viewTitle = title;
+            this.isView = true;
+            this.viewSrc = src;
+        },
+        lookUpImage($event,title) {
+            this.isView = true;
+            this.viewTitle = title;
+            this.viewSrc = $event.path[0].currentSrc;
+        },
         /**
          *   判断是编辑还是新增
          */
@@ -495,7 +511,8 @@ export default {
             if (this.$route.query.data) {
                 this.isAdd = '编辑';
                 this.isPayShow = true;
-                let info = this.$route.query.data;
+                let info = JSON.parse(this.$route.query.data);
+                this.$root.applyInfo = info;
                 this.applyForm.hd_id = info.hd_id;
                 this.applyForm.storeName = info.shop_name;
                 this.applyForm.chain = info.chain;
@@ -555,31 +572,6 @@ export default {
                 this.applyForm.bankNumber = info.bank_num;
                 // account_name（string）（账户名）
                 this.applyForm.accountName = info.account_name;
-                // province（string）（省份）
-                // this.province.forEach(ele => {
-                //     if (ele.areaname == info.province) {
-                //         this.provinceBank = ele.areaid;
-                //     }
-                // });
-                // this.provinceName = info.province;
-                //      this.$resetAjax({
-                //         url:  '/NewA//Public/getcity',
-                //         type: 'POST',
-                //         data: {
-                //             areaId:this.provinceBank,
-                //         },
-                //         success: (res) => {
-                //             this.citys = JSON.parse(res).data;
-                //             this.isHidden = false;
-                //             this.citys.forEach(ele => {
-                //                 if (ele.areaname == info.city) {
-                //                     // this.cityBank = ele.areaid;
-                //                 }
-                //             })
-                //         }
-            
-                // })
-                // this.cityName = info.city;
             }  else {
                 this.isAdd = '新增';
             }
@@ -652,12 +644,6 @@ export default {
             // 得到选中的省份独有的id this.provinceBank
             this.getCitys(this.provinceBank); 
         },
-        /**
-         * 得到省名
-         */
-        // getCityBank() {
-            
-        // },
         /**
          *  获取城市
          */
@@ -793,31 +779,29 @@ export default {
                                 data,
                                 success:(res) => {
                                     if (res.errorcode == '3') {
-                                        this.istip = true;
-                                        this.tip = '图片未上传';
-                                        setTimeout(() => {
-                                            this.istip = false;
-                                        }, 1000);
+                                        this.$Message.error({
+                                            content: '很抱歉，图片未上传',
+                                            duration: 3
+                                        });
                                     } else if (res.errorcode == '2') {
-                                        this.istip = true;
-                                        this.tip = '门店编码重复';
-                                        setTimeout(() => {
-                                            this.istip = false;
-                                        }, 1000);
+                                        this.$Message.error({
+                                            content: '很抱歉，门店编码重复',
+                                            duration: 3
+                                        });
                                     } else if (res.errorcode == '0') {
-                                        this.istip = true;
-                                        this.tip = "新增成功";
+                                        this.$Message.success({
+                                            content: '新增成功',
+                                            duration: 3
+                                        });
                                         setTimeout(() => {
-                                            this.istip = false;
                                             this.$router.push({path: 'applytable'})
-                                        }, 1000);
+                                        }, 3000);
                                     }
                                     
                                 }
                             })
                         }
                     else {
-                        console.log(this.interest_rate)
                         let data = {
                                 // 门店编码
                                 "hd_id": this.applyForm.hd_id,
@@ -877,26 +861,26 @@ export default {
                             url:  '/NewA/Dingfutong/update',
                             data: {
                                 data,
-                                id:this.$route.query.data.id,
+                                id:JSON.parse(this.$route.query.data).id
+                                // id:this.$route.query.data.id,
                             },
                             success: (res) => {
                                 if (res.errorcode == '3') {
-                                    this.istip = true;
-                                    this.tip = '图片未上传';
-                                    setTimeout(() => {
-                                        this.istip = false;
-                                    }, 1000);
+                                    this.$Message.error({
+                                        content: '很抱歉，图片未上传',
+                                        duration: 3
+                                    });
                                 } else if (res.errorcode == '2') {
-                                    this.istip = true;
-                                    this.tip = '门店编码重复';
-                                    setTimeout(() => {
-                                        this.istip = false;
-                                    }, 1000);
+                                    this.$Message.error({
+                                        content: '门店编码重复',
+                                        duration: 3
+                                    });
                                 } else if (res.errorcode == '0') {
-                                    this.istip = true;
-                                    this.tip = '编辑成功';
+                                    this.$Message.success({
+                                        content: '编辑成功',
+                                        duration: 3
+                                    });
                                     setTimeout(() => {
-                                        this.istip = false;
                                         this.$router.push({path: 'applytable'})
                                     }, 1000);
                                 }

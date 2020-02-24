@@ -61,6 +61,7 @@
                                 <span class="title">标记:</span> 
                                 <CheckboxGroup v-model="searchParams.signModel" @on-change="getSignModel(searchParams.signModel)">
                                     <Checkbox :label="item.value" v-for="item in signList" :key="item.value"><Icon type="ios-pricetags" :style="item.objectClass"></Icon></Checkbox>
+                                    <Checkbox label='0'>无标记</Checkbox>
                                 </CheckboxGroup>
                             </div>
                             <div class="check_item">
@@ -220,6 +221,7 @@
                 <h3><p>编辑标记</p> <Icon type="close-circled" @click="isSign_modal=false" class="close_icon" title="关闭弹窗"></Icon></h3>
                 <CheckboxGroup v-model="signmodel" @on-change="getsign(signmodel)" style="padding-left: 25px;">
                     <Checkbox :label="item.value" v-for="item in signList" :key="item.value"><Icon type="ios-pricetags" :style="item.objectClass"></Icon></Checkbox>
+                    
                 </CheckboxGroup>
                 <div class="sign_bottom">
                     <Button style="margin-right:5px;" @click="isSign_modal=false">取消</Button>
@@ -608,7 +610,7 @@ export default {
                         color: '#e9aaa0',
                     }
                 },
-                
+               
             ],
             // 是否显示编辑推广弹框
             extend_modal:false,
@@ -1158,10 +1160,19 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    // 当前单元格客户的id
-                                    this.signId = params.row.id;
+                                    // 当前单元格客户的id                                
+                                    if(this.selectionData.length>0){
+                                        var str='';
+                                        this.selectionData.forEach(ele=>{
+                                            str+=ele.id+','
+                                        })                                                                  
+                                        this.signId=str.substr(0,str.length-1);
+                                    }else{
+                                        this.signId = params.row.id
+                                    }
                                     this.isSign_modal = true;
                                     this.entrustUpdate(params.row.sign);
+                                    this.selectionData=[];
                                 }
                             }
                         },[
@@ -2729,9 +2740,17 @@ export default {
             }
             this.signmodel = sign;
         },
-        getSignModel(signModel) {            
+        getSignModel(signModel) {  
             this.searchParams.currentPage = 1;
-            this.searchParams.signModel = signModel.sort();
+            let length=signModel.length;
+            if(signModel[length-1]=='0'){
+                this.searchParams.signModel=['0'];
+            }else{
+                if(length>1 && signModel[0]=='0'){
+                    var newArr = signModel.slice(1);
+                    this.searchParams.signModel = newArr.sort()
+                }               
+            }
             if(this.initShow==true){
                 this.getinitList();
             }else{

@@ -4,11 +4,17 @@
             <div class="info">
                 <h3>{{title}}&gt;&gt;</h3>
                 <div class="num" v-show="title=='新增签单'">
-                    <span class="item">门店编码：</span>
-                    <Input v-model="store" placeholder="请输入5位数字编码"  maxlength="5" show-word-limit @on-enter="getStore" clearable  />
-                    <Button slot="append" icon="ios-search" @click="getStore"></Button>
+                    <div>
+                        <span class="item" style="margin-left: 60px;">门店编码：</span>
+                        <Input v-model="store" placeholder="请输入5位数字编码" style="width: 180px" maxlength="5" show-word-limit @on-enter="getStore" clearable  />
+                    </div>
+                    <!-- <div>
+                        <span class="item" style="margin-left: 30px;">时间选择：</span>
+                        <DatePicker v-model="time" type="datetime" placeholder="Select date and time" style="width: 200px"></DatePicker>
+                    </div>  -->
+                    <Button  type="primary"  @click="getStore" >查询</Button>
                 </div>
-            </div>
+            </div> 
             <div>
                 <Button type="warning" @click="back">查看合同列表</Button>
             </div>
@@ -65,12 +71,7 @@
                 <FormItem label="搜索关键词" prop="keyword" >
                     <Input v-model="formValidate.keyword" placeholder="请输入关键词"></Input>
                 </FormItem>                
-                <!-- <FormItem label="选择：" prop="distribution">
-                    <RadioGroup v-model="formValidate.distribution">
-                        <Radio label="公司配货">公司配货</Radio>
-                        <Radio label="自选货">自选货</Radio>
-                    </RadioGroup>
-                </FormItem> -->
+               
                  <FormItem label="是否需要拓展找店面：" prop="expand" label-width="150">
                     <RadioGroup v-model="formValidate.expand">
                         <Radio label="是">是</Radio>
@@ -82,7 +83,7 @@
                         <Radio label="意向金">意向金</Radio>
                         <Radio label="合同">合同</Radio>
                         <Radio label="全款">全款</Radio>
-                        <Radio label="退款">退款</Radio>
+                        <Radio label="退款" v-show="title=='签单编辑'">退款</Radio>
                     </RadioGroup>
                     <Upload multiple  action="/NewA/Workorder/getimage" style="position: absolute;top: 0;left: 240px;"
                         :on-success="handleSuccess"
@@ -113,13 +114,13 @@
                 <FormItem label="加盟费/管理费" prop="manage_expense">
                     <Input v-model="formValidate.manage_expense" placeholder="请输入加盟费/管理费" type="number" @mousewheel.native.prevent></Input>
                 </FormItem>
-                <FormItem label="督导预付款" prop="prepayment">
-                    <Input v-model="formValidate.prepayment" placeholder="请输入督导预付款" type="number" @mousewheel.native.prevent></Input>
-                </FormItem>
-                <FormItem label="货柜单价（元）" prop="unitPrice">
-                    <Input v-model="formValidate.unitPrice" placeholder="请输入货柜单价" type="number" @mousewheel.native.prevent @on-change="getcontainerPayment"></Input>
-                </FormItem>
-                <FormItem label="货款" class="double">
+                <FormItem label="督导预付款 / 托管费" prop="prepayment">
+                    <Input v-model="formValidate.prepayment" placeholder="请输入" type="number" @mousewheel.native.prevent></Input>
+                </FormItem>                
+                <FormItem label="年房租" prop="rent_year">
+                    <Input v-model="formValidate.rent_year" placeholder="请输入年房租" type="number" @mousewheel.native.prevent></Input>
+                </FormItem>                               
+                <FormItem label="" class="double">
                     <Row>
                         <Col span="11">
                             <FormItem prop="area" label="店面面积(平方米)" class="part">
@@ -127,17 +128,27 @@
                             </FormItem>
                         </Col>
                         <Col span="11">
+                           <FormItem label="货品单价（元）" prop="price" class="part">
+                                <Input v-model="formValidate.price" placeholder="请输入货品单价" type="number" @mousewheel.native.prevent @on-change="getPrice"></Input>
+                            </FormItem>
+                        </Col>
+                        <Col span="11">
                             <FormItem prop="actual_payment" label="实到货款（元）" class="part">
                                 <Input v-model="formValidate.actual_payment" type="number" @mousewheel.native.prevent></Input>
                             </FormItem>
-                        </Col>
+                        </Col>                        
                     </Row>
                 </FormItem>
-                <FormItem label="装修款" class="double">
+                <FormItem  class="double">
                     <Row>
                         <Col span="11">
+                            <FormItem label="货柜单价（元）" prop="unitPrice" class="part">
+                                <Input v-model="formValidate.unitPrice" placeholder="请输入货柜单价" type="number" @mousewheel.native.prevent @on-change="getcontainerPayment"></Input>
+                            </FormItem> 
+                        </Col>
+                        <Col span="11">
                             <FormItem prop="container_payment" label="货柜款（元）" class="part">
-                                <Input v-model="formValidate.container_payment" type="number" @mousewheel.native.prevent @on-change="getPrice"></Input>
+                                <Input v-model="formValidate.container_payment" type="number" @mousewheel.native.prevent ></Input>
                             </FormItem>
                         </Col>
                         <Col span="11">
@@ -146,10 +157,7 @@
                             </FormItem>
                         </Col>
                     </Row>
-                </FormItem>
-               <FormItem label="年房租" prop="rent_year">
-                    <Input v-model="formValidate.rent_year" placeholder="请输入年房租" type="number" @mousewheel.native.prevent></Input>
-                </FormItem>
+                </FormItem>              
                 <FormItem label="本月总业绩" prop="curmonth">
                     <Input v-model="formValidate.curmonth" placeholder="请输入本月总业绩" readonly type="number" @mousewheel.native.prevent></Input>
                 </FormItem>
@@ -196,31 +204,11 @@
                 </div>
             </div>
         </div>
-        <Modal title="添加账目" v-model="hasShow" class="accountModal" :mask-closable="false" @on-cancel="closeModal">
-            <Form ref="detailValidate" :model="detailValidate" :rules="ruleDetailValidate" :label-width="100">
-                <FormItem label="日期" prop="time">
-                    <DatePicker type="date" placeholder="请选择时间" v-model="detailValidate.time"></DatePicker>
-                </FormItem>
-                <FormItem prop="money" label="金额">
-                    <Input v-model="detailValidate.money" type="number" @mousewheel.native.prevent placeholder="请输入金额..."  /> 
-                </FormItem>
-                <FormItem prop="method" label="银行选项">
-                    <Input v-model="detailValidate.method"  placeholder="请输入收款方式..."  /> 
-                </FormItem>
-                <FormItem prop="note" label="付款备注">
-                    <Input v-model="detailValidate.note" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注..."  /> 
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" @click="submit('detailValidate')">添加</Button>
-                    <Button type="ghost" @click="hasShow=false" style="margin-left: 8px">取消</Button>
-                </FormItem>
-            </Form>
-        </Modal>        
     </div>
 </template>
 <script>
     import {getUrlParams} from  '@/assets/js/tool.js'
-    import {changeday} from  '@/assets/js/tool.js'
+    import {changeday,changeTime} from  '@/assets/js/tool.js'
     export default{
         components:{
             changeday
@@ -233,6 +221,8 @@
                 title:'新增签单',
                 id:'', //客户id
                 store:'',//门店编码
+                // 时间
+                // time:'',
                 // 渠道来源数据
                 sourceList: [],
                 // 返回数据
@@ -271,6 +261,7 @@
                     area:'',     //门店面积大小
                     actual_payment:'',   //实到货款
                     unitPrice:'',   //货柜单价
+                    price:'',    //货品单价 
                     container_payment:'',   //货柜款
                     decoration_deposit:'',   //装修押金
                     performance_bond:'',   //履约金
@@ -312,31 +303,7 @@
                     // area:[
                     //     { required: true,message: '店面大小不能为空', trigger: 'change' },
                     // ]
-                },
-                // account_detail:[], // 账目明细(数组) 
-                // 是否弹出账目明细弹出框
-                hasShow:false,
-                // 账目明细表单
-                detailValidate:{
-                    time:'',    //时间
-                    money:'',       //金额
-                    method:'' ,     //收款方式
-                    note:'' //付款备注
-                },
-                // 账目明细表单认证
-                ruleDetailValidate: {
-                    time: [
-                        { required: true, type: 'date', message: '时间不能为空', trigger: 'blur' }
-                    ],
-                    money:[
-                        {required: true, message: '金额不能为空', trigger: 'blur'}
-                    ],
-                    method: [
-                        { required: true, message: '付款方式不能为空', trigger: 'blur' }
-                    ],
-                },
-                // 查看账目明细
-                lookModal:false,
+                },               
                 // 账目明细列表表头
                 columns1: [
                     {
@@ -365,7 +332,9 @@
                 tableHeight: 1000,
                 // 账目明细列表数据
                 data1:[],
-                cid:''
+                cid:'',
+                // 判断提交门店编码和输入编码是否一致
+                newStore:'',
             }
         },
         created(){
@@ -394,6 +363,7 @@
                         let result = JSON.parse(res).data;
                         this.data1=JSON.parse(res).detail;
                         this.errorcode=JSON.parse(res).errorcode;
+                        this.newStore=this.store;
                         if(this.errorcode==0){
                             this.id=result.id;
                             result.phone=result.phone.split(",");                        
@@ -418,6 +388,8 @@
                             this.$Message.warning('数据异常,请联系管理员');
                         }else if(this.errorcode==3){
                             this.$Message.warning('门店编码有误');
+                        }else if(this.errorcode==100){
+                            this.$Message.warning('缺少门店编码');
                         }
                     }
                 })
@@ -434,7 +406,6 @@
                     //计算出相差天数
                     days = Math.floor(date / (24 * 3600 * 1000));
                     this.formValidate.range=days;
-                    console.log(this.formValidate.range)
                 }else{
                     this.formValidate.range='';
                 }
@@ -452,15 +423,15 @@
             getcontainerPayment(){
                 if(this.formValidate.unitPrice!=='' && this.formValidate.area!==''){
                     this.formValidate.container_payment=this.formValidate.unitPrice*this.formValidate.area;
-                    this.formValidate.actual_payment=this.formValidate.container_payment*this.formValidate.area;
+                    this.formValidate.actual_payment=this.formValidate.price*this.formValidate.area;
                 }else{
                     this.formValidate.container_payment='';
                 }
             },
             // 获取货款
             getPrice(){
-                if(this.formValidate.container_payment!=='' && this.formValidate.area!==''){
-                    this.formValidate.actual_payment=this.formValidate.container_payment*this.formValidate.area;
+                if(this.formValidate.price!=='' && this.formValidate.area!==''){
+                    this.formValidate.actual_payment=this.formValidate.price*this.formValidate.area;
                 }else{
                     this.formValidate.actual_payment='';
                 }
@@ -650,7 +621,8 @@
                             this.need1=1;
                             this.need2=1;
                         }
-                        this.formValidate.unitPrice=this.formValidate.container_payment/this.formValidate.area; //货柜单价
+                        this.formValidate.unitPrice=result.unitprice; //货柜单价
+                        this.formValidate.price=result.price;
                     }
                 })
             },
@@ -669,7 +641,7 @@
                 if(this.formValidate.phone.length>1){
                     this.formValidate.phone.splice(-1);
                 }
-                
+                                
             },
             handleSubmit (name) {
                 if(this.catetype=='全款'){
@@ -684,10 +656,10 @@
                                 if(this.title=='新增签单'){
                                     if(this.formValidate.phone[length].tel==''){
                                         this.$Message.error('手机号不能为空！')
-                                    }else if(this.need1!==1){
-                                        this.$Message.error('请上传意向金/合同图片')
-                                    }else if(this.need2!==1){  
-                                        this.$Message.error('请上传政策表照片')                                
+                                    // }else if(this.need1!==1){
+                                    //     this.$Message.error('请上传意向金/合同图片')
+                                    // }else if(this.need2!==1){  
+                                    //     this.$Message.error('请上传政策表照片')                                
                                         
                                     }else{
                                         this.coninfo();
@@ -696,13 +668,13 @@
                                     if(this.formValidate.phone[length].tel==''){
                                         this.$Message.error('手机号不能为空！')
                                     }else{
-                                        if(this.need1!==1){
-                                            this.$Message.error('请上传意向金/合同图片')
-                                        }else if(this.need2!==1){  
-                                            this.$Message.error('请上传政策表照片')
-                                        }else{
+                                        // if(this.need1!==1){
+                                        //     this.$Message.error('请上传意向金/合同图片')
+                                        // }else if(this.need2!==1){  
+                                        //     this.$Message.error('请上传政策表照片')
+                                        // }else{
                                             this.conedit();
-                                        }                                    
+                                        // }                                    
                                     }
                                 }
                             } else {
@@ -714,43 +686,49 @@
                 
             },
             // 新增签单
-            coninfo(){
-                this.$resetAjax({
-                    url: '/NewA/Customer/coninfo',
-                    type: 'POST',
-                    data:{
-                        hdid:this.store, //门店编码
-                        id:this.id,    // 客户id 
-                        name:this.formValidate.name,
-                        address:this.formValidate.address,
-                        channel:this.formValidate.source,
-                        phone:this.formValidate.phone.map(item => item.tel.trim()), //手机号码
-                        contract_cate:this.formValidate.contract_cate,    //合同分类 (意向金/合同)
-                        sign_time:changeday(this.formValidate.sign_time),    //签单时间
-                        contime:changeday(this.formValidate.contactdate), //联系时间
-                        keyword:this.formValidate.keyword,    //关键词
-                        rent_year:this.formValidate.rent_year,    //年房租
-                        area:this.formValidate.area,     //门店面积大小
-                        actual_payment:this.formValidate.actual_payment,   //实到货款
-                        unitPrice:this.formValidate.unitPrice,  //货柜单价
-                        container_payment:this.formValidate.container_payment,   //货柜款
-                        decoration_deposit:this.formValidate.decoration_deposit,   //装修押金
-                        performance_bond:this.formValidate.performance_bond,   //履约金
-                        manage_expense:this.formValidate.manage_expense,   //管理费/加盟费
-                        prepayment:this.formValidate.prepayment,  //督导预付款
-                        distribution:this.formValidate.distribution,    //公司配货/自选货
-                        exchange:this.formValidate.exchange,    //换不换货  (60天/不换货)
-                        give:this.formValidate.give,     //政策赠送
-                        remark:this.formValidate.remark,     //备注
-                        expand:this.formValidate.expand,
-                        imgs:this.uploadImages,
-                        store_num:this.store_num, //客户第几个门店
-                        range:this.range //签单周期
-                    },
-                    success:(res) => {
-                        this.$Message.success(JSON.parse(res).msg);                        
-                    }
-                })
+            coninfo(){                
+                if(this.store!==this.newStore){
+                    this.$Message.error('门店编码不一致！')
+                } else {
+                    this.$resetAjax({
+                        url: '/NewA/Customer/coninfo',
+                        type: 'POST',
+                        data:{
+                            hdid:this.store, //门店编码
+                            id:this.id,    // 客户id 
+                            name:this.formValidate.name,
+                            address:this.formValidate.address,
+                            channel:this.formValidate.source,
+                            phone:this.formValidate.phone.map(item => item.tel.trim()), //手机号码
+                            contract_cate:this.formValidate.contract_cate,    //合同分类 (意向金/合同)
+                            sign_time:changeday(this.formValidate.sign_time),    //签单时间
+                            contime:changeday(this.formValidate.contactdate), //联系时间
+                            keyword:this.formValidate.keyword,    //关键词
+                            rent_year:this.formValidate.rent_year,    //年房租
+                            area:this.formValidate.area,     //门店面积大小
+                            actual_payment:this.formValidate.actual_payment,   //实到货款
+                            unitPrice:this.formValidate.unitPrice,  //货柜单价
+                            price:this.formValidate.price,  //货品单价
+                            container_payment:this.formValidate.container_payment,   //货柜款
+                            decoration_deposit:this.formValidate.decoration_deposit,   //装修押金
+                            performance_bond:this.formValidate.performance_bond,   //履约金
+                            manage_expense:this.formValidate.manage_expense,   //管理费/加盟费
+                            prepayment:this.formValidate.prepayment,  //督导预付款
+                            distribution:this.formValidate.distribution,    //公司配货/自选货
+                            exchange:this.formValidate.exchange,    //换不换货  (60天/不换货)
+                            give:this.formValidate.give,     //政策赠送
+                            remark:this.formValidate.remark,     //备注
+                            expand:this.formValidate.expand,
+                            imgs:this.uploadImages,
+                            store_num:this.store_num, //客户第几个门店
+                            range:this.range, //签单周期
+                        },
+                        success:(res) => {
+                            this.$Message.success(JSON.parse(res).msg);                        
+                        }
+                    })
+                }              
+                
             },
             // 编辑签单
             conedit(){
@@ -771,6 +749,7 @@
                         area:this.formValidate.area,     //门店面积大小
                         actual_payment:this.formValidate.actual_payment,   //实到货款
                         container_payment:this.formValidate.container_payment,   //货柜款
+                        price:this.formValidate.price,  //货品单价
                         decoration_deposit:this.formValidate.decoration_deposit,   //装修押金
                         performance_bond:this.formValidate.performance_bond,   //履约金
                         manage_expense:this.formValidate.manage_expense,   //管理费/加盟费
@@ -796,33 +775,7 @@
                         }
                     }
                 })
-            },
-            // 添加账目明细
-            submit(name){
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        this.data1.push(this.detailValidate);
-                        this.data1.forEach(ele=>{
-                            ele.time=changeday(ele.time);
-                        })
-                        let month1=new Date().getMonth() + 1;
-                        let month2=this.detailValidate.time.substr(5,2);
-                        if(this.detailValidate.money>0){
-                            this.formValidate.totalMoney+=Number(this.detailValidate.money);
-                        }
-                        if(month1==month2){
-                            this.formValidate.curmonth+=Number(this.detailValidate.money);
-                        }
-                        this.$Message.success('添加成功');
-                        this.hasShow=false;
-                        this.detailValidate={};
-                    }else{
-                    }
-                })
-            },
-            closeModal(){
-                this.hasShow=false;
-            },
+            },            
             back(){  
                 this.$router.push({name:'contract'});
             }

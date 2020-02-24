@@ -19,7 +19,7 @@
             <Table border :height="tableHeight" :columns="columns" :data="tableData"></Table>
         </div>
         <!-- <p @click="login">6564154564</p> -->
-    </div>   
+    </div>    
 </template>
 <script>
 import tipModal from '../tip.vue'
@@ -59,8 +59,7 @@ export default {
                 {
                     title: '尾数',
                     key: 'WEISHU',
-                    render: (h, params) => {
-                        
+                    render: (h, params) => {                        
                         return h('Input', {
                             props: {
                                 type: 'text',

@@ -24,7 +24,7 @@
                             </li>
                         </ul>
                     </FormItem>
-                    <FormItem label="渠道来源" prop="inputSource">
+                    <FormItem label="渠道来源" prop="inputSource" class="choose">
                         <Select v-model="inputForm.inputSource"  @on-change="getInputSource(inputForm.inputSource)">
                             <Option v-for="item in sourceList" :value="item.cid" :key="item.cid">{{item.channels}}</Option>
                         </Select>

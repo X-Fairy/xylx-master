@@ -724,7 +724,8 @@
                             range:this.range, //签单周期
                         },
                         success:(res) => {
-                            this.$Message.success(JSON.parse(res).msg);                        
+                            this.$Message.success(JSON.parse(res).msg);
+                            this.$router.push({name:'contract'});                        
                         }
                     })
                 }              

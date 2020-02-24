@@ -494,7 +494,7 @@
                                 // 客户id   
                                 id: this.lowerLeaderId,
                                 // userid:  选中的下级的userid
-                                userid: this.lowerLeader,
+                                userid: this.formValidate.lowerLeader,
                             },
                             success: (res) => {
                                 this.isRowAttract = false;

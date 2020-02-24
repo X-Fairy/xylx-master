@@ -47,37 +47,20 @@
             }
             .one{ 
                 display: flex;
-                justify-content: left;
+                justify-content: space-between;
                 align-items: center;
                 padding: 10px 0;
                 border-bottom: 1px dashed #afaeae;
-            }
-            
-            .two{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 0 ;
-                .left{
-                    display: flex;
-                    align-items: center;    
-                    .selectepart{
-                    //    width: 100px;
-                    }
-                    .order{
-                        margin-left: 20px;
-                        background: 0;
-                    }
-                    .two{
-                        margin-left:50px;
-                    }
-                }
                 .right {
+                    display: flex;
+                    justify-content: right;
                     button{
                         margin-left: 10px;
                         border-radius: 2px;
                         color: #fff;
                         letter-spacing: 0.5px;
+                        border: 1px solid #099fb8;
+                        background: #099fb8;
                     }
                     .ivu-btn:hover{
                         border: 1px solid @bgColor;
@@ -93,10 +76,32 @@
                         
                     }
                     button:last-child{
-                        border: 1px solid #099fb8;
-                        background: #099fb8;
+                        
                     }
                 }
+            }
+            
+            .two{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 0 ;
+                flex-wrap: wrap;
+                .left{
+                    display: flex;
+                    align-items: center;    
+                    .selectepart{
+                    //    width: 100px;
+                    }
+                    .order{
+                        margin-left: 20px;
+                        background: 0;
+                    }
+                    .two{
+                        margin-left:50px;
+                    }
+                }
+                
                 .back{
                     margin: 0 10px;
                 }

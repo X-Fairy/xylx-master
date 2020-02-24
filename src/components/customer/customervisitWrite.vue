@@ -3,10 +3,16 @@
         <div class="write">
             <div class="submit">
                 <div class="one">
+                <div style="display:flex;align-items: center;">
                     <p class="selectepart">回访时间</p>
                     <Row>
                         <DatePicker type="date" :options="options3" placeholder="请选择回访时间" :value="selectDate" style="width: 140px" @on-change="getTime" format="yyyy-MM-dd"></DatePicker>
                     </Row>
+                </div>
+                    
+                    <div class="right">                      
+                        <Button type="info" @click="publishQuery">新增跟进</Button>
+                    </div>
                 </div>
                 <div class="two">
                     <div class="left">
@@ -21,11 +27,7 @@
                             </Row>
                         </div>
                     </div>
-                    <div class="right">
-                        <!-- <Button type="success" @click="$router.push({path: 'customer'})">返回客户列表</Button>
-                        <Button type="primary" @click="goVisitList()">返回回访列表</Button> -->
-                        <Button type="info" @click="publishQuery">新增跟进</Button>
-                    </div>
+                    
                 </div>
             </div>
             <div class="area">

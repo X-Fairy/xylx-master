@@ -62,6 +62,14 @@
             <li v-for="(item,index) in typeList" :key="index" @click="changeItem(item.contract_cate,item.id)" :class="liIndex==item.id?'active':''">{{item.contract_cate}}</li>
         </ul>
         <div class="table">
+            <div style="width:260px;display:flex;align-items: center;padding-bottom:10px;" v-show="examineShow">
+                <span style="width:150px;color:#189cd">客户审批状态：</span>
+                <Select placeholder="请选择审批状态" v-model="examine" @on-change="getexamine(examine)">
+                    <Option value="0" label="全部">全部</Option>
+                    <Option value="2" label="已审批">已审批</Option>
+                    <Option value="1" label="未审批">未审批</Option>
+                </Select>
+            </div>
             <Table :row-class-name="rowClassName" border :height="tableHeight" :columns="columns" :data="tableData"></Table>
         </div>
         <div class="footer">
@@ -82,9 +90,12 @@
         <!-- 退款弹出框 -->
         <Modal title="退款" v-model="refundShow"  :mask-closable="false" class="refundModal">
             <Form ref="refundformValidate" :model="refundformValidate" :rules="refundruleValidate" :label-width="100" style="padding-top:20px;">
-                <FormItem prop="time" label="选择时间">
-                   <DatePicker v-model="refundformValidate.time" type="datetime" placeholder="选择全款结单时间" style="width:200px;"></DatePicker> 
+                <FormItem prop="return_money" label="退款金额">
+                   <Input v-model="refundformValidate.return_money" placeholder="请输入退款金额" type="number" @mousewheel.native.prevent ></Input>
                 </FormItem>
+                <!-- <FormItem prop="time" label="选择时间">
+                   <DatePicker v-model="refundformValidate.time" type="datetime" placeholder="选择全款结单时间" style="width:200px;"></DatePicker> 
+                </FormItem> -->
                 <FormItem label="备注" prop="remark">
                     <Input v-model="refundformValidate.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
                 </FormItem>
@@ -157,21 +168,26 @@
                 // 退款
                 refundShow:false,
                 refundformValidate:{
-                    time:'',
+                    // time:'',
+                    return_money:'',
                     remark:''
                 },
                 refundruleValidate: {
-                    time:[
-                        {required: true, type: 'date', message: '请输入退款时间', trigger: 'blur'}
+                    return_money:[
+                        {required: true, message: '请输入退款金额', trigger: 'blur'}
                     ],
+                    // time:[
+                    //     {required: true, type: 'date', message: '请输入退款时间', trigger: 'blur'}
+                    // ],
                 },
                 // 客户id
                 id:'',
                 fid:'',//全款结单id
                 rid:'',//退款结单id
-                // showButton:true,
+                // 是否显示审批状态
+                examineShow:false,
                 //表格的高度
-                tableHeight:800,
+                tableHeight:700,
                 //表格头部
                 columns:[                    
                     {
@@ -294,7 +310,52 @@
                         align: 'center',
                         width:120,
                     },
-                    
+                    {
+                        title: '审批状态',
+                        key: 'examine',
+                        align: 'center',
+                        width:100,
+                         render: (h, params) => {                           
+                            return h('div', [
+                                h('a', {
+                                    class: 'handle',
+                                    style: {
+                                        marginRight: '10px',
+                                        cursor: 'pointer',
+                                        color:'#1d8c9f'
+                                    },
+                                    domProps: {
+                                        title: '点击通过审批'
+                                    },
+                                   
+                                    on: {
+                                        click: () => {
+                                            if(params.row.examine=='未审批'){
+                                                this.$resetAjax({
+                                                    url:'/NewA/Customer/examine',
+                                                    type:'post',
+                                                    data:{
+                                                        id:params.row.id
+                                                    },
+                                                    success:(res)=>{
+                                                        let result=JSON.parse(res)
+                                                        this.$Message.success(result.msg);
+                                                        if(result.errorcode==0){
+                                                            this.getconlist();
+                                                        }    
+                                                    }
+                                                })  
+                                            }else if(params.row.examine=='已审批'){
+                                                this.$Message.warning('已通过审批！')
+                                            }
+                                           
+                                        }
+                                    }
+                                }, params.row.examine),                
+
+                            ]);
+                        }
+                    },
                     {
                         title: "总回款（元）",
                         key: 'totalMoney',
@@ -313,7 +374,7 @@
                                 text='详情'
                             }else{
                                 text='编辑'
-                            }
+                            }                                       
                             return h('div', [
                                 h('a', {
                                     class: 'handle',
@@ -324,8 +385,7 @@
                                     },
                                     on: {
                                         click: () => {                                                                                       
-                                            this.$router.push({ name: 'signing', query: {id:params.row.id,cate:this.contract_cate}});
-                                            
+                                            this.$router.push({ name: 'signing', query: {id:params.row.id,cate:this.contract_cate}});                                            
                                         }
                                     }
                                 }, text),
@@ -358,12 +418,15 @@
                                             this.refundShow=true; 
                                         }
                                     }
-                                }, '退款'),                                
+                                }, '退款'),
+                                                    
                             ]);
                         }
                     },
                     
                 ],
+                // 审批状态
+                examine:'0',
                 //表格数据
                 tableData:[],
                 // 对时间进行限制,选择不到大于今天的时间
@@ -395,12 +458,12 @@
             setTimeout(()=> {
                 // 得到浏览器内容高度
                 var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-                this.tableHeight = (windowHeight- 300);
+                this.tableHeight = (windowHeight- 360);
             },100)
             // 调整浏览器的时候
             $(window).on('resize', () => {
                 var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-                this.tableHeight = (windowHeight - 300);
+                this.tableHeight = (windowHeight - 360);
             })
         
         },
@@ -421,12 +484,18 @@
                     return 'demo-table-info-row';
                 }
                 
+            
             },
             // 分类切换
             changeItem(key,index){  
                 this.currentPage=1;
                 this.liIndex=index;
-                
+                if(this.liIndex==4){
+                    this.examineShow=true;
+                    this.examine='0'
+                }else{
+                    this.examineShow=false
+                }
                 this.contract_cate=key;
                 if(this.contract_cate=='全部'){
                     this.contract_cate='';
@@ -511,9 +580,47 @@
                         this.tableData.forEach(ele=>{
                             ele.sign_time=changeday(ele.sign_time*1000);
                             ele.contime=changeday(ele.contime*1000);
+                            if(ele.examine==1){
+                                ele.examine='未审批'
+                            }else if(ele.examine==2){
+                                ele.examine='已审批'
+                            }else{
+                                ele.examine='';
+                            }
                         })
                     }
                 })
+            },
+            // 获取审批状态数据
+            getexamine(examine){
+                this.currentPage=1
+                if(examine=='0'){
+                    this.contract_cate='退款';
+                    this.getconlist();
+                }else{
+                    this.$resetAjax({
+                        url:'/NewA/Customer/examinelist',
+                        type:'GET',
+                        data:{
+                            examine:examine,
+                            p:this.currentPage
+                        },
+                        success:(res)=>{
+                            this.tableData = JSON.parse(res).data;
+                            // console.log(this.tableData)
+                            this.total = Number(JSON.parse(res).count);
+                            this.tableData.forEach(ele=>{
+                                ele.sign_time=changeday(ele.sign_time*1000);
+                                ele.contime=changeday(ele.contime*1000);
+                                if(ele.examine==1){
+                                    ele.examine='未审批'
+                                }else if(ele.examine==2){
+                                    ele.examine='已审批'
+                                }
+                            })
+                        }
+                    })
+                }
             },
             // 新增签单
             add(){
@@ -561,8 +668,9 @@
                             data:{
                                 fid:this.fid,
                                 contract_cate:this.newcontract_cate,
-                                time:changeTime(this.refundformValidate.time),
-                                remark:this.refundformValidate.remark
+                                // time:changeTime(this.refundformValidate.time),
+                                remark:this.refundformValidate.remark,
+                                return_money:this.refundformValidate.return_money
                             },
                             success:(res) => {
                                let result=JSON.parse(res);
@@ -583,6 +691,7 @@
             },
             // 分页
             changePage(index){
+                console.log(this.examine);
                 this.currentPage=index;
                 this.getconlist();
             }
