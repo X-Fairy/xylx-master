@@ -23,6 +23,7 @@
 </template>
 <script>
 import tipModal from '../tip.vue'
+
 export default {
     components: {
         tipModal
