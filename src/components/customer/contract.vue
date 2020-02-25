@@ -326,8 +326,7 @@
                                     },
                                     domProps: {
                                         title: '点击通过审批'
-                                    },
-                                   
+                                    },                                   
                                     on: {
                                         click: () => {
                                             if(params.row.examine=='未审批'){
@@ -342,7 +341,7 @@
                                                         this.$Message.success(result.msg);
                                                         if(result.errorcode==0){
                                                             this.getconlist();
-                                                        }    
+                                                        }
                                                     }
                                                 })  
                                             }else if(params.row.examine=='已审批'){

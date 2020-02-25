@@ -29,7 +29,7 @@
         data(){
             return{
                  // 渠道来源数据
-                 sourceList: [],
+                sourceList: [],
                 //输入的人员
                 channel:[],
                 //表格的高度
@@ -76,21 +76,20 @@
                     url: '/NewA/Public/getchannel',
                     success: (res) => {
                         this.sourceList = JSON.parse(res).data;
-                        console.log(this.sourceList);
                     }
                 })
             },
             /* 得到选择的渠道 */
             getSource(value){
                 if(this.channel.includes('all')){
-                    this.channel.splice(0,1);
-                    this.sourceList.forEach(ele=>{
-                        this.channel.push(ele.cid);
+                    let arr=[];
+                    this.sourceList.map(ele=>{
+                        arr.push(ele.cid);
                     })
+                    this.channel=arr;
                 }
                 if(this.channel.includes("none")){
                     this.channel=['none'];
-                    console.log(this.channel)
                 }
                 
                 if(this.dateRange[0]!==""&&this.dateRange[0]!=="NaN-NaN-NaN"&&this.channel[0]!=="none"){
@@ -123,7 +122,11 @@
                             time:this.dateRange
                         },
                         success:(res)=>{
-                            this.tableData=JSON.parse(res).data;
+                            if(JSON.parse(res).data!==null){
+                                this.tableData=JSON.parse(res).data;
+                            }else{
+                                this.tableData=[];
+                            }                            
                             if(this.tableData!==null){
                                 this.columns=[
                                     {

@@ -81,21 +81,15 @@
             },
             /* 获取选中的人员 */
             getpeople(value){
-                this.user=[];
-                for(let i in value){
-                    this.user.push(value[i].label);
-                }
                 if(this.people.includes('all')){
-                    this.people.splice(0,1);
-                    this.lowlevelList.forEach(ele=>{
-                        this.people.push(ele.userid);
+                    let arr=[]
+                    this.lowlevelList.map((ele)=>{
+                        arr.push(ele.userid);
                     })
-                }
-                if(this.people.includes("none")){
+                    this.people=arr;                   
+                }else if(this.people.includes("none")){
                     this.people=['none'];
-                }
-                
-                // console.log(this.dateRange);
+                }               
                 if(this.people.length>0&&this.dateRange[0]!==""&&this.dateRange[0]!=="NaN-NaN-NaN"){
                     this.datestatistics();
                 }
@@ -122,7 +116,12 @@
                         time:this.dateRange
                     },
                     success:(res)=>{
-                        this.tableData=JSON.parse(res).data;
+                        if(JSON.parse(res).data[0].user_name===null){
+                            this.tableData=[];
+                           
+                        }else{
+                            this.tableData=JSON.parse(res).data;
+                        }
                         this.columns=[
                             {
                                 title: '姓名',

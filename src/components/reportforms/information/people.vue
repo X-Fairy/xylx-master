@@ -189,7 +189,6 @@
                     url: '/NewA/Public/getchannel',
                     success: (res) => {
                         this.sourceList = JSON.parse(res).data;
-                        console.log(this.sourceList);
                     }
                 })
             },
@@ -203,22 +202,23 @@
                     },
                     success:(res)=>{
                         var data=JSON.parse(res).data;
-                        this.tableData=data;
-                        this.total();
+                        if(data!==null){
+                            this.tableData=data;
+                            this.total();
+                        }else{
+                            this.tableData=[];
+                        }                       
                     }
                 })
             },
             /* 得到选择的渠道 */
-            getSource(value){
-                this.channelId=[];
-                for(let i in value){
-                    this.channelId.push(value[i].label);
-                }
+            getSource(value){                
                 if(this.channel.includes('all')){
-                    this.channel.splice(0,1);
-                    this.sourceList.forEach(ele=>{
-                        this.channel.push(ele.cid);
+                    let arr=[];
+                    this.sourceList.map((ele)=>{
+                        arr.push(ele.cid)
                     })
+                    this.channel=arr;            
                 }
                 if(this.channel.includes("none")){
                     this.channel=['none'];
@@ -241,9 +241,11 @@
                             time:this.dateRange,
                         },
                         success:(res)=>{
-                            var data=JSON.parse(res).data;
-                            this.tableData=data;
-                            this.total();
+                            var data=JSON.parse(res).data;                            
+                            if(data!==null){
+                                this.tableData=data;
+                                this.total();
+                            }
                         }
                     })
                 }

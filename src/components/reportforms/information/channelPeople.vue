@@ -174,16 +174,13 @@
                 
             },
             /* 根据选择的渠道获取列表数据 */
-            getSource(value){
-                this.channels=[];
-                for(let i in value){
-                    this.channels.push(value[i].label);
-                }
+            getSource(value){                
                 if(this.channel.includes('all')){
-                    this.channel.splice(0,1);
-                    this.sourceList.forEach(ele=>{
-                        this.channel.push(ele.cid);
+                    let arr=[];
+                    this.sourceList.map(ele=>{
+                        arr.push(ele.cid);
                     })
+                    this.channel=arr;
                 }
                 if(this.channel.includes("none")){
                     this.channel=['none'];
@@ -196,16 +193,13 @@
                 
             },
             /* 根据选择的人员查询数据 */
-            getpeople(value){
-                this.user=[];
-                for(let i in value){
-                    this.user.push(value[i].label);
-                }
+            getpeople(value){                
                 if(this.people.includes('all')){
-                    this.people.splice(0,1);
-                    this.lowlevelList.forEach(ele=>{
-                        this.people.push(ele.userid);
+                    let pArr=[];
+                    this.lowlevelList.map(ele=>{
+                        pArr.push(ele.userid);
                     })
+                    this.people=pArr;
                 }
                 if(this.people.includes("none")){
                     this.people=['none'];

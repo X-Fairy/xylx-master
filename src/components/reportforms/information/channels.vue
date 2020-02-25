@@ -200,33 +200,32 @@
                     url:'/NewA/Customer/statistics',
                     type:'POST',
                     data:{
-                        people:this.peopleId
+                        people:this.people
                     },
                     success:(res)=>{
                         var data=JSON.parse(res).data;
-                        this.tableData=data;
-                        this.total();
+                        if(data!==null){
+                            this.tableData=data;
+                            this.total();
+                        }else{
+                            this.tableData=[];
+                        }                        
+                        
                    
                     }
                 })
             },
             /* 跟进选择的人员查询数据 */
-            getpeople(value){
-                this.user=[];
-                this.peopleId=[];
-                for(let i in value){
-                    this.user.push(value[i].label);;
-                    this.peopleId.push(value[i].value)
-                }
+            getpeople(value){                
                 if(this.people.includes('all')){
-                    this.people.splice(0,1);
-                    this.lowlevelList.forEach(ele=>{
-                        this.people.push(ele.userid);
+                    let arr=[];
+                    this.lowlevelList.map((item)=>{
+                        arr.push(item.userid)
                     })
-                }
-                if(this.people.includes("none")){
+                    this.people=arr;
+                }else if(this.people.includes("none")){
                     this.people=['none'];
-                }
+                }              
                 this.statistics();
             },
             /* 根据时间删选 */
@@ -241,7 +240,7 @@
                         url:'/NewA/Customer/statistics',
                         type:'POST',
                         data:{
-                            people:this.peopleId,
+                            people:this.people,
                             time:this.dateRange,
                         },
                         success:(res)=>{
