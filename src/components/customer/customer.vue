@@ -709,24 +709,28 @@ export default {
             // 意向度数据
             purposeList: [
                 {
+                    value: '0',
+                    label: '0(新分配且未打通电话的客户)'
+                },
+                {
                     value: '1',
-                    label: 'A(对我们品牌有直接兴趣的客户)'
+                    label: '1(有店面的客户)'
                 },
                 {
                     value: '2',
-                    label: 'B(对我们行业有直接兴趣的客户)'
+                    label: '2(无店面，有投资实力，意向高)'
                 },
                 {
                     value: '3',
-                    label: 'C(对投资开店有直接兴趣的客户)'
+                    label: '3(无店面，有投资实力，意向不明)'
                 },
                 {
                     value: '4',
-                    label: 'D(无效客户)'
+                    label: '4(无店面，无投资实力)'
                 },
                 {
                     value: '5',
-                    label: '待定:未接，不接，暂时无法联系上的，拒接小于三次的'
+                    label: '5（明确不做，或态度极差的客户）'
                 }
             ],
             // 是否显示渠道管理功能
@@ -2095,19 +2099,22 @@ export default {
                         // 意向分析
                         switch(ele.intention) {
                             case '1':
-                                ele.intention = 'A';
+                                ele.intention = '1';
                                 break;
                             case '2':
-                                ele.intention = 'B';
+                                ele.intention = '2';
                                 break;
                             case '3':
-                                ele.intention = 'C';
+                                ele.intention = '3';
                                 break;
                             case '4':
-                                ele.intention = 'D';
+                                ele.intention = '4';
+                                break;
+                            case '5':
+                                ele.intention = '5';
                                 break;
                             default: 
-                                ele.intention = '待定';
+                                ele.intention = '0';
                         }
                         // 门店分析 
                         switch(ele.status) {
@@ -2466,19 +2473,22 @@ export default {
                         // 意向分析
                         switch(ele.intention) {
                             case '1':
-                                ele.intention = 'A';
+                                ele.intention = '1';
                                 break;
                             case '2':
-                                ele.intention = 'B';
+                                ele.intention = '2';
                                 break;
                             case '3':
-                                ele.intention = 'C';
+                                ele.intention = '3';
                                 break;
                             case '4':
-                                ele.intention = 'D';
+                                ele.intention = '4';
+                                break;
+                             case '5':
+                                ele.intention = '5';
                                 break;
                             default: 
-                                ele.intention = '待定';
+                                ele.intention = '0';
                         }
                         // 门店分析 
                         switch(ele.status) {
@@ -3204,19 +3214,22 @@ export default {
                         // 意向分析
                         switch(ele.intention) {
                             case '1':
-                                ele.intention = 'A';
+                                ele.intention = '1';
                                 break;
                             case '2':
-                                ele.intention = 'B';
+                                ele.intention = '2';
                                 break;
                             case '3':
-                                ele.intention = 'C';
+                                ele.intention = '3';
                                 break;
                             case '4':
-                                ele.intention = 'D';
+                                ele.intention = '4';
+                                break;
+                             case '5':
+                                ele.intention = '5';
                                 break;
                             default: 
-                                ele.intention = '待定';
+                                ele.intention = '0';
                         }
                         // 门店分析 
                         switch(ele.status) {
@@ -3406,19 +3419,22 @@ export default {
                         // 意向分析
                         switch(ele.intention) {
                             case '1':
-                                ele.intention = 'A';
+                                ele.intention = '1';
                                 break;
                             case '2':
-                                ele.intention = 'B';
+                                ele.intention = '2';
                                 break;
                             case '3':
-                                ele.intention = 'C';
+                                ele.intention = '3';
                                 break;
                             case '4':
-                                ele.intention = 'D';
+                                ele.intention = '4';
+                                break;
+                            case '5':
+                                ele.intention = '5';
                                 break;
                             default: 
-                                ele.intention = '待定';
+                                ele.intention = '0';
                         }
                         // 门店分析 
                         switch(ele.status) {

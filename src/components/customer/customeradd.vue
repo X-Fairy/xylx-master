@@ -277,25 +277,29 @@ export default {
             
             // 客户意向度数据
             intentionalityList: [
-                {
-                    value: 1,
-                    label: 'A(对我们品牌有直接兴趣的客户)'
+                 {
+                    value: '0',
+                    label: '0(新分配且未打通电话的客户)'
                 },
                 {
-                    value: 2,
-                    label: 'B(对我们行业有直接兴趣的客户)'
+                    value: '1',
+                    label: '1(有店面的客户)'
                 },
                 {
-                    value: 3,
-                    label: 'C(对投资开店有直接兴趣的客户)'
+                    value: '2',
+                    label: '2(无店面，有投资实力，意向高)'
                 },
                 {
-                    value: 4,
-                    label: 'D(无效客户)'
+                    value: '3',
+                    label: '3(无店面，有投资实力，意向不明)'
                 },
                 {
-                    value: 5,
-                    label: '待定:未接，不接，暂时无法联系上的，拒接小于三次的'
+                    value: '4',
+                    label: '4(无店面，无投资实力)'
+                },
+                {
+                    value: '5',
+                    label: '5（明确不做，或态度极差的客户）'
                 }
             ],
             // 是否要跟进数据
@@ -323,7 +327,7 @@ export default {
                     { required: true, message: '渠道来源不能为空', trigger: 'change' }
                 ],
                 intentionality: [
-                    { required: true, message: '客户意向度不能为空', trigger: 'change', type:'number' }
+                    { required: true, message: '客户意向度不能为空', trigger: 'change' }
                 ],
                 
             },
@@ -396,9 +400,7 @@ export default {
                 async: false,
                 success: (res) => {
                     this.openProviceList = JSON.parse(res).data;
-                    // this.inputForm.openProvice = JSON.parse(res).data[0].areaid;
-                    // // 把北京下的城市渲染出来
-                    // this.getCitys(1);
+                  
                     
                 }
             })

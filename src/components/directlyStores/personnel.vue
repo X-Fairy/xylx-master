@@ -4,7 +4,7 @@
             <div class="left">
                 <Select v-model="store" label-in-value clearable filterable style="width:260px" @on-change="lookStore" placeholder="请选择门店">
                     <Option value="all" key="100">全选</Option>
-                    <Option value="10000" key="10000">编码：10000 名称：运营部</Option>
+                    <Option value="10000" key="10000" v-show="storeItemShow">编码：10000 名称：运营部</Option>
                     <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE">编码：{{item.CODE }} 名称：{{ item.NAME  }}</Option>
                 </Select>
                 <!-- <Button type="button" class="add" @click='look'>查看员工</Button> -->
@@ -38,7 +38,7 @@
                 </FormItem>
                 <FormItem label="门店" prop="stores" class="storeClass">
                     <Select v-model="formValidate.stores" label-in-value clearable filterable style="width:220px" @on-change="changeStore">
-                        <Option value="10000" key="10000">编码：10000 名称：运营部</Option>
+                        <Option value="10000" key="10000" v-show="storeItemShow">编码：10000 名称：运营部</Option>
                         <Option v-for="item in storeList" :value="item.CODE" :key="item.CODE">编码：{{item.CODE }} 名称：{{ item.NAME  }}</Option>
                     </Select>
                 </FormItem>
@@ -152,6 +152,7 @@
                 store:[],
                 // 门店
                 storeList:[],
+                storeItemShow:false,
                 // 员工id
                 id:'',
                 // 表格高度
@@ -492,8 +493,19 @@
                 this.$resetAjax({
                     type: 'GET',
                     url: '/NewA/Audit/get_store',
-                    success:(res) => {
-                        this.storeList = res;
+                    success:(res) => {                       
+                        let result=res;
+                        console.log(result.ifshow);
+                        if(result.ifshow==1){
+                            this.storeItemShow=true
+                        }else{
+                            this.storeItemShow=false
+                        }
+                        delete result.ifshow;
+                        this.storeList = result;
+                        console.log(this.storeList);
+                        
+                        
                     }
                 })
             },

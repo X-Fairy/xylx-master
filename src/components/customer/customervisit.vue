@@ -226,24 +226,28 @@ export default {
             // 客户意向度数据
             intentionalityList: [
                 {
-                    value: 1,
-                    label: 'A(对我们品牌有直接兴趣的客户)'
+                    value: '0',
+                    label: '0(新分配且未打通电话的客户)'
                 },
                 {
-                    value: 2,
-                    label: 'B(对我们行业有直接兴趣的客户)'
+                    value: '1',
+                    label: '1(有店面的客户)'
                 },
                 {
-                    value: 3,
-                    label: 'C(对投资开店有直接兴趣的客户)'
+                    value: '2',
+                    label: '2(无店面，有投资实力，意向高)'
                 },
                 {
-                    value: 4,
-                    label: 'D(无效客户)'
+                    value: '3',
+                    label: '3(无店面，有投资实力，意向不明)'
                 },
                 {
-                    value: 5,
-                    label: '待定:未接，不接，暂时无法联系上的，拒接小于三次的'
+                    value: '4',
+                    label: '4(无店面，无投资实力)'
+                },
+                {
+                    value: '5',
+                    label: '5（明确不做，或态度极差的客户）'
                 }
             ],
             show:true,
@@ -317,21 +321,24 @@ export default {
             this.customer.channel = this.urlParams.channels;
             var intention = this.urlParams.intention;
             switch(intention) {
-                case 'A': 
-                    this.customer.intention = 'A(对我们品牌有直接兴趣的客户)';
+                case '0': 
+                    this.customer.intention = '0(新分配且未打通电话的客户)';
                     break;
-                case 'B':
-                    this.customer.intention = 'B(对我们行业有直接兴趣的客户)'
+                case '1':
+                    this.customer.intention = '1(有店面的客户)'
                     break;
-                case 'C':
-                    this.customer.intention = 'C(对投资开店有直接兴趣的客户)'
+                case '2':
+                    this.customer.intention = '2(无店面，有投资实力，意向高)'
                     break;
-                case 'D':
-                    this.customer.intention = 'D(无效客户)'
+                case '3':
+                    this.customer.intention = '3(无店面，有投资实力，意向不明)'
                     break;
-                default: 
-                    this.customer.intention = '待定:未接，不接，暂时无法联系上的，拒接小于三次的';
-
+                case '4':
+                    this.customer.intention = '4(无店面，无投资实力)'
+                    break;
+                case '5':
+                    this.customer.intention = '5(明确不做，或态度极差的客户)'
+                    break;
             }
         },
         /**
@@ -420,20 +427,23 @@ export default {
                         let intention = JSON.parse(res).intention;
                         this.modelIntention = intention;
                         switch(intention) {
+                            case '5': 
+                                this.customer.intention = '5(明确不做，或态度极差的客户)';
+                                break;
                             case '1': 
-                                this.customer.intention = 'A(对我们品牌有直接兴趣的客户)';
+                                this.customer.intention = '1(有店面的客户)';
                                 break;
                             case '2':
-                                this.customer.intention = 'B(对我们行业有直接兴趣的客户)'
+                                this.customer.intention = '2(店面，有投资实力，意向高)'
                                 break;
                             case '3':
-                                this.customer.intention = 'C(对投资开店有直接兴趣的客户)'
+                                this.customer.intention = '3(无店面，有投资实力，意向不明)'
                                 break;
                             case '4':
-                                this.customer.intention = 'D(无效客户)'
+                                this.customer.intention = '4(无店面，无投资实力)'
                                 break;
                             default: 
-                                this.customer.intention = '待定:未接，不接，暂时无法联系上的，拒接小于三次的';
+                                this.customer.intention = '0(新分配且未打通电话的客户)';
 
                         }
                     } else {
